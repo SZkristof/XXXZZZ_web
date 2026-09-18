@@ -5,7 +5,7 @@ import Footer from '@/components/Footer.astro';
 import Analytics from '@/components/Analytics.astro';
 import CookieConsent from '@/components/CookieConsent.astro';
 import StickyCta from '@/components/StickyCta.astro';
-import { site, expert, contact } from '@/data/site';
+import { site, expert, contact, legalEntity } from '@/data/site';
 
 interface Props {
   title: string;
@@ -40,6 +40,14 @@ const graph = [
     areaServed: { '@type': 'Country', name: 'Hungary' },
     priceRange: '35000-245000 HUF',
     email: contact.email,
+    telephone: contact.phoneHref,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: legalEntity.addressParts.street,
+      addressLocality: legalEntity.addressParts.city,
+      postalCode: legalEntity.addressParts.postalCode,
+      addressCountry: legalEntity.addressParts.country,
+    },
     founder: { '@id': `${site.url}/#person` },
     knowsLanguage: 'hu',
   },

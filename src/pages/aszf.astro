@@ -1,6 +1,6 @@
 ---
 import Legal from '@/layouts/Legal.astro';
-import { contact, packages, legalEntity, SESSION_LENGTH_MIN } from '@/data/site';
+import { contact, packages, legalEntity, terms, SESSION_LENGTH_MIN } from '@/data/site';
 import { huf } from '@/lib/format';
 ---
 
@@ -58,15 +58,16 @@ import { huf } from '@/lib/format';
   <ul>
     <li>Az alkalmak időpontját a felek közösen egyeztetik; hetente legfeljebb 2 alkalom tartható.</li>
     <li>
-      Az időpont <strong>24 órával korábbi</strong> jelzéssel díjmentesen átütemezhető.
+      Az időpont <strong>{terms.freeRescheduleHours} órával korábbi</strong> jelzéssel
+      díjmentesen átütemezhető.
     </li>
     <li>
-      24 órán belüli lemondás vagy meg nem jelenés esetén az adott alkalom felhasználtnak
-      minősül. […módosítható…]
+      {terms.freeRescheduleHours} órán belüli lemondás vagy meg nem jelenés esetén az adott
+      alkalom felhasználtnak minősül.
     </li>
     <li>
-      A megvásárolt alkalmakat a vásárlástól számított <strong>6 hónapon belül</strong>
-      kell felhasználni. […módosítható…]
+      A megvásárolt alkalmakat a vásárlástól számított
+      <strong>{terms.validityMonths} hónapon belül</strong> kell felhasználni.
     </li>
     <li>
       Ha a szolgáltató mondja le az alkalmat, azt díjmentesen, a megrendelő számára

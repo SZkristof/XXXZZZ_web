@@ -240,14 +240,30 @@ export const contact = {
 export const legalEntity = {
   name: 'Szabó Kristóf E.V.',
   form: 'egyéni vállalkozó',
-  /** TODO: a székhely közzététele jogszabályi kötelezettség — pótolandó. */
-  address: '[…székhely…]',
+  address: '1105 Budapest, Kőrösi Csoma Sándor út 41.',
+  addressParts: {
+    street: 'Kőrösi Csoma Sándor út 41.',
+    city: 'Budapest',
+    postalCode: '1105',
+    country: 'HU',
+  },
   taxNumber: '59629207-1-42',
   registrationNumber: '57675563',
   bankAccount: '11773102-00355166',
   /** A 9. számjegy (1) alanyi adómentességre utal — Kristóffal egyeztetendő. */
   vatStatus: 'alanyi adómentes',
   hosting: 'Rackhost Zrt., 6000 Kecskemét, Sudár utca 1/A',
+} as const;
+
+/**
+ * Szerződési feltételek számszerű részletei.
+ * FIGYELEM: ezek javasolt alapértékek, Kristóffal megerősítendők.
+ */
+export const terms = {
+  /** Ennyi órával korábban díjmentes az átütemezés. */
+  freeRescheduleHours: 24,
+  /** Ennyi hónapon belül kell felhasználni a megvásárolt alkalmakat. */
+  validityMonths: 6,
 } as const;
 
 export const nav = [

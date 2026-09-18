@@ -37,11 +37,12 @@ Ezek nélkül **nem szabad** élesíteni:
       (Fttv. / GVH, EU Omnibus irányelv). Csere után: `PROOF_IS_PLACEHOLDER = false`.
       Amíg ez `true`, a `npm run build:prod` **megtagadja** a buildet, és az oldalon
       látható fejlesztői figyelmeztetés jelenik meg.
-- [ ] **Székhely** megadása a `src/data/site.ts` `legalEntity.address` mezőjében.
-      Az Ekertv. 4. §-a alapján online szolgáltatásnál kötelező közzétenni.
 - [ ] **Kristóf portréfotói** — lásd lentebb.
 - [ ] **Cal.com link** beállítása (`contact.bookingUrl`).
 - [ ] **GTM konténer azonosító** (`.env` → `PUBLIC_GTM_ID`).
+- [ ] **Két szerződési feltétel megerősítése** a `src/data/site.ts` `terms` blokkjában:
+      díjmentes átütemezés határideje (jelenleg 24 óra) és az alkalmak felhasználási
+      ideje (jelenleg 6 hónap). Ezeket én javasoltam, nem te adtad meg.
 - [ ] **Jogi átnézés.** Az ÁSZF és az adatkezelési tájékoztató szakmai sablon, a
       weboldal tényleges működését írja le — de nem jogi tanácsadás.
 
