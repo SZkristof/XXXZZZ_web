@@ -1,25 +1,36 @@
 ---
 /**
- * GA4 + Google Ads + Meta Pixel, gated behind EU Consent Mode v2.
+ * Measurement, gated behind EU Consent Mode v2.
  *
- * Defaults are DENIED and set *before* any tag loads, so nothing is stored
- * until the visitor actively consents. The CookieConsent component later calls
- * gtag('consent','update', …) and fires fbq. A site that sells advertising
- * expertise cannot afford to get its own tracking wrong.
+ * Two supported setups, in priority order:
+ *   1. PUBLIC_GTM_ID  — Google Tag Manager (recommended). Add GA4, Google Ads
+ *      and the Meta Pixel as tags inside GTM; no redeploy needed to change them.
+ *   2. PUBLIC_GA4_ID / PUBLIC_GOOGLE_ADS_ID / PUBLIC_META_PIXEL_ID — direct
+ *      tags, used only when no GTM container is configured.
  *
- * IDs are read at build time from env vars; leave them unset and no tag ships.
+ * Consent defaults are DENIED and set *before* GTM (or any tag) loads, so
+ * nothing is stored until the visitor actively consents. CookieConsent then
+ * calls gtag('consent','update', …). A site that sells advertising expertise
+ * cannot afford to get its own tracking wrong.
  */
+const GTM_ID = import.meta.env.PUBLIC_GTM_ID ?? '';
 const GA4_ID = import.meta.env.PUBLIC_GA4_ID ?? '';
 const GADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID ?? '';
 const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID ?? '';
-const hasGoogle = Boolean(GA4_ID || GADS_ID);
+
+// Direct tags are a fallback only — never run alongside GTM, or every
+// conversion is counted twice.
+const useDirect = !GTM_ID;
+const hasDirectGoogle = useDirect && Boolean(GA4_ID || GADS_ID);
+const hasDirectMeta = useDirect && Boolean(META_PIXEL_ID);
 ---
 
 <script is:inline>
-  // Consent Mode v2 defaults — must run before gtag.js. Denied until chosen.
+  // ---- Consent Mode v2 defaults. MUST run before GTM / gtag.js. ----------
   window.dataLayer = window.dataLayer || [];
   function gtag() { window.dataLayer.push(arguments); }
   window.gtag = gtag;
+
   gtag('consent', 'default', {
     ad_storage: 'denied',
     ad_user_data: 'denied',
@@ -42,31 +53,77 @@ const hasGoogle = Boolean(GA4_ID || GADS_ID);
         ad_personalization: c.marketing ? 'granted' : 'denied',
         analytics_storage: c.analytics ? 'granted' : 'denied',
       });
+      window.dataLayer.push({ event: 'consent_restored', bm_consent: c });
     }
   } catch (e) { /* private mode / blocked storage — stay denied */ }
+
+  /**
+   * One helper for every conversion, so page code never has to know which
+   * setup is live. Pushes a dataLayer event for GTM to trigger on, and also
+   * calls gtag/fbq directly when they exist (the no-GTM fallback).
+   */
+  // Every CTA carries data-track (e.g. "hero-primary", "pricing-five"), so GTM
+  // can see which button actually drives bookings.
+  document.addEventListener('click', function (e) {
+    var el = e.target && e.target.closest && e.target.closest('[data-track]');
+    if (el) window.bmTrack('cta_click', { cta_id: el.getAttribute('data-track') });
+  });
+
+  window.bmTrack = function (name, params) {
+    params = params || {};
+    window.dataLayer.push(Object.assign({ event: name }, params));
+    if (typeof window.gtag === 'function' && window.gtagDirect) {
+      window.gtag('event', name, params);
+    }
+    if (typeof window.fbq === 'function' && window.fbqDirect) {
+      var map = { booking_complete: 'Schedule', form_submit: 'Lead' };
+      if (map[name]) window.fbq('track', map[name]);
+    }
+  };
 </script>
 
-{hasGoogle && (
-  <>
-    <script
-      is:inline
-      async
-      src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID || GADS_ID}`}></script>
+{GTM_ID && (
+  <Fragment>
+    <script is:inline define:vars={{ GTM_ID }}>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', GTM_ID);
+    </script>
+    <noscript>
+      <Fragment
+        set:html={`<iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe>`}
+      />
+    </noscript>
+  </Fragment>
+)}
+
+{hasDirectGoogle && (
+  <Fragment>
+    <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID || GADS_ID}`}></script>
     <script is:inline define:vars={{ GA4_ID, GADS_ID }}>
+      window.gtagDirect = true;
       gtag('js', new Date());
       if (GA4_ID) gtag('config', GA4_ID, { anonymize_ip: true });
       if (GADS_ID) gtag('config', GADS_ID);
     </script>
-  </>
+  </Fragment>
 )}
 
-{META_PIXEL_ID && (
+{hasDirectMeta && (
   <script is:inline define:vars={{ META_PIXEL_ID }}>
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
     n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
     document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    window.fbqDirect = true;
     // Meta's own consent gate: revoked until the banner grants it.
     fbq('consent', 'revoke');
     fbq('init', META_PIXEL_ID);

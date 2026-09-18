@@ -1,6 +1,6 @@
 ---
 import Legal from '@/layouts/Legal.astro';
-import { contact, packages, SESSION_LENGTH_MIN } from '@/data/site';
+import { contact, packages, legalEntity, SESSION_LENGTH_MIN } from '@/data/site';
 import { huf } from '@/lib/format';
 ---
 
@@ -11,14 +11,14 @@ import { huf } from '@/lib/format';
 >
   <h2>1. A szolgáltató</h2>
   <p>
-    <strong>Név:</strong> […cégnév…]<br />
-    <strong>Székhely:</strong> […székhely…]<br />
-    <strong>Adószám:</strong> […adószám…]<br />
-    <strong>Nyilvántartási szám:</strong> […cégjegyzék- vagy nyilvántartási szám…]<br />
-    <strong>Bankszámlaszám:</strong> […bankszámlaszám…]<br />
+    <strong>Név:</strong> {legalEntity.name} ({legalEntity.form})<br />
+    <strong>Székhely:</strong> {legalEntity.address}<br />
+    <strong>Adószám:</strong> {legalEntity.taxNumber}<br />
+    <strong>Nyilvántartási szám:</strong> {legalEntity.registrationNumber}<br />
+    <strong>Bankszámlaszám:</strong> {legalEntity.bankAccount}<br />
     <strong>E-mail:</strong> <a href={`mailto:${contact.email}`}>{contact.email}</a><br />
-    <strong>Telefon:</strong> {contact.phone}<br />
-    <strong>Tárhelyszolgáltató:</strong> Rackhost Zrt., 6000 Kecskemét, Sudár utca 1/A
+    <strong>Telefon:</strong> <a href={`tel:${contact.phoneHref}`}>{contact.phone}</a><br />
+    <strong>Tárhelyszolgáltató:</strong> {legalEntity.hosting}
   </p>
 
   <h2>2. A szolgáltatás tárgya</h2>
@@ -48,9 +48,10 @@ import { huf } from '@/lib/format';
     </tbody>
   </table>
   <p>
-    A feltüntetett árak […nettó / bruttó…] árak. A szolgáltató […alanyi adómentes /
-    ÁFA-körbe tartozó…] adózó. A díj a szolgáltatás megkezdése előtt, számla ellenében,
-    banki átutalással fizetendő, eltérő megállapodás hiányában.
+    A szolgáltató <strong>alanyi adómentes</strong> adózó, ezért a feltüntetett árak
+    áfát nem tartalmaznak, és a számlán áfa nem kerül felszámításra — a fizetendő
+    összeg megegyezik a feltüntetett árral. A díj a szolgáltatás megkezdése előtt,
+    számla ellenében, banki átutalással fizetendő, eltérő megállapodás hiányában.
   </p>
 
   <h2>4. Időpontfoglalás, lemondás, átütemezés</h2>

@@ -23,7 +23,8 @@ npm run preview      # a legyártott oldal megtekintése
 | `npm run build` | Éles build a `dist/` mappába |
 | `npm run build:prod` | Ugyanaz, de **leáll**, ha még placeholder vélemények vannak |
 | `./scripts/subset-fonts.sh` | Újragenerálja a magyar betűkészlet-részhalmazokat |
-| `node scripts/shoot.mjs "/::home"` | Képernyőképek desktop + mobil nézetben |
+| `npm run verify:consent` | Böngészős ellenőrzés: a süti-hozzájárulás tényleg működik-e |
+| `npm run shots "/::home"` | Képernyőképek desktop + mobil nézetben |
 
 ---
 
@@ -36,11 +37,11 @@ Ezek nélkül **nem szabad** élesíteni:
       (Fttv. / GVH, EU Omnibus irányelv). Csere után: `PROOF_IS_PLACEHOLDER = false`.
       Amíg ez `true`, a `npm run build:prod` **megtagadja** a buildet, és az oldalon
       látható fejlesztői figyelmeztetés jelenik meg.
-- [ ] **Cégadatok** az `/aszf` és `/adatkezeles` oldalakon (a `[…]` helyek).
-- [ ] **Valós telefonszám és e-mail cím** a `src/data/site.ts` `contact` blokkjában.
+- [ ] **Székhely** megadása a `src/data/site.ts` `legalEntity.address` mezőjében.
+      Az Ekertv. 4. §-a alapján online szolgáltatásnál kötelező közzétenni.
 - [ ] **Kristóf portréfotói** — lásd lentebb.
 - [ ] **Cal.com link** beállítása (`contact.bookingUrl`).
-- [ ] **Mérőkódok** azonosítói (`.env`).
+- [ ] **GTM konténer azonosító** (`.env` → `PUBLIC_GTM_ID`).
 - [ ] **Jogi átnézés.** Az ÁSZF és az adatkezelési tájékoztató szakmai sablon, a
       weboldal tényleges működését írja le — de nem jogi tanácsadás.
 
@@ -95,34 +96,44 @@ szolgáltatást.
 
 ---
 
-## Mérés (GA4, Google Ads, Meta Pixel)
+## Mérés — Google Tag Manager
 
 Hozz létre egy `.env` fájlt a gyökérben:
 
 ```
-PUBLIC_GA4_ID=G-XXXXXXXXXX
-PUBLIC_GOOGLE_ADS_ID=AW-XXXXXXXXX
-PUBLIC_META_PIXEL_ID=XXXXXXXXXXXXXXX
+PUBLIC_GTM_ID=GTM-XXXXXXX
 ```
 
-Ha egy változó üres, az adott mérőkód **egyáltalán nem kerül az oldalra**.
+Ezután a GA4-et, a Google Ads konverziókat és a Meta Pixelt **a GTM felületén**
+add hozzá — új mérőkódhoz nem kell újra deployolni az oldalt.
 
-A mérés **Google Consent Mode v2**-vel indul, alapértelmezetten *tiltott* állapotban:
-amíg a látogató nem járul hozzá, semmilyen azonosításra alkalmas süti nem kerül
-elhelyezésre. Az elutasítás pontosan ugyanolyan könnyű, mint az elfogadás — ezt a NAIH
-és az EDPB is megköveteli, és a magyar oldalak többsége itt bukik el.
+Ha valamiért nem GTM-et használnál, a közvetlen mérőkódok is támogatottak
+(`PUBLIC_GA4_ID`, `PUBLIC_GOOGLE_ADS_ID`, `PUBLIC_META_PIXEL_ID`). **GTM mellett
+hagyd őket üresen**, különben minden konverzió kétszer számolódna.
 
-Konverziós események:
+### Consent Mode v2
 
-| Esemény | Mikor | GA4 | Meta |
-| --- | --- | --- | --- |
-| Foglalás | Cal.com foglalás sikeres | `generate_lead` | `Schedule` |
-| Űrlap | Kapcsolati űrlap elküldve | `generate_lead` | `Lead` |
+A mérés alapértelmezetten *tiltott* állapotban indul, és a hozzájárulási
+beállítások **a GTM betöltése előtt** kerülnek beállításra — így hozzájárulás
+nélkül semmilyen azonosításra alkalmas süti nem kerül elhelyezésre. Az elutasítás
+pontosan ugyanolyan könnyű, mint az elfogadás; ezt a NAIH és az EDPB is megköveteli.
 
-A gombokon `data-track` attribútum van (pl. `hero-primary`, `pricing-five`), így GTM-ben
-kattintás szinten is mérhető, melyik CTA hozza a foglalásokat.
+Ez nem feltételezés: a `npm run verify:consent` valódi böngészőben ellenőrzi
+(15 teszt), hogy elutasítás után nem íródik süti, és hogy az elfogadás helyesen
+frissíti a hozzájárulást.
 
----
+### dataLayer események
+
+| Esemény | Mikor | Hasznos paraméter |
+| --- | --- | --- |
+| `booking_complete` | Cal.com foglalás sikeres | `method` |
+| `form_submit` | Kapcsolati űrlap elküldve | `method` |
+| `cta_click` | Bármelyik CTA gombra kattintás | `cta_id` |
+| `consent_update` | A látogató módosítja a süti-beállítást | `bm_consent` |
+
+GTM-ben ezekre az eseménynevekre állíts be Custom Event triggert. A `cta_id`
+értéke pl. `hero-primary`, `pricing-five`, `sticky-cta` — így látszik, melyik
+gomb hozza ténylegesen a foglalásokat.
 
 ## Kapcsolati űrlap (PHP)
 

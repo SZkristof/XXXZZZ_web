@@ -5,7 +5,7 @@
 
 export const site = {
   name: 'Brandműhely',
-  legalName: 'Brandműhely', // TODO: cégjegyzékbe bejegyzett teljes név
+  legalName: 'Szabó Kristóf E.V.',
   domain: 'www.brandmuhely.hu',
   url: 'https://www.brandmuhely.hu',
   locale: 'hu-HU',
@@ -225,16 +225,29 @@ export const platforms = [
 /* ------------------------------------------------------------------------ */
 
 export const contact = {
-  // TODO: valós elérhetőségek
   email: 'info@brandmuhely.hu',
-  phone: '+36 XX XXX XXXX',
-  phoneHref: '+36XXXXXXXXX',
+  phone: '+36 70 670 2600',
+  phoneHref: '+36706702600',
   /** Cal.com booking link. Syncs to Google Calendar and generates Meet links,
    *  but unlike Google's native scheduler it fires a completion event we can
    *  track as a conversion in Google Ads and Meta. */
   bookingUrl: 'https://cal.com/brandmuhely/konzultacio',
   bookingNamespace: 'konzultacio',
   bookingDurationMin: 30,
+} as const;
+
+/** Nyilvános cégadatok. Az Ekertv. 4. § alapján a székhelyet is közzé kell tenni. */
+export const legalEntity = {
+  name: 'Szabó Kristóf E.V.',
+  form: 'egyéni vállalkozó',
+  /** TODO: a székhely közzététele jogszabályi kötelezettség — pótolandó. */
+  address: '[…székhely…]',
+  taxNumber: '59629207-1-42',
+  registrationNumber: '57675563',
+  bankAccount: '11773102-00355166',
+  /** A 9. számjegy (1) alanyi adómentességre utal — Kristóffal egyeztetendő. */
+  vatStatus: 'alanyi adómentes',
+  hosting: 'Rackhost Zrt., 6000 Kecskemét, Sudár utca 1/A',
 } as const;
 
 export const nav = [

@@ -122,6 +122,8 @@
       fbq('consent', 'grant');
       fbq('track', 'PageView');
     }
+    // Lets GTM fire tags that were held back while consent was denied.
+    (window as any).dataLayer?.push({ event: 'consent_update', bm_consent: c });
   }
 
   function save(analytics: boolean, marketing: boolean) {

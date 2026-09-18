@@ -1,6 +1,6 @@
 ---
 import Legal from '@/layouts/Legal.astro';
-import { contact } from '@/data/site';
+import { contact, legalEntity } from '@/data/site';
 ---
 
 <Legal
@@ -10,12 +10,12 @@ import { contact } from '@/data/site';
 >
   <h2>1. Az adatkezelő</h2>
   <p>
-    <strong>Név:</strong> […cégnév…]<br />
-    <strong>Székhely:</strong> […székhely…]<br />
-    <strong>Adószám:</strong> […adószám…]<br />
-    <strong>Nyilvántartási szám:</strong> […cégjegyzék- vagy nyilvántartási szám…]<br />
+    <strong>Név:</strong> {legalEntity.name} ({legalEntity.form})<br />
+    <strong>Székhely:</strong> {legalEntity.address}<br />
+    <strong>Adószám:</strong> {legalEntity.taxNumber}<br />
+    <strong>Nyilvántartási szám:</strong> {legalEntity.registrationNumber}<br />
     <strong>E-mail:</strong> <a href={`mailto:${contact.email}`}>{contact.email}</a><br />
-    <strong>Telefon:</strong> {contact.phone}
+    <strong>Telefon:</strong> <a href={`tel:${contact.phoneHref}`}>{contact.phone}</a>
   </p>
 
   <h2>2. Milyen adatokat kezelünk, és miért</h2>
@@ -75,7 +75,7 @@ import { contact } from '@/data/site';
     <tbody>
       <tr><td>Rackhost Zrt.</td><td>Tárhelyszolgáltatás, e-mail</td><td>Magyarország (EU)</td></tr>
       <tr><td>Cal.com, Inc.</td><td>Időpontfoglalás</td><td>EU / USA (megfelelőségi keret alapján)</td></tr>
-      <tr><td>Google Ireland Ltd.</td><td>Analitika, hirdetésmérés, Meet, Naptár</td><td>EU / USA</td></tr>
+      <tr><td>Google Ireland Ltd.</td><td>Tag Manager, analitika, hirdetésmérés, Meet, Naptár</td><td>EU / USA</td></tr>
       <tr><td>Meta Platforms Ireland Ltd.</td><td>Hirdetésmérés (Pixel)</td><td>EU / USA</td></tr>
     </tbody>
   </table>

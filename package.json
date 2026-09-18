@@ -9,7 +9,9 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "build:prod": "node scripts/check-proof.mjs && astro check && astro build"
+    "build:prod": "node scripts/check-proof.mjs && astro check && astro build",
+    "verify:consent": "node scripts/verify-consent.mjs",
+    "shots": "node scripts/shoot.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
