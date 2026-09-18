@@ -1,0 +1,133 @@
+---
+import Legal from '@/layouts/Legal.astro';
+import { contact, packages, SESSION_LENGTH_MIN } from '@/data/site';
+import { huf } from '@/lib/format';
+---
+
+<Legal
+  title="Általános Szerződési Feltételek"
+  description="A Brandműhely egyéni hirdetési képzéseire vonatkozó általános szerződési feltételek."
+  updated="2026. szeptember 18."
+>
+  <h2>1. A szolgáltató</h2>
+  <p>
+    <strong>Név:</strong> […cégnév…]<br />
+    <strong>Székhely:</strong> […székhely…]<br />
+    <strong>Adószám:</strong> […adószám…]<br />
+    <strong>Nyilvántartási szám:</strong> […cégjegyzék- vagy nyilvántartási szám…]<br />
+    <strong>Bankszámlaszám:</strong> […bankszámlaszám…]<br />
+    <strong>E-mail:</strong> <a href={`mailto:${contact.email}`}>{contact.email}</a><br />
+    <strong>Telefon:</strong> {contact.phone}<br />
+    <strong>Tárhelyszolgáltató:</strong> Rackhost Zrt., 6000 Kecskemét, Sudár utca 1/A
+  </p>
+
+  <h2>2. A szolgáltatás tárgya</h2>
+  <p>
+    A szolgáltató egyéni (1 az 1-ben) online oktatást nyújt Meta, Google és LinkedIn
+    hirdetési rendszerek használatáról. Egy alkalom időtartama {SESSION_LENGTH_MIN} perc,
+    a megvalósítás Google Meet videóhívás formájában történik.
+  </p>
+  <p>
+    A szolgáltatás <strong>oktatás és szaktanácsadás</strong>, nem hirdetéskezelés. A
+    hirdetési fiók a megrendelő tulajdonában és kezelésében marad; a kampányokat a
+    megrendelő indítja és felügyeli.
+  </p>
+
+  <h2>3. Díjak</h2>
+  <table>
+    <thead><tr><th>Csomag</th><th>Alkalmak</th><th>Díj</th><th>Egy alkalomra vetítve</th></tr></thead>
+    <tbody>
+      {packages.map((p) => (
+        <tr>
+          <td>{p.name}</td>
+          <td>{p.sessions}</td>
+          <td>{huf(p.price)}</td>
+          <td>{huf(p.perSession)}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  <p>
+    A feltüntetett árak […nettó / bruttó…] árak. A szolgáltató […alanyi adómentes /
+    ÁFA-körbe tartozó…] adózó. A díj a szolgáltatás megkezdése előtt, számla ellenében,
+    banki átutalással fizetendő, eltérő megállapodás hiányában.
+  </p>
+
+  <h2>4. Időpontfoglalás, lemondás, átütemezés</h2>
+  <ul>
+    <li>Az alkalmak időpontját a felek közösen egyeztetik; hetente legfeljebb 2 alkalom tartható.</li>
+    <li>
+      Az időpont <strong>24 órával korábbi</strong> jelzéssel díjmentesen átütemezhető.
+    </li>
+    <li>
+      24 órán belüli lemondás vagy meg nem jelenés esetén az adott alkalom felhasználtnak
+      minősül. […módosítható…]
+    </li>
+    <li>
+      A megvásárolt alkalmakat a vásárlástól számított <strong>6 hónapon belül</strong>
+      kell felhasználni. […módosítható…]
+    </li>
+    <li>
+      Ha a szolgáltató mondja le az alkalmat, azt díjmentesen, a megrendelő számára
+      megfelelő időpontban pótolja.
+    </li>
+  </ul>
+
+  <h2>5. Felvételek</h2>
+  <p>
+    Minden alkalomról videófelvétel készül, amelyet a szolgáltató az alkalmat követően
+    díjmentesen átad a megrendelőnek. A felvétel a megrendelő saját, belső használatára
+    szolgál: nyilvánosan nem tehető közzé, harmadik félnek nem adható át, és kereskedelmi
+    célra nem hasznosítható.
+  </p>
+
+  <h2>6. Elállási jog</h2>
+  <p>
+    A fogyasztónak minősülő megrendelőt a 45/2014. (II. 26.) Korm. rendelet alapján a
+    szerződéskötéstől számított <strong>14 napon belül</strong> indokolás nélküli elállási
+    jog illeti meg. Ha a megrendelő kifejezetten kéri a szolgáltatás 14 napon belüli
+    megkezdését, és a szolgáltatás teljesítése megkezdődött, az elállási jog a már
+    teljesített alkalmak arányában nem gyakorolható.
+  </p>
+  <p>
+    A vállalkozásként (nem fogyasztóként) szerződő megrendelőt e jogszabályi elállási jog
+    nem illeti meg.
+  </p>
+
+  <h2>7. Felelősség</h2>
+  <p>
+    A szolgáltató szakmai tudása legjavát nyújtva ad tanácsot, azonban a hirdetési
+    kampányok eredménye számos, a szolgáltató befolyásán kívül eső tényezőtől függ (piaci
+    környezet, termék, árazás, verseny, a hirdetési platformok saját algoritmusai és
+    szabályzatai). A szolgáltató <strong>konkrét üzleti eredményt, megtérülést vagy
+    bevételt nem garantál</strong>.
+  </p>
+  <p>
+    A hirdetési fiókban végrehajtott módosításokért és az elköltött hirdetési keretért a
+    megrendelő felel, mivel a fiók az ő kezelésében marad.
+  </p>
+
+  <h2>8. Titoktartás</h2>
+  <p>
+    A szolgáltató a megrendelő üzleti adatait, kampányadatait és minden, az együttműködés
+    során tudomására jutott információt bizalmasan kezel, és azt harmadik félnek nem adja
+    ki. Referenciaként a megrendelő neve vagy eredményei kizárólag a megrendelő előzetes,
+    írásos hozzájárulásával használhatók fel.
+  </p>
+
+  <h2>9. Panaszkezelés</h2>
+  <p>
+    Panaszt a <a href={`mailto:${contact.email}`}>{contact.email}</a> címen lehet
+    bejelenteni; a szolgáltató 30 napon belül érdemben válaszol. Fogyasztói jogvita esetén
+    a megrendelő a lakóhelye szerint illetékes <strong>békéltető testülethez</strong>
+    fordulhat, illetve panaszt tehet a területileg illetékes fogyasztóvédelmi hatóságnál.
+  </p>
+
+  <h2>10. Egyéb rendelkezések</h2>
+  <p>
+    A jelen ÁSZF-ben nem szabályozott kérdésekben a Polgári Törvénykönyvről szóló 2013. évi
+    V. törvény és a vonatkozó magyar jogszabályok az irányadók. A szolgáltató fenntartja a
+    jogot az ÁSZF egyoldalú módosítására; a módosítás a közzétételt követően kötött
+    szerződésekre hatályos.
+  </p>
+</Legal>

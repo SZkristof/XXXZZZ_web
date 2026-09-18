@@ -1,0 +1,68 @@
+# Apache/LiteSpeed configuration for Rackhost shared hosting.
+# Astro emits a static site, so this handles HTTPS, caching and security only.
+
+# ---------------------------------------------------------------- HTTPS ----
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Force HTTPS (Rackhost provides free Let's Encrypt — enable it first).
+  RewriteCond %{HTTPS} !=on
+  RewriteCond %{HTTP:X-Forwarded-Proto} !https
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+  # Canonical host: always www, so link equity never splits between hosts.
+  RewriteCond %{HTTP_HOST} ^brandmuhely\.hu$ [NC]
+  RewriteRule ^(.*)$ https://www.brandmuhely.hu/$1 [R=301,L]
+
+  # Serve /about as /about/index.html without exposing the filename.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME}/index.html -f
+  RewriteRule ^(.*)$ /$1/index.html [L]
+</IfModule>
+
+ErrorDocument 404 /404.html
+
+# -------------------------------------------------------------- caching ----
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # Hashed filenames — safe to cache forever.
+  <FilesMatch "\.(woff2|css|js)$">
+    ExpiresDefault "access plus 1 year"
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|webp|avif|svg|ico)$">
+    ExpiresDefault "access plus 6 months"
+  </FilesMatch>
+  # HTML must revalidate so content changes go live immediately.
+  <FilesMatch "\.html$">
+    ExpiresDefault "access plus 0 seconds"
+    Header set Cache-Control "public, max-age=0, must-revalidate"
+  </FilesMatch>
+</IfModule>
+
+# ------------------------------------------------------------ compression --
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml \
+    application/javascript application/json image/svg+xml
+</IfModule>
+
+# -------------------------------------------------------------- security ---
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "geolocation=(), microphone=(), camera=(), interest-cohort=()"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+  # woff2 is fetched with crossorigin because of the preload hints.
+  <FilesMatch "\.woff2$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
+
+# Never serve the lead CSV or local config, whatever the directory layout.
+<FilesMatch "^(config\.local\.php|leads\.csv)$">
+  Require all denied
+</FilesMatch>
+
+Options -Indexes

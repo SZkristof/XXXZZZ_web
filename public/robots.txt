@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Disallow: /api/
+Disallow: /adatkezeles
+Disallow: /aszf
+Disallow: /cookie
+
+Sitemap: https://www.brandmuhely.hu/sitemap-index.xml

@@ -1,0 +1,34 @@
+---
+import SectionHeading from '@/components/SectionHeading.astro';
+import { platforms } from '@/data/site';
+---
+
+<section class="section bg-ink-50" id="platformok">
+  <div class="container-x">
+    <SectionHeading
+      eyebrow="Platformok"
+      title="Egyet választasz — vagy kettőt kombinálunk"
+      lead="Nem kell mindenhol ott lenned. Az első alkalmon eldöntjük, hol van a te vevőd, és arra koncentrálunk."
+      align="center"
+    />
+
+    <div class="mt-14 grid gap-5 md:grid-cols-3">
+      {platforms.map((p) => (
+        <article id={p.id} class="scroll-mt-28 rounded-2xl border border-ink-200 bg-white p-7">
+          <h3 class="font-display text-xl font-extrabold tracking-tight text-ink-950">
+            {p.name}
+          </h3>
+          <p class="mt-1 text-sm text-ink-500" set:html={p.sub} />
+          <p class="mt-5 border-t border-ink-100 pt-5 leading-relaxed text-ink-600">
+            {p.bestFor}
+          </p>
+        </article>
+      ))}
+    </div>
+
+    <p class="mt-8 text-center text-sm text-ink-600">
+      A 10 alkalmas csomagban két platform fér el — a leggyakoribb páros a
+      <strong class="font-semibold text-ink-900">Meta + Google</strong>.
+    </p>
+  </div>
+</section>

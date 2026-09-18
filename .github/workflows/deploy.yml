@@ -1,0 +1,49 @@
+name: Build & deploy to Rackhost
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: true
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Regenerates the Hungarian font subsets so the deployed files always
+      # match the installed font version.
+      - name: Set up font subsetting
+        run: pip install fonttools brotli
+
+      - name: Subset fonts
+        run: ./scripts/subset-fonts.sh
+
+      # Refuses to build while src/data/proof.ts still holds invented
+      # testimonials. Remove this step only once real proof is in place.
+      - name: Build (blocks on placeholder testimonials)
+        run: npm run build:prod
+
+      - name: Deploy over SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: ${{ secrets.SFTP_PORT || 22 }}
+          local_path: './dist/*'
+          remote_path: ${{ secrets.SFTP_REMOTE_PATH }}
+          sftp_only: true
+          delete_remote_files: false

@@ -1,0 +1,110 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Platforms from '@/components/Platforms.astro';
+import HowItWorks from '@/components/HowItWorks.astro';
+import Pricing from '@/components/Pricing.astro';
+import Faq from '@/components/Faq.astro';
+import Button from '@/components/Button.astro';
+import { tracks, packages, site } from '@/data/site';
+
+const schema = tracks.map((t) => ({
+  '@type': 'Course',
+  '@id': `${site.url}/programok#${t.slug}`,
+  name: t.headline,
+  description: t.description,
+  inLanguage: 'hu',
+  provider: { '@id': `${site.url}/#business` },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'online',
+    courseWorkload: 'PT1H',
+  },
+}));
+---
+
+<Base
+  title="Programok"
+  description="Három út, attól függően hol tartasz: kezdőként nulláról, futó kampányok rendbetétele, vagy vezetőként a számok megértése."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="Programok"
+    title="Három út. Válaszd azt, ahol most vagy."
+    lead="Nem ugyanazt tanítom annak, aki még el sem indult, és annak, aki már két ügynökségen van túl. Az első, ingyenes beszélgetésen közösen eldöntjük, melyik a tiéd."
+  />
+
+  <section class="section bg-white">
+    <div class="container-x space-y-6">
+      {tracks.map((t, i) => {
+        const rec = packages.find((p) => p.id === t.recommended)!;
+        return (
+          <article
+            id={t.slug}
+            class="scroll-mt-28 overflow-hidden rounded-2xl border border-ink-200 bg-white"
+          >
+            <div class="grid lg:grid-cols-[1.35fr_1fr]">
+              <div class="p-8 sm:p-10 lg:p-12">
+                <div class="flex items-center gap-3">
+                  <span
+                    class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-ink-950
+                           font-display text-sm font-extrabold text-white"
+                  >0{i + 1}</span>
+                  <span class="eyebrow text-ember-700">{t.label}</span>
+                </div>
+
+                <p class="mt-7 font-display text-xl font-bold italic leading-snug text-ink-500">
+                  „{t.symptom}"
+                </p>
+
+                <h2 class="mt-5 text-3xl">{t.headline}</h2>
+                <p class="mt-5 max-w-xl leading-relaxed text-ink-600">{t.description}</p>
+
+                <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+                  <Button href="/kapcsolat" track={`program-${t.slug}`}>
+                    Ingyenes konzultáció
+                  </Button>
+                  <Button href="/arak" variant="ghost">Árak megnézése</Button>
+                </div>
+              </div>
+
+              <div class="border-t border-ink-200 bg-ink-50 p-8 sm:p-10 lg:border-l lg:border-t-0">
+                <h3 class="eyebrow text-ink-500">Mivel leszel gazdagabb</h3>
+                <ul class="mt-5 space-y-3.5">
+                  {t.outcomes.map((o) => (
+                    <li class="flex items-start gap-3">
+                      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                        class="mt-0.5 shrink-0 text-signal-600">
+                        <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="2.5"
+                          stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                      <span class="text-[0.9375rem] leading-relaxed text-ink-700">{o}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div class="mt-7 rounded-xl border border-ink-200 bg-white p-5">
+                  <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">
+                    Ehhez jellemzően elég
+                  </p>
+                  <p class="mt-1.5 font-display text-lg font-extrabold text-ink-950">
+                    {t.recommendedLabel}
+                  </p>
+                  {rec.deal && (
+                    <p class="mt-1 text-sm text-ink-600">
+                      {rec.deal} — {rec.dealExplainer}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </section>
+
+  <Platforms />
+  <HowItWorks />
+  <Pricing detailed />
+  <Faq limit={5} />
+</Base>

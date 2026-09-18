@@ -1,0 +1,106 @@
+---
+import Legal from '@/layouts/Legal.astro';
+import { contact } from '@/data/site';
+---
+
+<Legal
+  title="Adatkezelési tájékoztató"
+  description="Hogyan kezeljük a brandmuhely.hu látogatóinak személyes adatait."
+  updated="2026. szeptember 18."
+>
+  <h2>1. Az adatkezelő</h2>
+  <p>
+    <strong>Név:</strong> […cégnév…]<br />
+    <strong>Székhely:</strong> […székhely…]<br />
+    <strong>Adószám:</strong> […adószám…]<br />
+    <strong>Nyilvántartási szám:</strong> […cégjegyzék- vagy nyilvántartási szám…]<br />
+    <strong>E-mail:</strong> <a href={`mailto:${contact.email}`}>{contact.email}</a><br />
+    <strong>Telefon:</strong> {contact.phone}
+  </p>
+
+  <h2>2. Milyen adatokat kezelünk, és miért</h2>
+
+  <h3>2.1 Kapcsolatfelvételi űrlap</h3>
+  <table>
+    <thead>
+      <tr><th>Adat</th><th>Cél</th><th>Jogalap</th><th>Megőrzés</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Név</td><td>Megszólítás, azonosítás</td><td>Hozzájárulás (GDPR 6. cikk (1) a))</td><td>Kapcsolatfelvételtől számított 2 év</td></tr>
+      <tr><td>E-mail cím</td><td>Válaszadás</td><td>Hozzájárulás</td><td>2 év</td></tr>
+      <tr><td>Telefonszám (opcionális)</td><td>Visszahívás</td><td>Hozzájárulás</td><td>2 év</td></tr>
+      <tr><td>Cégnév (opcionális)</td><td>Ajánlat összeállítása</td><td>Hozzájárulás</td><td>2 év</td></tr>
+      <tr><td>Üzenet tartalma</td><td>Az igény megértése</td><td>Hozzájárulás</td><td>2 év</td></tr>
+    </tbody>
+  </table>
+  <p>
+    Az űrlap adatai a tárhelyszolgáltató szerverén tárolódnak, és e-mailben is megérkeznek
+    hozzánk. Harmadik félnek nem adjuk át, marketing célú megkeresésre nem használjuk,
+    hacsak ehhez külön hozzá nem járulsz.
+  </p>
+
+  <h3>2.2 Időpontfoglalás</h3>
+  <p>
+    Az ingyenes konzultáció foglalása a <strong>Cal.com</strong> rendszerén keresztül
+    történik. A megadott név, e-mail cím és időpont a Cal.com szerverein, valamint a
+    szolgáltató Google Naptárában tárolódik, és automatikusan létrejön egy Google Meet
+    hivatkozás. A Cal.com önálló adatkezelőként is eljár; adatkezelési tájékoztatója a
+    <a href="https://cal.com/privacy" rel="noopener noreferrer" target="_blank">cal.com/privacy</a>
+    címen érhető el.
+  </p>
+
+  <h3>2.3 Szervernaplók</h3>
+  <p>
+    A tárhelyszolgáltató a weboldal működtetése és biztonsága érdekében naplózza a
+    látogatások technikai adatait (IP-cím, időbélyeg, kért oldal, böngésző típusa). Jogalap:
+    jogos érdek (GDPR 6. cikk (1) f)) — a szolgáltatás biztonságos üzemeltetése.
+  </p>
+
+  <h2>3. Sütik és mérési eszközök</h2>
+  <p>
+    A működéshez feltétlenül szükséges sütiket hozzájárulás nélkül is használjuk. Minden
+    egyéb süti — analitikai és marketing — <strong>csak a te kifejezett hozzájárulásoddal</strong>
+    aktiválódik, amit az oldal megnyitásakor megjelenő sütisávon adhatsz meg, és bármikor
+    visszavonhatsz a lábléc „Cookie beállítások" gombjával.
+  </p>
+  <p>
+    Az oldal a Google Consent Mode v2 rendszert használja: hozzájárulás hiányában a Google
+    és a Meta szolgáltatásai nem helyeznek el azonosításra alkalmas sütit. Részletek a
+    <a href="/cookie">cookie tájékoztatóban</a>.
+  </p>
+
+  <h2>4. Adatfeldolgozók</h2>
+  <table>
+    <thead><tr><th>Szolgáltató</th><th>Feladat</th><th>Adattovábbítás helye</th></tr></thead>
+    <tbody>
+      <tr><td>Rackhost Zrt.</td><td>Tárhelyszolgáltatás, e-mail</td><td>Magyarország (EU)</td></tr>
+      <tr><td>Cal.com, Inc.</td><td>Időpontfoglalás</td><td>EU / USA (megfelelőségi keret alapján)</td></tr>
+      <tr><td>Google Ireland Ltd.</td><td>Analitika, hirdetésmérés, Meet, Naptár</td><td>EU / USA</td></tr>
+      <tr><td>Meta Platforms Ireland Ltd.</td><td>Hirdetésmérés (Pixel)</td><td>EU / USA</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. A te jogaid</h2>
+  <ul>
+    <li><strong>Hozzáférés:</strong> tájékoztatást kérhetsz arról, milyen adataidat kezeljük.</li>
+    <li><strong>Helyesbítés:</strong> kérheted pontatlan adataid javítását.</li>
+    <li><strong>Törlés:</strong> kérheted adataid törlését („elfeledtetéshez való jog").</li>
+    <li><strong>Korlátozás:</strong> kérheted az adatkezelés korlátozását.</li>
+    <li><strong>Tiltakozás:</strong> tiltakozhatsz a jogos érdeken alapuló adatkezelés ellen.</li>
+    <li><strong>Adathordozhatóság:</strong> kérheted adataid géppel olvasható formában.</li>
+    <li><strong>Hozzájárulás visszavonása:</strong> bármikor, a jövőre nézve.</li>
+  </ul>
+  <p>
+    Kérésedet a <a href={`mailto:${contact.email}`}>{contact.email}</a> címen jelezheted.
+    A megkeresésre legkésőbb 30 napon belül válaszolunk.
+  </p>
+
+  <h2>6. Jogorvoslat</h2>
+  <p>
+    Ha úgy érzed, hogy adatkezelésünk sérti a jogaidat, panasszal fordulhatsz a
+    <strong>Nemzeti Adatvédelmi és Információszabadság Hatósághoz</strong> (NAIH,
+    1055 Budapest, Falk Miksa utca 9-11.,
+    <a href="https://naih.hu" rel="noopener noreferrer" target="_blank">naih.hu</a>),
+    vagy bírósághoz fordulhatsz.
+  </p>
+</Legal>

@@ -1,0 +1,166 @@
+---
+import { site, nav, contact } from '@/data/site';
+import Button from '@/components/Button.astro';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => path === href || path.startsWith(href + '/');
+---
+
+<header
+  id="site-header"
+  class="fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-300"
+  data-at-top="true"
+>
+  <div class="container-x">
+    <div class="flex h-[4.5rem] items-center justify-between gap-4 lg:h-20">
+      <!-- Wordmark -->
+      <a
+        href="/"
+        class="group flex shrink-0 items-center gap-2.5"
+        aria-label={`${site.name} — főoldal`}
+      >
+        <span
+          class="grid h-9 w-9 place-items-center rounded-lg bg-ember-500 font-display
+                 text-lg font-extrabold leading-none text-white transition-transform
+                 duration-300 ease-out group-hover:rotate-[-6deg]"
+          aria-hidden="true">B</span
+        >
+        <span class="font-display text-[1.0625rem] font-extrabold tracking-tight text-ink-950">
+          Brandműhely
+        </span>
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden items-center gap-1 lg:flex" aria-label="Fő navigáció">
+        {nav.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'rounded-md px-3.5 py-2 text-[0.9375rem] font-medium transition-colors',
+              isActive(item.href)
+                ? 'text-ember-700'
+                : 'text-ink-600 hover:bg-ink-50 hover:text-ink-950',
+            ]}
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a
+          href={`tel:${contact.phoneHref}`}
+          class="hidden rounded-md px-3 py-2 text-[0.9375rem] font-medium text-ink-600
+                 transition-colors hover:text-ink-950 xl:inline-block"
+        >
+          {contact.phone}
+        </a>
+        <div class="hidden sm:block">
+          <Button href="/kapcsolat" size="sm" track="header-cta">
+            Ingyenes konzultáció
+          </Button>
+        </div>
+
+        <!-- Mobile toggle -->
+        <button
+          type="button"
+          id="nav-toggle"
+          class="-mr-2 grid h-11 w-11 place-items-center rounded-lg text-ink-900
+                 transition-colors hover:bg-ink-100 lg:hidden"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+          aria-label="Menü megnyitása"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              class="origin-center transition-transform duration-300 ease-out [#nav-toggle[aria-expanded='true']_&]:translate-y-[6px] [#nav-toggle[aria-expanded='true']_&]:rotate-45"
+              d="M3 6h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <path
+              class="transition-opacity duration-200 [#nav-toggle[aria-expanded='true']_&]:opacity-0"
+              d="M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+            <path
+              class="origin-center transition-transform duration-300 ease-out [#nav-toggle[aria-expanded='true']_&]:-translate-y-[6px] [#nav-toggle[aria-expanded='true']_&]:-rotate-45"
+              d="M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile nav -->
+  <div
+    id="mobile-nav"
+    class="invisible max-h-0 overflow-hidden border-t border-ink-100 bg-white opacity-0
+           transition-[max-height,opacity,visibility] duration-300 ease-out lg:hidden"
+  >
+    <nav class="container-x flex flex-col gap-0.5 py-4" aria-label="Mobil navigáció">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          aria-current={isActive(item.href) ? 'page' : undefined}
+          class:list={[
+            'rounded-lg px-3 py-3.5 font-display text-lg font-bold tracking-tight transition-colors',
+            isActive(item.href) ? 'bg-ember-50 text-ember-700' : 'text-ink-900 hover:bg-ink-50',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))}
+      <Button href="/kapcsolat" size="lg" class="mt-3 w-full" track="mobile-nav-cta">
+        Ingyenes konzultáció
+      </Button>
+      <a
+        href={`tel:${contact.phoneHref}`}
+        class="mt-1 rounded-lg px-3 py-3 text-center text-[0.9375rem] font-medium text-ink-600"
+      >
+        vagy hívj: {contact.phone}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- Spacer so fixed header never covers content -->
+<div class="h-[4.5rem] lg:h-20" aria-hidden="true"></div>
+
+<script>
+  const header = document.getElementById('site-header')!;
+  const toggle = document.getElementById('nav-toggle')!;
+  const panel = document.getElementById('mobile-nav')!;
+
+  const OPEN = ['visible', 'opacity-100', 'max-h-[80vh]'];
+  const SHUT = ['invisible', 'opacity-0', 'max-h-0'];
+
+  function setOpen(open: boolean) {
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Menü bezárása' : 'Menü megnyitása');
+    panel.classList.remove(...(open ? SHUT : OPEN));
+    panel.classList.add(...(open ? OPEN : SHUT));
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  toggle.addEventListener('click', () =>
+    setOpen(toggle.getAttribute('aria-expanded') !== 'true'),
+  );
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  // Reset when crossing the lg breakpoint so the body never stays locked.
+  matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
+    if (e.matches) setOpen(false);
+  });
+
+  // Solidify the header once scrolled away from the top.
+  const onScroll = () => {
+    const atTop = window.scrollY < 12;
+    header.dataset.atTop = String(atTop);
+    header.classList.toggle('bg-white/85', !atTop);
+    header.classList.toggle('backdrop-blur-lg', !atTop);
+    header.classList.toggle('shadow-[0_1px_0_rgba(10,12,16,0.08)]', !atTop);
+  };
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

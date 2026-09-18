@@ -1,0 +1,35 @@
+---
+import { contact } from '@/data/site';
+---
+
+<!-- Catches the visitor who decides mid-page that they don't want to DIY.
+     Kristóf currently only saves these on the phone; most never call. -->
+<section class="section-tight bg-white">
+  <div class="container-x">
+    <div
+      class="relative overflow-hidden rounded-2xl border border-ink-200 bg-ink-50 p-8 sm:p-10"
+    >
+      <div class="grid items-center gap-7 lg:grid-cols-[1.5fr_auto] lg:gap-12">
+        <div>
+          <h2 class="font-display text-2xl font-extrabold tracking-tight text-ink-950 sm:text-3xl">
+            És ha a végén mégsem akarod magad csinálni?
+          </h2>
+          <p class="mt-4 max-w-2xl leading-relaxed text-ink-600">
+            Van, akinek egyszerűen nincs rá ideje — és ez teljesen rendben van. Ilyenkor
+            át tudom venni a kampányok kezelését, vagy ajánlok valakit, akiben megbízom.
+            Szólj, és megbeszéljük, melyik éri meg neked jobban. Nem sértődöm meg.
+          </p>
+        </div>
+        <a
+          href={`mailto:${contact.email}?subject=${encodeURIComponent('Kampánykezelés — érdeklődés')}`}
+          data-track="agency-escape"
+          class="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-ink-950
+                 px-6 py-4 font-display font-bold text-white transition-all duration-200
+                 hover:-translate-y-0.5 hover:bg-ink-800"
+        >
+          Beszéljünk erről
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+import { contact } from '@/data/site';
+/**
+ * Mobile-only sticky action bar. Appears once the hero scrolls away, so the
+ * booking action is always one thumb-reach away — the single highest-impact
+ * conversion pattern for paid traffic landing on a phone.
+ */
+---
+
+<div
+  id="sticky-cta"
+  class="fixed inset-x-0 bottom-0 z-40 translate-y-full border-t border-ink-200
+         bg-white/95 backdrop-blur-lg transition-transform duration-300
+         ease-[cubic-bezier(0.22,1,0.36,1)] sm:hidden"
+  style="padding-bottom: env(safe-area-inset-bottom, 0px);"
+>
+  <div class="flex items-center gap-2.5 p-3">
+    <a
+      href={`tel:${contact.phoneHref}`}
+      aria-label="Telefonhívás"
+      class="grid h-12 w-12 shrink-0 place-items-center rounded-lg border border-ink-200
+             text-ink-900 transition-colors active:bg-ink-100"
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path
+          d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"
+          stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
+      </svg>
+    </a>
+    <a
+      href="/kapcsolat"
+      data-track="sticky-cta"
+      class="flex h-12 flex-1 items-center justify-center rounded-lg bg-ember-500
+             font-display text-[0.9375rem] font-bold text-white active:bg-ember-600"
+    >
+      Ingyenes konzultáció
+    </a>
+  </div>
+</div>
+
+<script>
+  const bar = document.getElementById('sticky-cta');
+  if (bar) {
+    // Reveal once the first screenful is behind us; hide again at the very
+    // bottom so it never sits on top of the footer's own CTA.
+    const onScroll = () => {
+      const y = window.scrollY;
+      const atBottom =
+        y + window.innerHeight >= document.documentElement.scrollHeight - 220;
+      const show = y > window.innerHeight * 0.8 && !atBottom;
+      bar.classList.toggle('translate-y-full', !show);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+</script>

@@ -1,0 +1,35 @@
+---
+import Base from '@/layouts/Base.astro';
+import Button from '@/components/Button.astro';
+import { nav } from '@/data/site';
+---
+
+<Base title="A keresett oldal nem található" noindex>
+  <section class="bg-ink-950 text-white">
+    <div class="container-x">
+      <div class="mx-auto max-w-xl py-24 text-center sm:py-32">
+        <p class="font-display text-7xl font-extrabold tracking-tight text-ember-500">404</p>
+        <h1 class="mt-5 text-4xl font-extrabold text-white">Ez az oldal nincs meg</h1>
+        <p class="mt-5 leading-relaxed text-ink-300">
+          Lehet, hogy elírtuk a linket, vagy régóta nincs már itt semmi. Innen viszont
+          bárhová eljutsz.
+        </p>
+        <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+          <Button href="/" size="lg">Vissza a főoldalra</Button>
+          <Button href="/kapcsolat" size="lg" variant="onDark">Ingyenes konzultáció</Button>
+        </div>
+        <nav class="mt-12 border-t border-white/10 pt-8" aria-label="Gyorslinkek">
+          <ul class="flex flex-wrap justify-center gap-x-6 gap-y-3">
+            {nav.map((i) => (
+              <li>
+                <a href={i.href} class="text-sm text-ink-400 transition-colors hover:text-ember-400">
+                  {i.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </section>
+</Base>

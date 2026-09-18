@@ -1,0 +1,129 @@
+---
+import '@/styles/global.css';
+import Header from '@/components/Header.astro';
+import Footer from '@/components/Footer.astro';
+import Analytics from '@/components/Analytics.astro';
+import CookieConsent from '@/components/CookieConsent.astro';
+import StickyCta from '@/components/StickyCta.astro';
+import { site, expert, contact } from '@/data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Path to an OG image in /public. Falls back to the site default. */
+  image?: string;
+  noindex?: boolean;
+  /** Extra JSON-LD nodes to merge into the @graph. */
+  schema?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = site.description,
+  image = '/img/og-default.jpg',
+  noindex = false,
+  schema = [],
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site).href;
+const ogImage = new URL(image, Astro.site).href;
+const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
+
+// Base entities every page carries. Page-level schema is merged on top.
+const graph = [
+  {
+    '@type': 'ProfessionalService',
+    '@id': `${site.url}/#business`,
+    name: site.name,
+    url: site.url,
+    description: site.description,
+    areaServed: { '@type': 'Country', name: 'Hungary' },
+    priceRange: '35000-245000 HUF',
+    email: contact.email,
+    founder: { '@id': `${site.url}/#person` },
+    knowsLanguage: 'hu',
+  },
+  {
+    '@type': 'Person',
+    '@id': `${site.url}/#person`,
+    name: expert.name,
+    jobTitle: 'Paid media szakértő',
+    description: expert.shortBio,
+    url: `${site.url}/rolam`,
+    knowsAbout: ['Meta Ads', 'Google Ads', 'LinkedIn Ads', 'PPC', 'Online marketing'],
+  },
+  {
+    '@type': 'WebSite',
+    '@id': `${site.url}/#website`,
+    url: site.url,
+    name: site.name,
+    inLanguage: 'hu-HU',
+    publisher: { '@id': `${site.url}/#business` },
+  },
+  ...schema,
+];
+---
+
+<!doctype html>
+<html lang="hu" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href={canonical} />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="hu_HU" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Preload the two faces that render above the fold. The latin-ext faces
+         follow naturally; font-display:swap means text is never invisible. -->
+    <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta name="theme-color" content="#0a0c10" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })}
+    />
+
+    <Analytics />
+  </head>
+
+  <body class="bg-white text-ink-800 antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100]
+             focus:rounded-md focus:bg-ink-950 focus:px-5 focus:py-3 focus:text-sm
+             focus:font-semibold focus:text-white"
+    >
+      Ugrás a tartalomra
+    </a>
+
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <StickyCta />
+    <CookieConsent />
+  </body>
+</html>

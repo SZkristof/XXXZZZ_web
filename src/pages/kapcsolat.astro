@@ -1,0 +1,328 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Faq from '@/components/Faq.astro';
+import { contact, platforms } from '@/data/site';
+
+const expectations = [
+  'Elmondod, mivel foglalkozol és kinek adsz el.',
+  'Megnézzük, mire költesz most, és mit hoz.',
+  'Megmondom, melyik platform való hozzád.',
+  'Ha nem tudok segíteni, azt is megmondom.',
+];
+---
+
+<Base
+  title="Ingyenes konzultáció"
+  description="Foglalj egy ingyenes, 30 perces online konzultációt. Nem kell rá készülnöd, és nem lesz belőle értékesítési hívás."
+>
+  <PageHero
+    eyebrow="Kapcsolat"
+    title="Foglalj egy ingyenes 30 percet"
+    lead="Google Meeten beszélgetünk. Nem kell rá készülnöd, nem kell hozzáférést adnod semmihez, és nem lesz belőle értékesítési hívás."
+  />
+
+  <section class="section bg-white">
+    <div class="container-x">
+      <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <!-- What happens -->
+        <div class="lg:sticky lg:top-28 lg:self-start">
+          <h2 class="text-3xl">Mi történik ezen a 30 percen?</h2>
+          <ol class="mt-8 space-y-5">
+            {expectations.map((e, i) => (
+              <li class="flex gap-4">
+                <span
+                  class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink-950
+                         font-display text-xs font-extrabold text-white"
+                >{i + 1}</span>
+                <span class="pt-1 leading-relaxed text-ink-700">{e}</span>
+              </li>
+            ))}
+          </ol>
+
+          <div class="mt-9 rounded-xl border border-ink-200 bg-ink-50 p-6">
+            <p class="font-display text-base font-bold text-ink-950">
+              Inkább telefonálnál?
+            </p>
+            <p class="mt-2 text-sm leading-relaxed text-ink-600">
+              Hívj nyugodtan munkaidőben, vagy írj e-mailt — általában egy munkanapon
+              belül válaszolok.
+            </p>
+            <div class="mt-4 space-y-2">
+              <a
+                href={`tel:${contact.phoneHref}`}
+                class="block font-display text-lg font-bold text-ember-700 link-underline"
+              >{contact.phone}</a>
+              <a
+                href={`mailto:${contact.email}`}
+                class="block text-[0.9375rem] text-ink-700 link-underline"
+              >{contact.email}</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Booking + fallback form -->
+        <div>
+          <div class="rounded-2xl border border-ink-200 bg-white p-2 shadow-soft sm:p-3">
+            <!-- Cal.com inline embed. Syncs with Google Calendar and generates
+                 the Google Meet link automatically. -->
+            <div
+              id="cal-embed"
+              class="min-h-[640px] w-full overflow-hidden rounded-xl"
+              data-cal-link={contact.bookingUrl.replace('https://cal.com/', '')}
+            >
+              <noscript>
+                <div class="p-8 text-center">
+                  <p class="text-ink-700">
+                    Az időpontfoglaláshoz JavaScript szükséges. Írj e-mailt a
+                    <a href={`mailto:${contact.email}`} class="font-semibold text-ember-700"
+                      >{contact.email}</a
+                    > címre, és megbeszéljük az időpontot.
+                  </p>
+                </div>
+              </noscript>
+              <!-- Skeleton shown until the embed mounts -->
+              <div id="cal-skeleton" class="animate-pulse space-y-4 p-6">
+                <div class="h-7 w-2/3 rounded bg-ink-100"></div>
+                <div class="h-4 w-1/2 rounded bg-ink-100"></div>
+                <div class="mt-8 grid grid-cols-7 gap-2">
+                  {Array.from({ length: 28 }).map(() => (
+                    <div class="h-9 rounded bg-ink-100"></div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fallback form -->
+          <details class="group mt-6 rounded-2xl border border-ink-200 bg-ink-50">
+            <summary
+              class="flex cursor-pointer list-none items-center justify-between gap-4 p-6
+                     font-display text-lg font-bold text-ink-950
+                     [&::-webkit-details-marker]:hidden"
+            >
+              Nem találsz jó időpontot? Írj inkább
+              <span
+                class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-ink-200
+                       transition-transform duration-300 group-open:rotate-45"
+                aria-hidden="true"
+              >
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="3"
+                    stroke-linecap="round"></path>
+                </svg>
+              </span>
+            </summary>
+
+            <form
+              id="contact-form"
+              method="POST"
+              action="/api/contact.php"
+              class="space-y-4 border-t border-ink-200 p-6"
+              novalidate
+            >
+              <!-- Honeypot: bots fill it, humans never see it. -->
+              <div class="absolute left-[-9999px]" aria-hidden="true">
+                <label>Ne töltsd ki<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+              </div>
+
+              <div class="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <label for="f-name" class="block text-sm font-semibold text-ink-900">
+                    Neved <span class="text-ember-600" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    id="f-name" name="name" type="text" required autocomplete="name"
+                    class="mt-1.5 w-full rounded-lg border border-ink-300 bg-white px-4 py-3
+                           text-[0.9375rem] transition-colors placeholder:text-ink-400
+                           focus:border-ember-500 focus:outline-none focus:ring-2 focus:ring-ember-500/25"
+                  />
+                </div>
+                <div>
+                  <label for="f-company" class="block text-sm font-semibold text-ink-900">
+                    Cég
+                  </label>
+                  <input
+                    id="f-company" name="company" type="text" autocomplete="organization"
+                    class="mt-1.5 w-full rounded-lg border border-ink-300 bg-white px-4 py-3
+                           text-[0.9375rem] transition-colors placeholder:text-ink-400
+                           focus:border-ember-500 focus:outline-none focus:ring-2 focus:ring-ember-500/25"
+                  />
+                </div>
+                <div>
+                  <label for="f-email" class="block text-sm font-semibold text-ink-900">
+                    E-mail <span class="text-ember-600" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    id="f-email" name="email" type="email" required autocomplete="email"
+                    class="mt-1.5 w-full rounded-lg border border-ink-300 bg-white px-4 py-3
+                           text-[0.9375rem] transition-colors placeholder:text-ink-400
+                           focus:border-ember-500 focus:outline-none focus:ring-2 focus:ring-ember-500/25"
+                  />
+                </div>
+                <div>
+                  <label for="f-phone" class="block text-sm font-semibold text-ink-900">
+                    Telefon
+                  </label>
+                  <input
+                    id="f-phone" name="phone" type="tel" autocomplete="tel"
+                    class="mt-1.5 w-full rounded-lg border border-ink-300 bg-white px-4 py-3
+                           text-[0.9375rem] transition-colors placeholder:text-ink-400
+                           focus:border-ember-500 focus:outline-none focus:ring-2 focus:ring-ember-500/25"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="f-platform" class="block text-sm font-semibold text-ink-900">
+                  Mi érdekel leginkább?
+                </label>
+                <select
+                  id="f-platform" name="platform"
+                  class="mt-1.5 w-full rounded-lg border border-ink-300 bg-white px-4 py-3
+                         text-[0.9375rem] focus:border-ember-500 focus:outline-none
+                         focus:ring-2 focus:ring-ember-500/25"
+                >
+                  <option value="">Még nem tudom</option>
+                  {platforms.map((p) => <option value={p.name}>{p.name}</option>)}
+                  <option value="Meta + Google">Meta + Google együtt</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="f-message" class="block text-sm font-semibold text-ink-900">
+                  Miben segítsek? <span class="text-ember-600" aria-hidden="true">*</span>
+                </label>
+                <textarea
+                  id="f-message" name="message" rows="4" required
+                  placeholder="Pár mondat arról, mivel foglalkozol és hol tartasz most."
+                  class="mt-1.5 w-full rounded-lg border border-ink-300 bg-white px-4 py-3
+                         text-[0.9375rem] transition-colors placeholder:text-ink-400
+                         focus:border-ember-500 focus:outline-none focus:ring-2 focus:ring-ember-500/25"
+                ></textarea>
+              </div>
+
+              <label class="flex items-start gap-3">
+                <input
+                  type="checkbox" name="privacy" required
+                  class="mt-1 h-4 w-4 shrink-0 accent-ember-500"
+                />
+                <span class="text-sm leading-relaxed text-ink-600">
+                  Elolvastam és elfogadom az
+                  <a href="/adatkezeles" class="font-medium text-ember-700 underline underline-offset-2"
+                    >adatkezelési tájékoztatót</a
+                  >. <span class="text-ember-600" aria-hidden="true">*</span>
+                </span>
+              </label>
+
+              <button
+                type="submit"
+                class="w-full rounded-lg bg-ember-500 px-6 py-4 font-display font-bold
+                       text-white transition-colors hover:bg-ember-600
+                       disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                Üzenet elküldése
+              </button>
+
+              <p id="form-status" role="status" aria-live="polite" class="text-sm"></p>
+            </form>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Faq limit={4} />
+</Base>
+
+<script define:vars={{ calLink: contact.bookingUrl.replace('https://cal.com/', ''), ns: contact.bookingNamespace }}>
+  // Cal.com embed loader (official inline snippet).
+  (function (C, A, L) {
+    let p = function (a, ar) { a.q.push(ar); };
+    let d = C.document;
+    C.Cal = C.Cal || function () {
+      let cal = C.Cal; let ar = arguments;
+      if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement('script')).src = A; cal.loaded = true; }
+      if (ar[0] === L) {
+        const api = function () { p(api, arguments); };
+        const namespace = ar[1];
+        api.q = api.q || [];
+        if (typeof namespace === 'string') { cal.ns[namespace] = cal.ns[namespace] || api; p(cal.ns[namespace], ar); p(cal, ['initNamespace', namespace]); }
+        else p(cal, ar);
+        return;
+      }
+      p(cal, ar);
+    };
+  })(window, 'https://app.cal.com/embed/embed.js', 'init');
+
+  Cal('init', ns, { origin: 'https://app.cal.com' });
+  Cal.ns[ns]('inline', {
+    elementOrSelector: '#cal-embed',
+    config: { layout: 'month_view', theme: 'light' },
+    calLink,
+  });
+  Cal.ns[ns]('ui', { hideEventTypeDetails: false, layout: 'month_view' });
+
+  // Hide the skeleton once Cal renders, and report the booking as a conversion.
+  Cal.ns[ns]('on', {
+    action: 'linkReady',
+    callback: () => document.getElementById('cal-skeleton')?.remove(),
+  });
+  Cal.ns[ns]('on', {
+    action: 'bookingSuccessful',
+    callback: () => {
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'generate_lead', { method: 'cal.com', value: 0, currency: 'HUF' });
+      }
+      if (typeof window.fbq === 'function') window.fbq('track', 'Schedule');
+    },
+  });
+</script>
+
+<script>
+  // Progressive enhancement: submit the fallback form without a page reload.
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = document.getElementById('form-status');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+
+    const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
+    btn.disabled = true;
+    btn.textContent = 'Küldés…';
+    if (status) { status.textContent = ''; status.className = 'text-sm'; }
+
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' },
+      });
+      const data = await res.json().catch(() => ({}));
+
+      if (res.ok && data.ok) {
+        form.reset();
+        if (status) {
+          status.textContent = 'Köszönöm! Megkaptam az üzeneted, hamarosan válaszolok.';
+          status.className = 'text-sm font-medium text-signal-700';
+        }
+        if (typeof (window as any).gtag === 'function') {
+          (window as any).gtag('event', 'generate_lead', { method: 'form' });
+        }
+        if (typeof (window as any).fbq === 'function') (window as any).fbq('track', 'Lead');
+      } else {
+        throw new Error(data.error ?? 'ismeretlen hiba');
+      }
+    } catch {
+      if (status) {
+        status.textContent =
+          'Nem sikerült elküldeni. Kérlek írj közvetlenül: info@brandmuhely.hu';
+        status.className = 'text-sm font-medium text-ember-700';
+      }
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Üzenet elküldése';
+    }
+  });
+</script>

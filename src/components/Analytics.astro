@@ -1,0 +1,78 @@
+---
+/**
+ * GA4 + Google Ads + Meta Pixel, gated behind EU Consent Mode v2.
+ *
+ * Defaults are DENIED and set *before* any tag loads, so nothing is stored
+ * until the visitor actively consents. The CookieConsent component later calls
+ * gtag('consent','update', …) and fires fbq. A site that sells advertising
+ * expertise cannot afford to get its own tracking wrong.
+ *
+ * IDs are read at build time from env vars; leave them unset and no tag ships.
+ */
+const GA4_ID = import.meta.env.PUBLIC_GA4_ID ?? '';
+const GADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID ?? '';
+const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID ?? '';
+const hasGoogle = Boolean(GA4_ID || GADS_ID);
+---
+
+<script is:inline>
+  // Consent Mode v2 defaults — must run before gtag.js. Denied until chosen.
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    functionality_storage: 'granted',
+    security_storage: 'granted',
+    wait_for_update: 500,
+  });
+  gtag('set', 'ads_data_redaction', true);
+  gtag('set', 'url_passthrough', true);
+
+  try {
+    var stored = localStorage.getItem('bm-consent');
+    if (stored) {
+      var c = JSON.parse(stored);
+      gtag('consent', 'update', {
+        ad_storage: c.marketing ? 'granted' : 'denied',
+        ad_user_data: c.marketing ? 'granted' : 'denied',
+        ad_personalization: c.marketing ? 'granted' : 'denied',
+        analytics_storage: c.analytics ? 'granted' : 'denied',
+      });
+    }
+  } catch (e) { /* private mode / blocked storage — stay denied */ }
+</script>
+
+{hasGoogle && (
+  <>
+    <script
+      is:inline
+      async
+      src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID || GADS_ID}`}></script>
+    <script is:inline define:vars={{ GA4_ID, GADS_ID }}>
+      gtag('js', new Date());
+      if (GA4_ID) gtag('config', GA4_ID, { anonymize_ip: true });
+      if (GADS_ID) gtag('config', GADS_ID);
+    </script>
+  </>
+)}
+
+{META_PIXEL_ID && (
+  <script is:inline define:vars={{ META_PIXEL_ID }}>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+    n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+    document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    // Meta's own consent gate: revoked until the banner grants it.
+    fbq('consent', 'revoke');
+    fbq('init', META_PIXEL_ID);
+    try {
+      var s = localStorage.getItem('bm-consent');
+      if (s && JSON.parse(s).marketing) { fbq('consent', 'grant'); fbq('track', 'PageView'); }
+    } catch (e) {}
+  </script>
+)}

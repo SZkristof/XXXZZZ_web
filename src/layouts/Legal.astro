@@ -1,0 +1,40 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+
+interface Props { title: string; description: string; updated: string }
+const { title, description, updated } = Astro.props;
+---
+
+<Base title={title} description={description} noindex>
+  <PageHero eyebrow="Jogi tudnivalók" title={title} />
+  <section class="section-tight bg-white">
+    <div
+      class="container-prose
+             [&_h2]:mt-12 [&_h2]:text-2xl [&_h2]:first:mt-0
+             [&_h3]:mt-8 [&_h3]:text-lg
+             [&_p]:mt-4 [&_p]:leading-relaxed [&_p]:text-ink-700
+             [&_ul]:mt-4 [&_ul]:space-y-2 [&_ul]:pl-5
+             [&_li]:list-disc [&_li]:leading-relaxed [&_li]:text-ink-700 [&_li]:marker:text-ember-500
+             [&_strong]:font-semibold [&_strong]:text-ink-950
+             [&_a]:font-medium [&_a]:text-ember-700 [&_a]:underline [&_a]:underline-offset-2
+             [&_table]:mt-5 [&_table]:w-full [&_table]:text-left [&_table]:text-sm
+             [&_th]:border-b [&_th]:border-ink-200 [&_th]:py-2.5 [&_th]:pr-4 [&_th]:font-semibold [&_th]:text-ink-950
+             [&_td]:border-b [&_td]:border-ink-100 [&_td]:py-2.5 [&_td]:pr-4 [&_td]:align-top [&_td]:text-ink-700"
+    >
+      <p class="!mt-0 text-sm text-ink-500">Utolsó frissítés: {updated}</p>
+
+      <div
+        class="mt-6 rounded-xl border border-dashed border-ember-300 bg-ember-50 p-5 text-sm
+               leading-relaxed text-ember-900"
+      >
+        <strong>Fejlesztői megjegyzés:</strong> ez a dokumentum sablon, amely a weboldal
+        tényleges működését írja le. Élesítés előtt ki kell tölteni a
+        <code class="font-mono">[…]</code> jelölt cégadatokat, és javasolt jogi szakértővel
+        átnézetni. Ez a szöveg nem minősül jogi tanácsadásnak.
+      </div>
+
+      <slot />
+    </div>
+  </section>
+</Base>

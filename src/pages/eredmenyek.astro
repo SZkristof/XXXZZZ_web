@@ -1,0 +1,23 @@
+---
+import Base from '@/layouts/Base.astro';
+import PageHero from '@/components/PageHero.astro';
+import Results from '@/components/Results.astro';
+import Testimonials from '@/components/Testimonials.astro';
+import Faq from '@/components/Faq.astro';
+import AgencyEscape from '@/components/AgencyEscape.astro';
+---
+
+<Base
+  title="Eredmények"
+  description="Konkrét számok konkrét vállalkozásoktól: ROAS, egy érdeklődő ára, havi lead szám — iparággal és cégmérettel együtt."
+>
+  <PageHero
+    eyebrow="Eredmények"
+    title="Számok, nem jelzők"
+    lead="Az ügyfeleim a saját fiókjukban dolgoznak, ezért az eredmény is az övék marad. Az alábbi esetek névtelenek, de a számok valósak — iparággal és cégmérettel együtt, hogy el tudd helyezni magad köztük."
+  />
+  <Results />
+  <Testimonials />
+  <Faq limit={4} />
+  <AgencyEscape />
+</Base>

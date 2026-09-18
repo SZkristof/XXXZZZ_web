@@ -1,0 +1,43 @@
+---
+import Base from '@/layouts/Base.astro';
+import Pricing from '@/components/Pricing.astro';
+import Faq from '@/components/Faq.astro';
+import Comparison from '@/components/Comparison.astro';
+import AgencyEscape from '@/components/AgencyEscape.astro';
+import PageHero from '@/components/PageHero.astro';
+import { site, packages } from '@/data/site';
+
+const schema = [
+  {
+    '@type': 'Product',
+    '@id': `${site.url}/arak#product`,
+    name: 'Egyéni hirdetési képzés',
+    description: 'Meta, Google és LinkedIn hirdetési képzés 1 az 1-ben, magyar KKV-knak.',
+    brand: { '@id': `${site.url}/#business` },
+    offers: packages.map((p) => ({
+      '@type': 'Offer',
+      name: p.name,
+      price: p.price,
+      priceCurrency: 'HUF',
+      availability: 'https://schema.org/InStock',
+      url: `${site.url}/arak`,
+    })),
+  },
+];
+---
+
+<Base
+  title="Árak"
+  description="Egy alkalom 35 000 Ft. 5 alkalom 140 000 Ft (4+1), 10 alkalom 245 000 Ft (7+3). Nincs havidíj, nincs hűségidő, nincs rejtett költség."
+  schema={schema}
+>
+  <PageHero
+    eyebrow="Árak"
+    title="Nincs mögötte semmi. Ennyi."
+    lead="Alkalmat veszel, nem előfizetést. Nincs havidíj, nincs hűségidő, és nincs olyan tétel, amiről csak a számlán értesülsz."
+  />
+  <Pricing detailed />
+  <Comparison />
+  <Faq />
+  <AgencyEscape />
+</Base>

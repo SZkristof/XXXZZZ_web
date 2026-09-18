@@ -1,0 +1,84 @@
+---
+import SectionHeading from '@/components/SectionHeading.astro';
+import { SESSION_LENGTH_MIN } from '@/data/site';
+
+const steps = [
+  {
+    title: 'Ingyenes 30 perc',
+    body: 'Elmondod, mivel foglalkozol és hol tartasz. Megmondom őszintén, tudok-e segíteni. Ha nem, azt is megmondom.',
+  },
+  {
+    title: 'Kiválasztjuk az irányt',
+    body: 'Meta, Google vagy LinkedIn — és hány alkalom kell hozzá. Nem adok el nagyobb csomagot, mint amire szükséged van.',
+  },
+  {
+    title: `${SESSION_LENGTH_MIN} perc, a te fiókodban`,
+    body: 'Nem diákat nézünk. Megosztod a képernyőd, és együtt dolgozunk a saját hirdetési fiókodban, a saját termékeiden.',
+  },
+  {
+    title: 'Feladat két alkalom között',
+    body: 'Konkrét, elvégezhető lépések. A következő alkalommal ezekkel kezdünk, és átnézzük, mi lett belőlük.',
+  },
+  {
+    title: 'Felvétel, ingyen',
+    body: 'Minden alkalomról videófelvétel készül, amit az óra végén megkapsz. Bármikor visszanézheted — nem kell jegyzetelned.',
+  },
+];
+---
+
+<section class="section bg-white" id="hogyan">
+  <div class="container-x">
+    <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <SectionHeading
+          eyebrow="Hogyan működik"
+          title="Öt lépés, semmi meglepetés"
+          lead="Nincs tananyag, amit egyedül kell végigrágnod. Minden alkalom a te fiókodról szól."
+        />
+        <dl class="mt-9 grid grid-cols-2 gap-5">
+          <div class="rounded-xl bg-ink-50 p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wider text-ink-500">Alkalmanként</dt>
+            <dd class="mt-1.5 font-display text-2xl font-extrabold text-ink-950">60 perc</dd>
+          </div>
+          <div class="rounded-xl bg-ink-50 p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wider text-ink-500">Hetente max.</dt>
+            <dd class="mt-1.5 font-display text-2xl font-extrabold text-ink-950">2 alkalom</dd>
+          </div>
+          <div class="rounded-xl bg-ink-50 p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wider text-ink-500">Helyszín</dt>
+            <dd class="mt-1.5 font-display text-lg font-extrabold text-ink-950">Google Meet</dd>
+          </div>
+          <div class="rounded-xl bg-ink-50 p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wider text-ink-500">Felvétel</dt>
+            <dd class="mt-1.5 font-display text-lg font-extrabold text-signal-600">Ingyenes</dd>
+          </div>
+        </dl>
+      </div>
+
+      <ol class="relative space-y-1">
+        {steps.map((s, i) => (
+          <li class="group relative flex gap-5 pb-8 last:pb-0 sm:gap-7">
+            <!-- Connector line -->
+            <div class="relative flex flex-col items-center">
+              <span
+                class="z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full
+                       bg-ink-950 font-display text-sm font-extrabold text-white
+                       ring-4 ring-white transition-colors duration-300
+                       group-hover:bg-ember-500"
+              >
+                {i + 1}
+              </span>
+              {i < steps.length - 1 && (
+                <span class="absolute top-11 h-full w-px bg-ink-200" aria-hidden="true"></span>
+              )}
+            </div>
+            <div class="pt-1.5">
+              <h3 class="font-display text-xl font-bold text-ink-950">{s.title}</h3>
+              <p class="mt-2 max-w-lg leading-relaxed text-ink-600">{s.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>

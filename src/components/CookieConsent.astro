@@ -1,0 +1,162 @@
+---
+/**
+ * GDPR consent banner.
+ *
+ * Rejecting is exactly as easy as accepting (same visual weight, same click
+ * count) — NAIH and EDPB guidance both require this, and "Accept all" being
+ * the only visible button is the single most common way Hungarian sites get
+ * this wrong. Choices sync into Google Consent Mode v2 and Meta's fbq consent.
+ */
+---
+
+<div
+  id="consent"
+  class="fixed inset-x-0 bottom-0 z-[90] hidden p-3 sm:p-5"
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="consent-title"
+  aria-describedby="consent-desc"
+>
+  <div
+    class="mx-auto max-w-3xl rounded-xl border border-ink-200 bg-white p-5 shadow-pop sm:p-6"
+  >
+    <h2 id="consent-title" class="font-display text-lg font-bold text-ink-950">
+      Sütiket használunk
+    </h2>
+    <p id="consent-desc" class="mt-2 text-sm leading-relaxed text-ink-600">
+      A működéshez szükséges sütik mindig aktívak. Az analitikai és marketing sütik
+      segítenek megérteni, hogyan találsz ránk — ezeket csak a te hozzájárulásoddal
+      használjuk. Részletek a
+      <a href="/cookie" class="font-medium text-ember-700 underline underline-offset-2">
+        cookie tájékoztatóban</a
+      >.
+    </p>
+
+    <div id="consent-detail" class="mt-4 hidden space-y-3 border-t border-ink-100 pt-4">
+      <label class="flex cursor-not-allowed items-start gap-3 opacity-60">
+        <input type="checkbox" checked disabled class="mt-1 h-4 w-4 accent-ember-500" />
+        <span class="text-sm">
+          <span class="font-semibold text-ink-900">Működéshez szükséges</span>
+          <span class="block text-ink-600">Az oldal alapvető működése. Nem kapcsolható ki.</span>
+        </span>
+      </label>
+      <label class="flex cursor-pointer items-start gap-3">
+        <input type="checkbox" id="c-analytics" class="mt-1 h-4 w-4 accent-ember-500" />
+        <span class="text-sm">
+          <span class="font-semibold text-ink-900">Analitika</span>
+          <span class="block text-ink-600">
+            Google Analytics — hány látogató jár az oldalon, és mit néznek meg.
+          </span>
+        </span>
+      </label>
+      <label class="flex cursor-pointer items-start gap-3">
+        <input type="checkbox" id="c-marketing" class="mt-1 h-4 w-4 accent-ember-500" />
+        <span class="text-sm">
+          <span class="font-semibold text-ink-900">Marketing</span>
+          <span class="block text-ink-600">
+            Meta Pixel és Google Ads — hirdetések mérése és célzása.
+          </span>
+        </span>
+      </label>
+    </div>
+
+    <div class="mt-5 flex flex-col gap-2.5 sm:flex-row">
+      <button
+        type="button"
+        id="c-accept"
+        class="flex-1 rounded-lg bg-ember-500 px-5 py-3 font-display text-sm font-bold
+               text-white transition-colors hover:bg-ember-600"
+      >
+        Mindet elfogadom
+      </button>
+      <button
+        type="button"
+        id="c-reject"
+        class="flex-1 rounded-lg bg-ink-100 px-5 py-3 font-display text-sm font-bold
+               text-ink-900 transition-colors hover:bg-ink-200"
+      >
+        Csak a szükségeseket
+      </button>
+      <button
+        type="button"
+        id="c-customize"
+        class="rounded-lg px-5 py-3 text-sm font-medium text-ink-600 underline
+               underline-offset-4 transition-colors hover:text-ink-900"
+      >
+        Beállítás
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  type Consent = { analytics: boolean; marketing: boolean; ts: number };
+  const KEY = 'bm-consent';
+
+  const el = document.getElementById('consent')!;
+  const detail = document.getElementById('consent-detail')!;
+  const analyticsBox = document.getElementById('c-analytics') as HTMLInputElement;
+  const marketingBox = document.getElementById('c-marketing') as HTMLInputElement;
+
+  const read = (): Consent | null => {
+    try {
+      const raw = localStorage.getItem(KEY);
+      return raw ? (JSON.parse(raw) as Consent) : null;
+    } catch {
+      return null;
+    }
+  };
+
+  function apply(c: Consent) {
+    const g = (window as any).gtag;
+    if (typeof g === 'function') {
+      g('consent', 'update', {
+        ad_storage: c.marketing ? 'granted' : 'denied',
+        ad_user_data: c.marketing ? 'granted' : 'denied',
+        ad_personalization: c.marketing ? 'granted' : 'denied',
+        analytics_storage: c.analytics ? 'granted' : 'denied',
+      });
+    }
+    const fbq = (window as any).fbq;
+    if (typeof fbq === 'function' && c.marketing) {
+      fbq('consent', 'grant');
+      fbq('track', 'PageView');
+    }
+  }
+
+  function save(analytics: boolean, marketing: boolean) {
+    const c: Consent = { analytics, marketing, ts: Date.now() };
+    try {
+      localStorage.setItem(KEY, JSON.stringify(c));
+    } catch { /* storage blocked — honour the choice for this page view only */ }
+    apply(c);
+    hide();
+  }
+
+  const show = () => el.classList.remove('hidden');
+  const hide = () => el.classList.add('hidden');
+
+  document.getElementById('c-accept')!.addEventListener('click', () => save(true, true));
+  document.getElementById('c-reject')!.addEventListener('click', () => save(false, false));
+  document.getElementById('c-customize')!.addEventListener('click', (e) => {
+    const btn = e.currentTarget as HTMLButtonElement;
+    const open = !detail.classList.toggle('hidden');
+    btn.textContent = open ? 'Kiválasztottak mentése' : 'Beállítás';
+    if (!open) save(analyticsBox.checked, marketingBox.checked);
+  });
+
+  // Footer link reopens the dialog with current choices pre-filled.
+  document.querySelectorAll('[data-consent-reopen]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const c = read();
+      analyticsBox.checked = c?.analytics ?? false;
+      marketingBox.checked = c?.marketing ?? false;
+      detail.classList.remove('hidden');
+      (document.getElementById('c-customize') as HTMLButtonElement).textContent =
+        'Kiválasztottak mentése';
+      show();
+    }),
+  );
+
+  if (!read()) show();
+</script>
