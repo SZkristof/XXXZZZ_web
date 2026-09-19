@@ -10,7 +10,7 @@ import { tracks, packages, site } from '@/data/site';
 
 const schema = tracks.map((t) => ({
   '@type': 'Course',
-  '@id': `${site.url}/programok#${t.slug}`,
+  '@id': `${site.url}/kepzes#${t.slug}`,
   name: t.headline,
   description: t.description,
   inLanguage: 'hu',
@@ -29,6 +29,7 @@ const schema = tracks.map((t) => ({
   schema={schema}
 >
   <PageHero
+    tone="terracotta"
     eyebrow="PROGRAMOK"
     title="Három út. Válaszd azt, ahol most vagy."
     lead="Nem ugyanazt tanítom annak, aki még el sem indult, és annak, aki már két ügynökségen van túl. Az első, ingyenes beszélgetésen közösen eldöntjük, melyik a tiéd."

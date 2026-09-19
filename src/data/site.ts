@@ -266,8 +266,75 @@ export const terms = {
   validityMonths: 6,
 } as const;
 
+/* ------------------------------------------------------------------------ */
+/* The two halves                                                             */
+/*                                                                            */
+/* Brandműhely is ONE brand with two halves that share everything. What        */
+/* separates them is which colour a section is in — never a second logo.       */
+/* Képzés is the main business and carries terracotta; Ügynökség carries blue. */
+/* ------------------------------------------------------------------------ */
+
+export const halves = [
+  {
+    id: 'kepzes',
+    name: 'Képzés',
+    href: '/kepzes',
+    tone: 'terracotta',
+    tagline: 'Te csinálod, én vezetlek.',
+    summary:
+      'Egyéni alkalmak a saját hirdetési fiókodban. A végén magad tudod vinni a kampányaidat.',
+  },
+  {
+    id: 'ugynokseg',
+    name: 'Ügynökség',
+    href: '/ugynokseg',
+    tone: 'blue',
+    tagline: 'Nincs rá időd? Csináljuk mi.',
+    summary:
+      'Kampánykezelés és webfejlesztés — ugyanaz a szakmai munka, csak nem neked kell elvégezned.',
+  },
+] as const;
+
+export type AgencyService = {
+  id: string;
+  name: string;
+  body: string;
+  points: string[];
+};
+
+export const agencyServices: AgencyService[] = [
+  {
+    id: 'kampanykezeles',
+    name: 'Kampánykezelés',
+    body:
+      'Átveszem a Meta, Google vagy LinkedIn kampányaidat: felépítés, mérés, optimalizálás, havi riport. A fiók végig a tiéd marad, és bármikor belenézhetsz.',
+    points: [
+      'A hirdetési fiók a te tulajdonodban marad',
+      'Havi riport, magyarul, érthetően',
+      'Nincs hűségidő',
+      'Bármikor átválthatsz képzésre, ha inkább megtanulnád',
+    ],
+  },
+  {
+    // TODO: Kristóffal egyeztetendő — az arculati kézikönyv említi a
+    // webfejlesztést, de ő eddig nem erősítette meg. Ha nem szolgáltatás,
+    // ez az egy bejegyzés törölhető, a rendszer nem függ tőle.
+    id: 'webfejlesztes',
+    name: 'Webfejlesztés',
+    body:
+      'Gyors, mérhető weboldal vagy landing oldal, ami a hirdetéseidhez készül — nem sablonból. A sebesség közvetlenül olcsóbbá teszi a kattintásaidat.',
+    points: [
+      'Gyors betöltés, jó Core Web Vitals',
+      'Helyesen beállított konverziómérés',
+      'A hirdetési üzenetre hangolt landing oldal',
+      'GDPR-megfelelő süti- és mérési beállítás',
+    ],
+  },
+];
+
 export const nav = [
-  { href: '/programok', label: 'Programok' },
+  { href: '/kepzes', label: 'Képzés' },
+  { href: '/ugynokseg', label: 'Ügynökség' },
   { href: '/arak', label: 'Árak' },
   { href: '/rolam', label: 'Rólam' },
   { href: '/eredmenyek', label: 'Eredmények' },

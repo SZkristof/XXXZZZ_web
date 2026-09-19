@@ -1,0 +1,55 @@
+---
+import Button from '@/components/Button.astro';
+import { agencyServices } from '@/data/site';
+
+/**
+ * The Ügynökség half on the homepage.
+ *
+ * Brandműhely is one brand with two halves; what separates them is which
+ * colour a section is in. Képzés carries terracotta, so this one carries
+ * blue-800 — where type is paper (8.32:1) and accents are terracotta-200
+ * (5.85:1). Never blue-on-terracotta or the reverse: both are 2.79:1.
+ *
+ * It also catches the visitor who decides mid-page that they don't want to
+ * do this themselves — previously only saved on a sales call.
+ */
+---
+
+<section class="ground-blue" id="ugynokseg">
+  <div class="container-x section">
+    <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <div>
+        <p class="t-label text-terracotta-200">A MÁSIK FELE</p>
+        <h2 class="t-title mt-4 text-paper">
+          És ha nincs rá időd, hogy magad csináld?
+        </h2>
+        <p class="t-lead mt-6 max-w-[46ch] text-paper/85">
+          Van, akinek egyszerűen nincs rá kapacitása — és ez teljesen rendben van.
+          Ilyenkor átveszem a munkát.
+        </p>
+        <p class="t-body mt-4 max-w-[46ch] text-paper/75">
+          Ugyanaz a szakmai háttér, ugyanaz az őszinte beszéd a számokról. Csak nem
+          neked kell elvégezned.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+          <Button href="/ugynokseg" size="lg" track="agency-half">
+            Az ügynökségről
+          </Button>
+          <Button href="/kapcsolat" size="lg" variant="onDark" track="agency-half-contact">
+            Kérek ajánlatot
+          </Button>
+        </div>
+      </div>
+
+      <div class="grid gap-4 sm:grid-cols-2">
+        {agencyServices.map((svc) => (
+          <article class="rounded-brand bg-paper/10 p-6 ring-1 ring-inset ring-paper/15">
+            <h3 class="t-subtitle text-paper">{svc.name}</h3>
+            <p class="t-small mt-3 text-paper/80">{svc.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -37,6 +37,10 @@ jobs:
 
       # Proves the consent banner still gates tracking correctly before
       # anything reaches production.
+      # Catches renamed routes and stale asset references before they ship.
+      - name: Verify internal links
+        run: npm run verify:links
+
       - name: Verify GDPR consent behaviour
         run: |
           npx playwright install --with-deps chromium

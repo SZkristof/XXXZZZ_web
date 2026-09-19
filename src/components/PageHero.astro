@@ -4,16 +4,31 @@ interface Props {
   eyebrow?: string;
   title: string;
   lead?: string;
+  /**
+   * Which half of the business this page belongs to. Colour is the only thing
+   * that separates them, so it has to be deliberate:
+   *   blue       → Ügynökség and neutral pages; type is paper (8.32:1)
+   *   terracotta → Képzés; type is BLACK (5.19:1), never paper or blue
+   */
+  tone?: 'blue' | 'terracotta';
 }
-const { eyebrow, title, lead } = Astro.props;
+const { eyebrow, title, lead, tone = 'blue' } = Astro.props;
+const dark = tone === 'blue';
 ---
-<!-- Blue-800 ground: type is paper (8.32:1), accents terracotta-200 (5.85:1). -->
-<section class="ground-blue">
+<section class:list={[dark ? 'ground-blue' : 'ground-terracotta']}>
   <div class="container-x py-16 lg:py-24">
     <div class="max-w-[52rem]">
-      {eyebrow && <p class="t-label text-terracotta-200">{eyebrow}</p>}
-      <h1 class:list={['t-display text-paper', eyebrow && 'mt-4']}>{title}</h1>
-      {lead && <p class="t-lead mt-6 max-w-[56ch] text-paper/85">{lead}</p>}
+      {eyebrow && (
+        <p class:list={['t-label', dark ? 'text-terracotta-200' : 'text-black/70']}>{eyebrow}</p>
+      )}
+      <h1 class:list={['t-display', eyebrow && 'mt-4', dark ? 'text-paper' : 'text-black']}>
+        {title}
+      </h1>
+      {lead && (
+        <p class:list={['t-lead mt-6 max-w-[56ch]', dark ? 'text-paper/85' : 'text-black/80']}>
+          {lead}
+        </p>
+      )}
     </div>
   </div>
 </section>

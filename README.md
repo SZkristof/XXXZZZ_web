@@ -23,7 +23,8 @@ npm run preview      # a legyártott oldal megtekintése
 | `npm run build` | Éles build a `dist/` mappába |
 | `npm run build:prod` | Ugyanaz, de **leáll**, ha még placeholder vélemények vannak |
 | `./scripts/subset-fonts.sh` | Újragenerálja a magyar betűkészlet-részhalmazokat |
-| `npm run verify` | Mind a 28 ellenőrzés (süti + űrlap) |
+| `npm run verify` | Minden ellenőrzés (linkek + süti + űrlap) |
+| `npm run verify:links` | Nincs-e törött belső link a buildben |
 | `npm run verify:consent` | Böngészős ellenőrzés: a süti-hozzájárulás tényleg működik-e |
 | `npm run verify:form` | A PHP űrlapkezelő végponttól végpontig tesztelve |
 | `npm run shots "/::home"` | Képernyőképek desktop + mobil nézetben |
@@ -78,6 +79,28 @@ A logó (**A Vágás**) inline SVG-ként a `src/components/Logo.astro` fájlban 
 pontosan a kézikönyv geometriájával: egy blokk, két 13°-os vágás, 48 egységből
 8 szélesen — ami az Archivo 700 szárvastagsága ugyanazon a magasságon. A jel
 mindig egyszínű, és mindig annak a felületnek a szövegszínét veszi fel, amin áll.
+
+## A két fél
+
+A Brandműhely **egy márka, két féllel** — ahogy az arculati kézikönyv írja. Nem
+külön logó és nem al-márka választja el őket, hanem az, hogy egy szekció melyik
+színben van:
+
+| | Szín | Oldal |
+| --- | --- | --- |
+| **Képzés** (fő üzletág) | terrakotta | `/kepzes`, `/arak` |
+| **Ügynökség** | kék | `/ugynokseg` |
+
+A `PageHero` `tone` propja dönti el, melyik félhez tartozik egy oldal. A
+szolgáltatások a `src/data/site.ts` `agencyServices` tömbjében vannak.
+
+> **Egyeztetendő:** a kézikönyv a webfejlesztést is az Ügynökség alá sorolja, de
+> ezt Kristóf még nem erősítette meg. Ha nem szolgáltatás, töröld a
+> `webfejlesztes` bejegyzést az `agencyServices` tömbből — semmi más nem függ tőle.
+
+Az ügynökségi oldalon **szándékosan nincs árlista**: kampánykezelésnél a munka
+mennyisége a kerettől függ, így egy listaár az ügyfelek egy részének
+félrevezető lenne. Helyette a 30 perces beszélgetés után születik konkrét ajánlat.
 
 ## Tartalom szerkesztése
 
