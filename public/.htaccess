@@ -23,6 +23,20 @@
 
 ErrorDocument 404 /404.html
 
+# --- Régi WordPress URL-ek --------------------------------------------------
+# Ha a régi oldal aloldalai szerepelnek a Google találatai között, ide kerülnek
+# az átirányítások, hogy ne legyenek 404-esek. Lásd DEPLOY.md 3. pont.
+# Minta:
+#   Redirect 301 /regi-oldal-url /programok
+#   Redirect 301 /szolgaltatasok /programok
+#
+# A WordPress szokásos végpontjai: nincs mire mutatniuk, tiltsuk őket.
+<IfModule mod_rewrite.c>
+  RewriteRule ^wp-admin(/.*)?$ - [R=410,L]
+  RewriteRule ^wp-login\.php$ - [R=410,L]
+  RewriteRule ^xmlrpc\.php$ - [R=410,L]
+</IfModule>
+
 # -------------------------------------------------------------- caching ----
 <IfModule mod_expires.c>
   ExpiresActive On

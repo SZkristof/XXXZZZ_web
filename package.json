@@ -11,7 +11,9 @@
     "astro": "astro",
     "build:prod": "node scripts/check-proof.mjs && astro check && astro build",
     "verify:consent": "node scripts/verify-consent.mjs",
-    "shots": "node scripts/shoot.mjs"
+    "shots": "node scripts/shoot.mjs",
+    "verify:form": "bash scripts/verify-form.sh",
+    "verify": "npm run verify:consent && npm run verify:form"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

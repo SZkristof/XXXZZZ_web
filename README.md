@@ -23,7 +23,9 @@ npm run preview      # a legyártott oldal megtekintése
 | `npm run build` | Éles build a `dist/` mappába |
 | `npm run build:prod` | Ugyanaz, de **leáll**, ha még placeholder vélemények vannak |
 | `./scripts/subset-fonts.sh` | Újragenerálja a magyar betűkészlet-részhalmazokat |
+| `npm run verify` | Mind a 28 ellenőrzés (süti + űrlap) |
 | `npm run verify:consent` | Böngészős ellenőrzés: a süti-hozzájárulás tényleg működik-e |
+| `npm run verify:form` | A PHP űrlapkezelő végponttól végpontig tesztelve |
 | `npm run shots "/::home"` | Képernyőképek desktop + mobil nézetben |
 
 ---
@@ -138,56 +140,79 @@ gomb hozza ténylegesen a foglalásokat.
 
 ## Kapcsolati űrlap (PHP)
 
-Az űrlapot a `public/api/contact.php` kezeli, **a saját szervereden** — így látogatói
-adat nem hagyja el az EU-t, ami tisztább GDPR-helyzet, mint bármelyik külsős űrlapszolgáltató.
+Az űrlapot a `public/api/contact.php` kezeli, **a saját szervereden** — így
+látogatói adat nem hagyja el az EU-t, ami tisztább GDPR-helyzet, mint bármelyik
+külsős űrlapszolgáltató.
 
-Szerveren egyszer beállítandó:
+### SMTP kötelező, nem opcionális
+
+A `brandmuhely.hu` levelezése **Google Workspace**-en van. Emiatt a domain SPF
+rekordja a Google-t hatalmazza fel arra, hogy `@brandmuhely.hu` címről küldjön —
+a Rackhostot nem. Ha a PHP a Rackhost szerveréről küldene, a levél **elbukna az
+SPF-en** és jellemzően spambe kerülne. Ezért az űrlap a Google saját SMTP-jén
+küld (App Password-del), így az SPF, DKIM és DMARC is rendben van.
+
+Beállítás a szerveren, egyszer:
 
 ```bash
 cp api/config.local.example.php api/config.local.php
-# majd szerkeszd: 'to' és 'from' cím
+# majd töltsd ki az smtp_* mezőket
 ```
 
-A `from` cím **a saját domainoden** legyen (`no-reply@brandmuhely.hu`), különben az SPF
-miatt a levelek spambe kerülnek.
+Részletes lépések: **[DEPLOY.md](./DEPLOY.md)** 5. pont.
 
-Beépítve: honeypot mező, IP-alapú rate limit (1 küldés / perc), fejléc-injekció elleni
-védelem, és minden beérkező üzenet mentése a webgyökéren **kívüli** `_private/leads.csv`
-fájlba — így egy sikertelen e-mail küldés esetén sem vész el érdeklődő.
+### Beépített védelem
 
----
+- honeypot mező (a botok kitöltik, ember sosem látja)
+- IP-alapú rate limit — **csak sikeres beküldés után indul**, így egy elgépelt
+  e-mail cím javítása nem zár ki senkit egy percre
+- minden vezérlőkarakter kiszűrése az egysoros mezőkből (CRLF → nem lehet
+  fejlécet injektálni), miközben az ékezetek (`ő`, `ű`) sértetlenek maradnak
+- minden beérkező üzenet mentése a webgyökéren **kívüli** `_private/leads.csv`
+  fájlba, plusz egy `Require all denied` őrfájl ugyanabba a mappába — így
+  sikertelen levélküldés esetén sem vész el érdeklődő, és az adatok nem
+  tölthetők le a webről
+
+Ezt nem feltételezzük: a `npm run verify:form` 13 ellenőrzést futtat valódi PHP
+szerveren, és a CI is lefuttatja minden deploy előtt.
 
 ## Deploy
 
-### Automatikus (ajánlott)
+**A teljes élesítési folyamat — a WordPress leváltásával együtt — itt van:
+[DEPLOY.md](./DEPLOY.md).** Olvasd azt végig, mielőtt bármit törölnél a
+szerveren.
 
-A `main` branchre pusholva a GitHub Actions buildel és SFTP-vel feltölt.
-Állítsd be a repo *Settings → Secrets and variables → Actions* alatt:
+Röviden: a `main` branchre pusholva a GitHub Actions buildel, lefuttatja mind a
+28 ellenőrzést, és feltölt SFTP-n vagy FTPS-en.
+
+Repository *Settings → Secrets and variables → Actions*:
+
+| Variable | Érték |
+| --- | --- |
+| `DEPLOY_PROTOCOL` | `sftp` vagy `ftps` |
 
 | Secret | Érték |
 | --- | --- |
-| `SFTP_HOST` | Rackhost szerver címe |
-| `SFTP_USER` | SFTP felhasználónév |
-| `SFTP_PASSWORD` | SFTP jelszó |
-| `SFTP_PORT` | általában `22` |
-| `SFTP_REMOTE_PATH` | pl. `/web` vagy `/public_html` |
+| `DEPLOY_HOST` | Rackhost szerver címe |
+| `DEPLOY_USER` | felhasználónév |
+| `DEPLOY_PASSWORD` | jelszó |
+| `DEPLOY_PORT` | SFTP: `22`, FTPS: `21` |
+| `DEPLOY_REMOTE_PATH` | a webgyökér útvonala |
 
-### Kézi
+Kézzel:
 
 ```bash
 npm run build:prod
 # a dist/ mappa TARTALMÁT töltsd fel a webgyökérbe
 ```
 
-A `.htaccess` automatikusan bekerül a `dist/`-be: HTTPS-kényszerítés, `www` kanonizálás,
-cache-fejlécek, gzip és biztonsági fejlécek. **Feltétel:** a Let's Encrypt tanúsítvány
-legyen bekapcsolva a Rackhost paneljén.
+A `.htaccess` automatikusan bekerül a `dist/`-be: HTTPS-kényszerítés, `www`
+kanonizálás, cache-fejlécek, gzip, biztonsági fejlécek, és a régi WordPress
+végpontok (`wp-admin`, `wp-login.php`, `xmlrpc.php`) lezárása.
 
-> A WordPress telepítést nem kell megtartani. Ez az oldal statikus: nincs adatbázis,
-> nincs admin belépés, nincs mit feltörni, és nincs havi biztonsági frissítés.
-> **Élesítés előtt készíts teljes biztonsági mentést a jelenlegi tárhely tartalmáról.**
-
----
+> A WordPress telepítést **el kell távolítani**, nem elég föléírni: egy ottmaradt,
+> frissítetlen WP-mag futtatható PHP-vel valódi biztonsági kockázat. Lásd
+> DEPLOY.md 2. pont. Előtte **készíts teljes mentést** — fájlok és adatbázis.
 
 ## Teljesítmény
 

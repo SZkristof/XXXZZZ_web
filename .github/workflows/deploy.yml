@@ -20,12 +20,11 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
-      # Regenerates the Hungarian font subsets so the deployed files always
-      # match the installed font version.
-      - name: Set up font subsetting
+      # Regenerates the Hungarian font subsets so deployed files always match
+      # the installed font version.
+      - name: Install font tooling
         run: pip install fonttools brotli
 
       - name: Subset fonts
@@ -36,14 +35,48 @@ jobs:
       - name: Build (blocks on placeholder testimonials)
         run: npm run build:prod
 
+      # Proves the consent banner still gates tracking correctly before
+      # anything reaches production.
+      - name: Verify GDPR consent behaviour
+        run: |
+          npx playwright install --with-deps chromium
+          npm run verify:consent
+
+      # Exercises the PHP handler: validation, honeypot, rate limit, CRLF
+      # stripping, and that leads land outside the web root.
+      - name: Verify contact form handler
+        run: npm run verify:form
+
+      # --- Deploy. Rackhost may offer SFTP or FTPS only; set the repository
+      # variable DEPLOY_PROTOCOL to "sftp" or "ftps" to pick one. -------------
       - name: Deploy over SFTP
+        if: vars.DEPLOY_PROTOCOL == 'sftp'
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          server: ${{ secrets.SFTP_HOST }}
-          username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASSWORD }}
-          port: ${{ secrets.SFTP_PORT || 22 }}
+          server: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
           local_path: './dist/*'
-          remote_path: ${{ secrets.SFTP_REMOTE_PATH }}
+          remote_path: ${{ secrets.DEPLOY_REMOTE_PATH }}
           sftp_only: true
           delete_remote_files: false
+
+      - name: Deploy over FTPS
+        if: vars.DEPLOY_PROTOCOL != 'sftp'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          port: ${{ secrets.DEPLOY_PORT || 21 }}
+          protocol: ftps
+          local-dir: ./dist/
+          server-dir: ${{ secrets.DEPLOY_REMOTE_PATH }}
+          # Never touch server-side files the build does not produce.
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            api/config.local.php
+            _private/**
