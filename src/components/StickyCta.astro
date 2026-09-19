@@ -9,7 +9,7 @@ import { contact } from '@/data/site';
 
 <div
   id="sticky-cta"
-  class="fixed inset-x-0 bottom-0 z-40 translate-y-full border-t border-ink-200
+  class="fixed inset-x-0 bottom-0 z-40 translate-y-full border-t border-black/10
          bg-white/95 backdrop-blur-lg transition-transform duration-300
          ease-[cubic-bezier(0.22,1,0.36,1)] sm:hidden"
   style="padding-bottom: env(safe-area-inset-bottom, 0px);"
@@ -18,8 +18,8 @@ import { contact } from '@/data/site';
     <a
       href={`tel:${contact.phoneHref}`}
       aria-label="Telefonhívás"
-      class="grid h-12 w-12 shrink-0 place-items-center rounded-lg border border-ink-200
-             text-ink-900 transition-colors active:bg-ink-100"
+      class="grid h-12 w-12 shrink-0 place-items-center rounded-brand border border-black/10
+             text-black transition-colors active:bg-black/5"
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path
@@ -30,8 +30,8 @@ import { contact } from '@/data/site';
     <a
       href="/kapcsolat"
       data-track="sticky-cta"
-      class="flex h-12 flex-1 items-center justify-center rounded-lg bg-ember-500
-             font-display text-[0.9375rem] font-bold text-white active:bg-ember-600"
+      class="flex h-12 flex-1 items-center justify-center rounded-brand bg-terracotta-500
+             font-title text-[0.9375rem] font-bold text-white active:bg-terracotta-800"
     >
       Ingyenes konzultáció
     </a>

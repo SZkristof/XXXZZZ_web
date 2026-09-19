@@ -34,11 +34,11 @@ const schema = [
 
 <Base title={post.data.title} description={post.data.description} schema={schema}>
   <article>
-    <header class="bg-ink-950 text-white">
+    <header class="bg-blue-800 text-white">
       <div class="container-prose py-14 sm:py-20">
         <a
           href="/blog"
-          class="inline-flex items-center gap-2 text-sm font-medium text-ink-400
+          class="inline-flex items-center gap-2 text-sm font-medium text-paper/75
                  transition-colors hover:text-white"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -48,8 +48,8 @@ const schema = [
           Vissza a bloghoz
         </a>
 
-        <div class="mt-7 flex flex-wrap items-center gap-3 text-sm text-ink-400">
-          <span class="rounded-md bg-white/10 px-2.5 py-1 text-xs font-semibold text-ember-300">
+        <div class="mt-7 flex flex-wrap items-center gap-3 text-sm text-paper/75">
+          <span class="rounded-brand bg-white/10 px-2.5 py-1 text-xs font-semibold text-terracotta-200">
             {post.data.category}
           </span>
           <time datetime={post.data.pubDate.toISOString()}>{fmt(post.data.pubDate)}</time>
@@ -57,8 +57,8 @@ const schema = [
           <span>{post.data.readingMinutes} perc olvasás</span>
         </div>
 
-        <h1 class="mt-5 text-4xl font-extrabold text-white">{post.data.title}</h1>
-        <p class="mt-5 text-lg leading-relaxed text-ink-300">{post.data.description}</p>
+        <h1 class="mt-5 text-4xl font-bold text-white">{post.data.title}</h1>
+        <p class="mt-5 text-lg leading-relaxed text-paper/85">{post.data.description}</p>
       </div>
     </header>
 
@@ -67,17 +67,17 @@ const schema = [
         class="container-prose
                [&_h2]:mt-12 [&_h2]:text-2xl [&_h2]:first:mt-0
                [&_h3]:mt-9 [&_h3]:text-xl
-               [&_p]:mt-5 [&_p]:leading-relaxed [&_p]:text-ink-700
+               [&_p]:mt-5 [&_p]:leading-relaxed [&_p]:text-black/80
                [&_ul]:mt-5 [&_ul]:space-y-2.5 [&_ul]:pl-5
                [&_ol]:mt-5 [&_ol]:space-y-2.5 [&_ol]:pl-5
-               [&_li]:list-disc [&_li]:leading-relaxed [&_li]:text-ink-700 [&_li]:marker:text-ember-500
+               [&_li]:list-disc [&_li]:leading-relaxed [&_li]:text-black/80 [&_li]:marker:text-terracotta-800
                [&_ol>li]:list-decimal
-               [&_strong]:font-semibold [&_strong]:text-ink-950
-               [&_a]:font-medium [&_a]:text-ember-700 [&_a]:underline [&_a]:underline-offset-2
-               [&_blockquote]:mt-8 [&_blockquote]:border-l-4 [&_blockquote]:border-ember-500
-               [&_blockquote]:bg-ink-50 [&_blockquote]:py-4 [&_blockquote]:pl-6 [&_blockquote]:pr-5
-               [&_blockquote]:font-display [&_blockquote]:text-lg [&_blockquote]:font-semibold
-               [&_blockquote]:text-ink-900
+               [&_strong]:font-semibold [&_strong]:text-black
+               [&_a]:font-medium [&_a]:text-terracotta-800 [&_a]:underline [&_a]:underline-offset-2
+               [&_blockquote]:mt-8 [&_blockquote]:border-l-4 [&_blockquote]:border-terracotta-500
+               [&_blockquote]:bg-paper [&_blockquote]:py-4 [&_blockquote]:pl-6 [&_blockquote]:pr-5
+               [&_blockquote]:font-title [&_blockquote]:text-lg [&_blockquote]:font-semibold
+               [&_blockquote]:text-black
                [&_blockquote_p]:mt-0"
       >
         <Content />
@@ -87,9 +87,9 @@ const schema = [
     <!-- Post-read CTA -->
     <div class="section-tight bg-white">
       <div class="container-prose">
-        <div class="rounded-2xl border border-ink-200 bg-ink-50 p-8 text-center sm:p-10">
+        <div class="rounded-brand border border-black/10 bg-paper p-8 text-center sm:p-10">
           <h2 class="text-2xl">Ezt a saját fiókodban is át tudjuk nézni</h2>
-          <p class="mx-auto mt-3 max-w-lg leading-relaxed text-ink-600">
+          <p class="mx-auto mt-3 max-w-lg leading-relaxed text-black/72">
             30 perc, ingyen, kötelezettség nélkül. Megnézzük, mi fut most nálad, és
             megmondom, hol van a legnagyobb tartalék.
           </p>
@@ -98,7 +98,7 @@ const schema = [
               Ingyenes konzultáció
             </Button>
           </div>
-          <p class="mt-5 text-sm text-ink-500">
+          <p class="mt-5 text-sm text-black/65">
             {expert.name} · {expert.yearsExperience} év paid media tapasztalat
           </p>
         </div>

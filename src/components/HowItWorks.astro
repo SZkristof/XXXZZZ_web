@@ -26,31 +26,31 @@ const steps = [
 ];
 ---
 
-<section class="section bg-white" id="hogyan">
+<section class="section ground-paper" id="hogyan">
   <div class="container-x">
     <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
       <div class="lg:sticky lg:top-28 lg:self-start">
         <SectionHeading
-          eyebrow="Hogyan működik"
+          eyebrow="HOGYAN MŰKÖDIK"
           title="Öt lépés, semmi meglepetés"
           lead="Nincs tananyag, amit egyedül kell végigrágnod. Minden alkalom a te fiókodról szól."
         />
         <dl class="mt-9 grid grid-cols-2 gap-5">
-          <div class="rounded-xl bg-ink-50 p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wider text-ink-500">Alkalmanként</dt>
-            <dd class="mt-1.5 font-display text-2xl font-extrabold text-ink-950">60 perc</dd>
+          <div class="rounded-brand bg-paper p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wider text-black/65">Alkalmanként</dt>
+            <dd class="mt-1.5 font-title text-2xl font-bold text-black">60 perc</dd>
           </div>
-          <div class="rounded-xl bg-ink-50 p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wider text-ink-500">Hetente max.</dt>
-            <dd class="mt-1.5 font-display text-2xl font-extrabold text-ink-950">2 alkalom</dd>
+          <div class="rounded-brand bg-paper p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wider text-black/65">Hetente max.</dt>
+            <dd class="mt-1.5 font-title text-2xl font-bold text-black">2 alkalom</dd>
           </div>
-          <div class="rounded-xl bg-ink-50 p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wider text-ink-500">Helyszín</dt>
-            <dd class="mt-1.5 font-display text-lg font-extrabold text-ink-950">Google Meet</dd>
+          <div class="rounded-brand bg-paper p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wider text-black/65">Helyszín</dt>
+            <dd class="mt-1.5 font-title text-lg font-bold text-black">Google Meet</dd>
           </div>
-          <div class="rounded-xl bg-ink-50 p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wider text-ink-500">Felvétel</dt>
-            <dd class="mt-1.5 font-display text-lg font-extrabold text-signal-600">Ingyenes</dd>
+          <div class="rounded-brand bg-paper p-5">
+            <dt class="text-xs font-semibold uppercase tracking-wider text-black/65">Felvétel</dt>
+            <dd class="mt-1.5 font-title text-lg font-bold text-signal">Ingyenes</dd>
           </div>
         </dl>
       </div>
@@ -61,20 +61,20 @@ const steps = [
             <!-- Connector line -->
             <div class="relative flex flex-col items-center">
               <span
-                class="z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full
-                       bg-ink-950 font-display text-sm font-extrabold text-white
+                class="z-10 grid h-11 w-11 shrink-0 place-items-center rounded-brand
+                       bg-blue-800 font-title text-sm font-bold text-white
                        ring-4 ring-white transition-colors duration-300
-                       group-hover:bg-ember-500"
+                       group-hover:bg-terracotta-500"
               >
                 {i + 1}
               </span>
               {i < steps.length - 1 && (
-                <span class="absolute top-11 h-full w-px bg-ink-200" aria-hidden="true"></span>
+                <span class="absolute top-11 h-full w-px bg-black/10" aria-hidden="true"></span>
               )}
             </div>
             <div class="pt-1.5">
-              <h3 class="font-display text-xl font-bold text-ink-950">{s.title}</h3>
-              <p class="mt-2 max-w-lg leading-relaxed text-ink-600">{s.body}</p>
+              <h3 class="font-title text-xl font-bold text-black">{s.title}</h3>
+              <p class="mt-2 max-w-lg leading-relaxed text-black/72">{s.body}</p>
             </div>
           </li>
         ))}

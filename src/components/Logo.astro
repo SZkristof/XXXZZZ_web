@@ -1,0 +1,99 @@
+---
+/**
+ * A Vágás — the Brandműhely mark and wordmark, built to the brand book spec.
+ *
+ * The mark is one block opened by two 13° cuts, 8 of 48 units wide — exactly
+ * Archivo 700's stem width at the same cap height. It is ALWAYS one colour and
+ * always takes the text colour of whatever it sits on, so the polygons fill
+ * with currentColor and need nothing else.
+ *
+ * The wordmark carries the same two cuts through the word at the same angle,
+ * at roughly a third of the mark's cut width — a stem-wide cut through type
+ * deletes the letters rather than opening them. Cuts apply at 32px and above;
+ * below that the word is set plain.
+ */
+interface Props {
+  variant?: 'mark' | 'wordmark' | 'lockup';
+  /** Mark size in px. Minimum 16 for the mark, 20 for a lockup. */
+  size?: number;
+  class?: string;
+  /** Rendered as a link when set. */
+  href?: string;
+  label?: string;
+}
+
+const {
+  variant = 'lockup',
+  size = 40,
+  class: className = '',
+  href,
+  label = 'Brandműhely',
+} = Astro.props;
+
+// Mask ids must be unique per instance or multiple logos on one page collide.
+const uid = Math.random().toString(36).slice(2, 9);
+
+const MARK_POLYS = [
+  '8,8 24.21,8 13.13,56 8,56',
+  '32.21,8 42.87,8 31.79,56 21.13,56',
+  '50.87,8 56,8 56,56 39.79,56',
+];
+
+// Wordmark geometry scales from the 430×70 master in the brand book.
+const wmWidth = variant === 'wordmark' ? size * 5.4 : size * 4.8;
+const k = wmWidth / 430;
+const showCuts = wmWidth * (54 / 430) >= 32; // cuts only at 32px type and up
+const Tag = href ? 'a' : 'div';
+---
+
+<Tag
+  class:list={['inline-flex items-center gap-3', className]}
+  {...href ? { href, 'aria-label': label } : {}}
+>
+  {(variant === 'mark' || variant === 'lockup') && (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      class="block shrink-0"
+      style="fill:currentColor"
+      role="img"
+      aria-label={variant === 'mark' ? label : undefined}
+      aria-hidden={variant === 'lockup' ? 'true' : undefined}
+    >
+      {MARK_POLYS.map((p) => <polygon points={p} />)}
+    </svg>
+  )}
+
+  {(variant === 'wordmark' || variant === 'lockup') && (
+    <svg
+      viewBox="0 0 430 70"
+      width={wmWidth}
+      height={wmWidth * (70 / 430)}
+      class="block overflow-visible"
+      role="img"
+      aria-label={label}
+    >
+      {showCuts && (
+        <defs>
+          <mask id={`wm-${uid}`}>
+            <rect x="-20" y="-20" width="470" height="124" fill="#fff" />
+            <g fill="#000">
+              <rect x="-40" y="21.6" width="520" height="6.2" transform="rotate(-13 215 33)" />
+              <rect x="-40" y="37.8" width="520" height="6.2" transform="rotate(-13 215 33)" />
+            </g>
+          </mask>
+        </defs>
+      )}
+      <text
+        x="0"
+        y="54"
+        textLength="430"
+        lengthAdjust="spacingAndGlyphs"
+        mask={showCuts ? `url(#wm-${uid})` : undefined}
+        fill="currentColor"
+        style="font-family:Archivo,sans-serif;font-weight:700;font-size:54px;letter-spacing:-.025em;font-variation-settings:'wdth' 112"
+      >Brandműhely</text>
+    </svg>
+  )}
+</Tag>

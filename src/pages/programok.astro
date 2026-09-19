@@ -29,68 +29,68 @@ const schema = tracks.map((t) => ({
   schema={schema}
 >
   <PageHero
-    eyebrow="Programok"
+    eyebrow="PROGRAMOK"
     title="Három út. Válaszd azt, ahol most vagy."
     lead="Nem ugyanazt tanítom annak, aki még el sem indult, és annak, aki már két ügynökségen van túl. Az első, ingyenes beszélgetésen közösen eldöntjük, melyik a tiéd."
   />
 
-  <section class="section bg-white">
+  <section class="section ground-paper">
     <div class="container-x space-y-6">
       {tracks.map((t, i) => {
         const rec = packages.find((p) => p.id === t.recommended)!;
         return (
           <article
             id={t.slug}
-            class="scroll-mt-28 overflow-hidden rounded-2xl border border-ink-200 bg-white"
+            class="scroll-mt-28 overflow-hidden card"
           >
             <div class="grid lg:grid-cols-[1.35fr_1fr]">
               <div class="p-8 sm:p-10 lg:p-12">
                 <div class="flex items-center gap-3">
                   <span
-                    class="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-ink-950
-                           font-display text-sm font-extrabold text-white"
+                    class="grid h-9 w-9 shrink-0 place-items-center rounded-brand bg-blue-800
+                           font-title text-sm font-bold text-white"
                   >0{i + 1}</span>
-                  <span class="eyebrow text-ember-700">{t.label}</span>
+                  <span class="t-label text-terracotta-800">{t.label}</span>
                 </div>
 
-                <p class="mt-7 font-display text-xl font-bold italic leading-snug text-ink-500">
+                <p class="mt-7 font-title text-xl font-bold italic leading-snug text-black/65">
                   „{t.symptom}"
                 </p>
 
                 <h2 class="mt-5 text-3xl">{t.headline}</h2>
-                <p class="mt-5 max-w-xl leading-relaxed text-ink-600">{t.description}</p>
+                <p class="mt-5 max-w-xl leading-relaxed text-black/72">{t.description}</p>
 
                 <div class="mt-9 flex flex-col gap-3 sm:flex-row">
                   <Button href="/kapcsolat" track={`program-${t.slug}`}>
                     Ingyenes konzultáció
                   </Button>
-                  <Button href="/arak" variant="ghost">Árak megnézése</Button>
+                  <Button href="/arak" variant="outline">Árak megnézése</Button>
                 </div>
               </div>
 
-              <div class="border-t border-ink-200 bg-ink-50 p-8 sm:p-10 lg:border-l lg:border-t-0">
-                <h3 class="eyebrow text-ink-500">Mivel leszel gazdagabb</h3>
+              <div class="border-t border-black/10 bg-paper p-8 sm:p-10 lg:border-l lg:border-t-0">
+                <h3 class="t-label text-black/65">Mivel leszel gazdagabb</h3>
                 <ul class="mt-5 space-y-3.5">
                   {t.outcomes.map((o) => (
                     <li class="flex items-start gap-3">
                       <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"
-                        class="mt-0.5 shrink-0 text-signal-600">
+                        class="mt-0.5 shrink-0 text-signal">
                         <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="2.5"
                           stroke-linecap="round" stroke-linejoin="round"></path>
                       </svg>
-                      <span class="text-[0.9375rem] leading-relaxed text-ink-700">{o}</span>
+                      <span class="text-[0.9375rem] leading-relaxed text-black/80">{o}</span>
                     </li>
                   ))}
                 </ul>
-                <div class="mt-7 rounded-xl border border-ink-200 bg-white p-5">
-                  <p class="text-xs font-semibold uppercase tracking-wider text-ink-500">
+                <div class="mt-7 card p-5">
+                  <p class="text-xs font-semibold uppercase tracking-wider text-black/65">
                     Ehhez jellemzően elég
                   </p>
-                  <p class="mt-1.5 font-display text-lg font-extrabold text-ink-950">
+                  <p class="mt-1.5 font-title text-lg font-bold text-black">
                     {t.recommendedLabel}
                   </p>
                   {rec.deal && (
-                    <p class="mt-1 text-sm text-ink-600">
+                    <p class="mt-1 text-sm text-black/72">
                       {rec.deal} — {rec.dealExplainer}
                     </p>
                   )}

@@ -18,42 +18,42 @@
   aria-describedby="consent-desc"
 >
   <div
-    class="mx-auto max-w-3xl rounded-xl border border-ink-200 bg-white p-5 shadow-pop sm:p-6"
+    class="mx-auto max-w-3xl card p-5 shadow-shade-lift sm:p-6"
   >
-    <h2 id="consent-title" class="font-display text-lg font-bold text-ink-950">
+    <h2 id="consent-title" class="font-title text-lg font-bold text-black">
       Sütiket használunk
     </h2>
-    <p id="consent-desc" class="mt-2 text-sm leading-relaxed text-ink-600">
+    <p id="consent-desc" class="mt-2 text-sm leading-relaxed text-black/72">
       A működéshez szükséges sütik mindig aktívak. Az analitikai és marketing sütik
       segítenek megérteni, hogyan találsz ránk — ezeket csak a te hozzájárulásoddal
       használjuk. Részletek a
-      <a href="/cookie" class="font-medium text-ember-700 underline underline-offset-2">
+      <a href="/cookie" class="font-medium text-terracotta-800 underline underline-offset-2">
         cookie tájékoztatóban</a
       >.
     </p>
 
-    <div id="consent-detail" class="mt-4 hidden space-y-3 border-t border-ink-100 pt-4">
+    <div id="consent-detail" class="mt-4 hidden space-y-3 border-t border-black/10 pt-4">
       <label class="flex cursor-not-allowed items-start gap-3 opacity-60">
-        <input type="checkbox" checked disabled class="mt-1 h-4 w-4 accent-ember-500" />
+        <input type="checkbox" checked disabled class="mt-1 h-4 w-4 accent-signal" />
         <span class="text-sm">
-          <span class="font-semibold text-ink-900">Működéshez szükséges</span>
-          <span class="block text-ink-600">Az oldal alapvető működése. Nem kapcsolható ki.</span>
+          <span class="font-semibold text-black">Működéshez szükséges</span>
+          <span class="block text-black/72">Az oldal alapvető működése. Nem kapcsolható ki.</span>
         </span>
       </label>
       <label class="flex cursor-pointer items-start gap-3">
-        <input type="checkbox" id="c-analytics" class="mt-1 h-4 w-4 accent-ember-500" />
+        <input type="checkbox" id="c-analytics" class="mt-1 h-4 w-4 accent-signal" />
         <span class="text-sm">
-          <span class="font-semibold text-ink-900">Analitika</span>
-          <span class="block text-ink-600">
+          <span class="font-semibold text-black">Analitika</span>
+          <span class="block text-black/72">
             Google Analytics — hány látogató jár az oldalon, és mit néznek meg.
           </span>
         </span>
       </label>
       <label class="flex cursor-pointer items-start gap-3">
-        <input type="checkbox" id="c-marketing" class="mt-1 h-4 w-4 accent-ember-500" />
+        <input type="checkbox" id="c-marketing" class="mt-1 h-4 w-4 accent-signal" />
         <span class="text-sm">
-          <span class="font-semibold text-ink-900">Marketing</span>
-          <span class="block text-ink-600">
+          <span class="font-semibold text-black">Marketing</span>
+          <span class="block text-black/72">
             Meta Pixel és Google Ads — hirdetések mérése és célzása.
           </span>
         </span>
@@ -64,24 +64,24 @@
       <button
         type="button"
         id="c-accept"
-        class="flex-1 rounded-lg bg-ember-500 px-5 py-3 font-display text-sm font-bold
-               text-white transition-colors hover:bg-ember-600"
+        class="flex-1 rounded-brand bg-terracotta-500 px-5 py-3 font-title text-sm font-bold
+               text-white transition-colors hover:bg-terracotta-800"
       >
         Mindet elfogadom
       </button>
       <button
         type="button"
         id="c-reject"
-        class="flex-1 rounded-lg bg-ink-100 px-5 py-3 font-display text-sm font-bold
-               text-ink-900 transition-colors hover:bg-ink-200"
+        class="flex-1 rounded-brand bg-black/5 px-5 py-3 font-title text-sm font-bold
+               text-black transition-colors hover:bg-black/10"
       >
         Csak a szükségeseket
       </button>
       <button
         type="button"
         id="c-customize"
-        class="rounded-lg px-5 py-3 text-sm font-medium text-ink-600 underline
-               underline-offset-4 transition-colors hover:text-ink-900"
+        class="rounded-brand px-5 py-3 text-sm font-medium text-black/72 underline
+               underline-offset-4 transition-colors hover:text-black"
       >
         Beállítás
       </button>

@@ -1,35 +1,49 @@
 #!/usr/bin/env bash
-# Subsets the variable fonts to the glyphs a Hungarian site actually needs,
-# keeping the full wght axis so every weight still comes from one file.
+# Prepares the brand typefaces for the web:
+#   1. narrows Archivo's wdth axis to 105-112, the only widths the brand book
+#      uses (~35% smaller than shipping the full 62-125 range)
+#   2. subsets both families to the Hungarian character set
 #
-# Fontsource splits by unicode block, so we subset BOTH source files per family:
-#   *-latin      → Basic Latin + Latin-1 Supplement (a-z, á é í ó ö ú ü, ×, ·)
-#                  and general punctuation (– — … „ ” → €)
-#   *-latin-ext  → Latin Extended-A, which is where Ő ő Ű ű live
-# Two @font-face rules per family then split them by unicode-range, so a
-# browser fetches only the blocks a given page actually uses.
+# Axes kept: Archivo wght 100-900 + wdth 105-112 (titles sit at 110-112);
+#            Hanken Grotesk wght 100-900 (lead 200, body/small 300).
+#
+# Fontsource splits by unicode block, so both files per family are processed:
+#   *-latin      Basic Latin + Latin-1 (a-z, á é í ó ö ú ü) + punctuation
+#   *-latin-ext  Latin Extended-A, which is where Ő ő Ű ű live
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-LATIN="U+0020-007E,U+00A0-00FF,U+2010-2015,U+2018-201F,U+2026,U+2039-203A,U+20AC,U+2192"
+LATIN="U+0020-007E,U+00A0-00FF,U+2010-2015,U+2018-201F,U+2026,U+2039-203A,U+20AC"
 LATIN_EXT="U+0100-017F"
+A="node_modules/@fontsource-variable/archivo/files"
+H="node_modules/@fontsource-variable/hanken-grotesk/files"
+TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 
-SRC_A="node_modules/@fontsource-variable/archivo/files"
-SRC_I="node_modules/@fontsource-variable/inter/files"
-
-subset () { # $1=in $2=out $3=unicodes
-  pyftsubset "$1" \
-    --output-file="$2" \
-    --flavor=woff2 \
-    --layout-features='kern,liga,calt,tnum,cv05,cv11,ss01' \
-    --unicodes="$3" \
-    --no-hinting --desubroutinize --drop-tables+=DSIG
+narrow () { # in out  — restrict Archivo's width axis
+  python3 - "$1" "$2" <<'PY'
+import sys
+from fontTools.ttLib import TTFont
+from fontTools.varLib import instancer
+f = instancer.instantiateVariableFont(TTFont(sys.argv[1]), {"wdth": (105, 112)},
+                                      inplace=False, updateFontNames=False)
+f.flavor = "woff2"; f.save(sys.argv[2])
+PY
 }
 
-subset "$SRC_A/archivo-latin-wght-normal.woff2"     public/fonts/archivo-latin.woff2     "$LATIN"
-subset "$SRC_A/archivo-latin-ext-wght-normal.woff2" public/fonts/archivo-latin-ext.woff2 "$LATIN_EXT"
-subset "$SRC_I/inter-latin-wght-normal.woff2"       public/fonts/inter-latin.woff2       "$LATIN"
-subset "$SRC_I/inter-latin-ext-wght-normal.woff2"   public/fonts/inter-latin-ext.woff2   "$LATIN_EXT"
+subset () { # in out unicodes
+  pyftsubset "$1" --output-file="$2" --flavor=woff2 \
+    --layout-features='kern,liga,calt,tnum' \
+    --unicodes="$3" --no-hinting --desubroutinize --drop-tables+=DSIG
+}
 
-rm -f public/fonts/archivo-hu.woff2 public/fonts/inter-hu.woff2
-ls -la public/fonts/
+mkdir -p public/fonts; rm -f public/fonts/*.woff2
+
+narrow "$A/archivo-latin-wdth-normal.woff2"     "$TMP/a-latin.woff2"
+narrow "$A/archivo-latin-ext-wdth-normal.woff2" "$TMP/a-latin-ext.woff2"
+
+subset "$TMP/a-latin.woff2"     public/fonts/archivo-latin.woff2     "$LATIN"
+subset "$TMP/a-latin-ext.woff2" public/fonts/archivo-latin-ext.woff2 "$LATIN_EXT"
+subset "$H/hanken-grotesk-latin-wght-normal.woff2"     public/fonts/hanken-latin.woff2     "$LATIN"
+subset "$H/hanken-grotesk-latin-ext-wght-normal.woff2" public/fonts/hanken-latin-ext.woff2 "$LATIN_EXT"
+
+du -ch public/fonts/*.woff2 | tail -1

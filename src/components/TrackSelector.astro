@@ -5,10 +5,10 @@ import { tracks } from '@/data/site';
 
 <!-- Self-identification before selling. Most visitors don't know what to buy;
      they only know what's wrong. Let them pick the symptom. -->
-<section class="section bg-white" id="hol-tartasz">
+<section class="section ground-paper" id="hol-tartasz">
   <div class="container-x">
     <SectionHeading
-      eyebrow="Hol tartasz most?"
+      eyebrow="HOL TARTASZ MOST?"
       title="Válaszd ki, melyik mondat a tiéd"
       lead="Nem ugyanazt tanítom annak, aki még el se indult, és annak, aki már két ügynökségen van túl. Kattints arra, ami rád illik."
       align="center"
@@ -18,28 +18,28 @@ import { tracks } from '@/data/site';
       {tracks.map((t, i) => (
         <a
           href={`/programok#${t.slug}`}
-          class="group relative flex flex-col rounded-2xl border border-ink-200 bg-white p-7
+          class="group relative flex flex-col card p-7
                  transition-all duration-300 ease-out hover:-translate-y-1
-                 hover:border-ember-300 hover:shadow-lift focus-visible:-translate-y-1"
+                 hover:border-terracotta-500/40 hover:shadow-shade-lift focus-visible:-translate-y-1"
         >
           <span
-            class="font-display text-xs font-extrabold tracking-widest text-ink-300
-                   transition-colors group-hover:text-ember-400"
+            class="font-title text-xs font-bold tracking-widest text-paper/85
+                   transition-colors group-hover:text-terracotta-200"
           >
             0{i + 1}
           </span>
 
-          <p class="mt-5 font-display text-xl font-bold leading-snug text-ink-950">
+          <p class="mt-5 font-title text-xl font-bold leading-snug text-black">
             „{t.symptom}"
           </p>
 
-          <p class="mt-4 flex-1 text-[0.9375rem] leading-relaxed text-ink-600">
+          <p class="mt-4 flex-1 text-[0.9375rem] leading-relaxed text-black/72">
             {t.description}
           </p>
 
           <span
-            class="mt-7 inline-flex items-center gap-2 font-display text-[0.9375rem]
-                   font-bold text-ember-700"
+            class="mt-7 inline-flex items-center gap-2 font-title text-[0.9375rem]
+                   font-bold text-terracotta-800"
           >
             {t.label}
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"

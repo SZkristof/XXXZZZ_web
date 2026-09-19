@@ -98,11 +98,11 @@ const graph = [
     <meta name="twitter:image" content={ogImage} />
 
     <!-- Preload the two faces that render above the fold. The latin-ext faces
-         follow naturally; font-display:swap means text is never invisible. -->
+         follow naturally; font-title:swap means text is never invisible. -->
     <link rel="preload" href="/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin />
 
-    <meta name="theme-color" content="#0a0c10" />
+    <meta name="theme-color" content="#224c5c" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/img/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
@@ -116,11 +116,11 @@ const graph = [
     <Analytics />
   </head>
 
-  <body class="bg-white text-ink-800 antialiased">
+  <body class="bg-white text-black antialiased">
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100]
-             focus:rounded-md focus:bg-ink-950 focus:px-5 focus:py-3 focus:text-sm
+             focus:rounded-brand focus:bg-blue-800 focus:px-5 focus:py-3 focus:text-sm
              focus:font-semibold focus:text-white"
     >
       Ugrás a tartalomra

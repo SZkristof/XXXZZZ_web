@@ -50,6 +50,35 @@ Ezek nélkül **nem szabad** élesíteni:
 
 ---
 
+## Arculat
+
+Az oldal a **Brandműhely arculati kézikönyv v4** ("Round 4 final") alapján
+készült, amit Jay állított össze egy megosztott Claude artifactban. A rendszer
+implementációja a `src/styles/global.css` fájlban van, és szándékosan szűk:
+
+- **Tíz szín, semmi több.** Két primer (terrakotta, kék), mindegyikhez egy
+  világosabb és egy sötétebb lépcső, plusz paper / white / black és egy
+  signal szín. Nincs szürkeskála — a halványabb szöveg a ground saját
+  szövegszíne csökkentett átlátszósággal.
+- **Két szabály dönt el szinte mindent.** (1) Az 500-as lépcsők *kitöltések*,
+  soha nem szöveg — terrakotta-500 a paperen 2,99:1. (2) A két primer soha nem
+  szöveg egymáson (2,79:1 mindkét irányban). Terrakotta alapon a szöveg
+  `black`, kék alapon `paper` vagy `terracotta-200`.
+- **Egy lekerekítés** (`rounded-brand`, 4px) és **egy árnyék** (`shadow-shade`,
+  plusz egyetlen erősebb lépcső). A fehér kártya csak az árnyéktól olvasható
+  kártyaként — 1,12:1-re van a papertől.
+- **Archivo 700** a címekhez (wdth 110–112), **Hanken Grotesk 200–300** a
+  szöveghez. A 200-as súly kizárólag 24px felett használható.
+- A kisbetűs címkék **eleve nagybetűvel vannak írva**, nem `text-transform`-mal
+  — ez védi meg az `Ő` és `Ű` betűk kettős ékezetét.
+- Tiltott: narancs/sárga (párt-asszociáció), zászlózöld a 80–160° sávban,
+  platformkék, és az Inter / Poppins / Montserrat / Roboto betűtípusok.
+
+A logó (**A Vágás**) inline SVG-ként a `src/components/Logo.astro` fájlban él,
+pontosan a kézikönyv geometriájával: egy blokk, két 13°-os vágás, 48 egységből
+8 szélesen — ami az Archivo 700 szárvastagsága ugyanazon a magasságon. A jel
+mindig egyszínű, és mindig annak a felületnek a szövegszínét veszi fel, amin áll.
+
 ## Tartalom szerkesztése
 
 Szinte minden üzleti adat **egy fájlban** van: `src/data/site.ts`

@@ -17,42 +17,42 @@ const cols = [
 ] as const;
 ---
 
-<section class="section bg-ink-50">
+<section class="section ground-paper">
   <div class="container-x">
     <SectionHeading
-      eyebrow="Miért így"
+      eyebrow="MIÉRT ÍGY"
       title="Három út van. Ez a harmadik."
       lead="Az ügynökség elvégzi helyetted, de nem tanulsz belőle. Az online kurzus elmondja általánosságban, de a te fiókodat nem nézi meg senki. Ez a kettő között van."
       align="center"
     />
 
     <!-- Desktop: comparison table -->
-    <div class="mt-14 hidden overflow-hidden rounded-2xl border border-ink-200 bg-white lg:block">
+    <div class="mt-14 hidden overflow-hidden card lg:block">
       <table class="w-full text-left">
         <caption class="sr-only">
           Ügynökség, online kurzus és a Brandműhely képzés összehasonlítása
         </caption>
         <thead>
-          <tr class="border-b border-ink-200">
+          <tr class="border-b border-black/10">
             <th scope="col" class="w-[22%] px-6 py-5"><span class="sr-only">Szempont</span></th>
             {cols.map((c) => (
               <th
                 scope="col"
                 class:list={[
                   'px-6 py-5 align-bottom',
-                  c.key === 'us' && 'bg-ink-950',
+                  c.key === 'us' && 'bg-blue-800',
                 ]}
               >
                 <span
                   class:list={[
-                    'block font-display text-lg font-extrabold tracking-tight',
-                    c.key === 'us' ? 'text-white' : 'text-ink-900',
+                    'block font-title text-lg font-bold tracking-tight',
+                    c.key === 'us' ? 'text-white' : 'text-black',
                   ]}
                 >{c.title}</span>
                 <span
                   class:list={[
                     'mt-1 block text-sm font-normal',
-                    c.key === 'us' ? 'text-ember-400' : 'text-ink-500',
+                    c.key === 'us' ? 'text-terracotta-200' : 'text-black/65',
                   ]}
                 >{c.sub}</span>
               </th>
@@ -61,11 +61,11 @@ const cols = [
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr class:list={[i % 2 === 1 && 'bg-ink-50/60']}>
-              <th scope="row" class="px-6 py-4 text-sm font-semibold text-ink-900">{r.label}</th>
-              <td class="px-6 py-4 text-sm text-ink-500">{r.agency}</td>
-              <td class="px-6 py-4 text-sm text-ink-500">{r.course}</td>
-              <td class="bg-ink-950 px-6 py-4 text-sm font-medium text-white">{r.us}</td>
+            <tr class:list={[i % 2 === 1 && 'bg-paper/60']}>
+              <th scope="row" class="px-6 py-4 text-sm font-semibold text-black">{r.label}</th>
+              <td class="px-6 py-4 text-sm text-black/65">{r.agency}</td>
+              <td class="px-6 py-4 text-sm text-black/65">{r.course}</td>
+              <td class="bg-blue-800 px-6 py-4 text-sm font-medium text-white">{r.us}</td>
             </tr>
           ))}
         </tbody>
@@ -76,21 +76,21 @@ const cols = [
          most ad traffic lands here. -->
     <div class="mt-12 space-y-4 lg:hidden">
       {rows.map((r) => (
-        <div class="overflow-hidden rounded-xl border border-ink-200 bg-white">
-          <p class="border-b border-ink-100 bg-ink-50 px-4 py-3 font-display text-sm font-bold text-ink-950">
+        <div class="overflow-hidden card">
+          <p class="border-b border-black/10 bg-paper px-4 py-3 font-title text-sm font-bold text-black">
             {r.label}
           </p>
-          <dl class="divide-y divide-ink-100">
+          <dl class="divide-y divide-black/10">
             <div class="flex items-start justify-between gap-4 px-4 py-3">
-              <dt class="text-sm text-ink-500">Ügynökség</dt>
-              <dd class="text-right text-sm text-ink-600">{r.agency}</dd>
+              <dt class="text-sm text-black/65">Ügynökség</dt>
+              <dd class="text-right text-sm text-black/72">{r.agency}</dd>
             </div>
             <div class="flex items-start justify-between gap-4 px-4 py-3">
-              <dt class="text-sm text-ink-500">Online kurzus</dt>
-              <dd class="text-right text-sm text-ink-600">{r.course}</dd>
+              <dt class="text-sm text-black/65">Online kurzus</dt>
+              <dd class="text-right text-sm text-black/72">{r.course}</dd>
             </div>
-            <div class="flex items-start justify-between gap-4 bg-ink-950 px-4 py-3">
-              <dt class="text-sm font-semibold text-ember-400">Brandműhely</dt>
+            <div class="flex items-start justify-between gap-4 bg-blue-800 px-4 py-3">
+              <dt class="text-sm font-semibold text-terracotta-200">Brandműhely</dt>
               <dd class="text-right text-sm font-medium text-white">{r.us}</dd>
             </div>
           </dl>

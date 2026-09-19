@@ -11,30 +11,30 @@ interface Props {
 const { detailed = false } = Astro.props;
 ---
 
-<section class="section bg-ink-950 text-white" id="arak">
+<section class="section bg-blue-800 text-white" id="arak">
   <div class="container-x">
     <SectionHeading
-      eyebrow="Árak"
+      eyebrow="ÁRAK"
       title="Minden ár itt van. Nincs mögötte semmi."
       lead="Nincs havidíj, nincs hűségidő, nincs rejtett felár. Alkalmat veszel — és minél többet, annál olcsóbb egy alkalom."
       align="center"
-      dark
+      onDark
     />
 
     <div class="mt-14 grid gap-6 lg:grid-cols-3 lg:items-start">
       {packages.map((p) => (
         <div
           class:list={[
-            'relative flex h-full flex-col rounded-2xl p-7 sm:p-8',
+            'relative flex h-full flex-col rounded-brand p-7 sm:p-8',
             p.featured
-              ? 'bg-white text-ink-900 shadow-pop ring-2 ring-ember-500 lg:-mt-4 lg:pb-10'
+              ? 'bg-white text-black shadow-shade-lift ring-2 ring-terracotta-500 lg:-mt-4 lg:pb-10'
               : 'bg-white/[0.04] ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/[0.07]',
           ]}
         >
           {p.featured && (
             <span
-              class="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full
-                     bg-ember-500 px-4 py-1.5 font-display text-xs font-extrabold
+              class="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-brand
+                     bg-terracotta-500 px-4 py-1.5 font-title text-xs font-bold
                      uppercase tracking-wider text-white"
             >A legnépszerűbb</span>
           )}
@@ -42,40 +42,40 @@ const { detailed = false } = Astro.props;
           <div class="flex items-start justify-between gap-3">
             <h3
               class:list={[
-                'font-display text-xl font-extrabold tracking-tight',
-                p.featured ? 'text-ink-950' : 'text-white',
+                'font-title text-xl font-bold tracking-tight',
+                p.featured ? 'text-black' : 'text-white',
               ]}
             >{p.name}</h3>
             {p.deal && (
               <span
                 class:list={[
-                  'shrink-0 rounded-md px-2.5 py-1 font-display text-sm font-extrabold',
+                  'shrink-0 rounded-brand px-2.5 py-1 font-title text-sm font-bold',
                   p.featured
-                    ? 'bg-signal-500/15 text-signal-700'
-                    : 'bg-signal-500/20 text-signal-300',
+                    ? 'bg-signal/10 text-signal'
+                    : 'bg-signal/15 text-signal',
                 ]}
               >{p.deal}</span>
             )}
           </div>
 
-          <p class:list={['mt-1.5 text-sm', p.featured ? 'text-ink-500' : 'text-ink-400']}>
+          <p class:list={['mt-1.5 text-sm', p.featured ? 'text-black/65' : 'text-paper/75']}>
             {p.tagline}
           </p>
 
           <div class="mt-7">
             <span
               class:list={[
-                'font-display text-4xl font-extrabold tracking-tight',
-                p.featured ? 'text-ink-950' : 'text-white',
+                'font-title text-4xl font-bold tracking-tight',
+                p.featured ? 'text-black' : 'text-white',
               ]}
             >{huf(p.price)}</span>
 
-            <p class:list={['mt-2 text-sm', p.featured ? 'text-ink-600' : 'text-ink-400']}>
+            <p class:list={['mt-2 text-sm', p.featured ? 'text-black/72' : 'text-paper/75']}>
               {p.sessions === 1 ? (
                 <span>egy 60 perces alkalom</span>
               ) : (
                 <Fragment>
-                  <strong class:list={['font-semibold', p.featured ? 'text-ink-900' : 'text-white']}>
+                  <strong class:list={['font-semibold', p.featured ? 'text-black' : 'text-white']}>
                     {huf(p.perSession)}
                   </strong> / alkalom · {p.sessions} alkalom
                 </Fragment>
@@ -85,16 +85,16 @@ const { detailed = false } = Astro.props;
             {p.savings > 0 && (
               <p
                 class:list={[
-                  'mt-3 inline-block rounded-lg px-3 py-1.5 text-sm font-semibold',
+                  'mt-3 inline-block rounded-brand px-3 py-1.5 text-sm font-semibold',
                   p.featured
-                    ? 'bg-signal-500/10 text-signal-700'
-                    : 'bg-signal-500/15 text-signal-300',
+                    ? 'bg-signal/10 text-signal'
+                    : 'bg-signal/10 text-signal',
                 ]}
               >Megspórolsz {huf(p.savings)}-ot</p>
             )}
 
             {p.dealExplainer && (
-              <p class:list={['mt-3 text-sm', p.featured ? 'text-ink-500' : 'text-ink-400']}>
+              <p class:list={['mt-3 text-sm', p.featured ? 'text-black/65' : 'text-paper/75']}>
                 {p.dealExplainer}
               </p>
             )}
@@ -103,10 +103,10 @@ const { detailed = false } = Astro.props;
           <p
             class:list={[
               'mt-7 border-t pt-6 text-sm leading-relaxed',
-              p.featured ? 'border-ink-100 text-ink-600' : 'border-white/10 text-ink-400',
+              p.featured ? 'border-black/10 text-black/72' : 'border-white/10 text-paper/75',
             ]}
           >
-            <span class:list={['font-semibold', p.featured ? 'text-ink-900' : 'text-white']}>
+            <span class:list={['font-semibold', p.featured ? 'text-black' : 'text-white']}>
               Kinek jó:
             </span> {p.bestFor}
           </p>
@@ -119,7 +119,7 @@ const { detailed = false } = Astro.props;
                     width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
                     class:list={[
                       'mt-0.5 shrink-0',
-                      p.featured ? 'text-signal-600' : 'text-signal-400',
+                      p.featured ? 'text-signal' : 'text-signal',
                     ]}
                   >
                     <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="2.5"
@@ -128,7 +128,7 @@ const { detailed = false } = Astro.props;
                   <span
                     class:list={[
                       'text-sm leading-relaxed',
-                      p.featured ? 'text-ink-700' : 'text-ink-300',
+                      p.featured ? 'text-black/80' : 'text-paper/85',
                     ]}
                   >{f}</span>
                 </li>
@@ -150,7 +150,7 @@ const { detailed = false } = Astro.props;
       ))}
     </div>
 
-    <p class="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-ink-400">
+    <p class="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-paper/75">
       Egy alkalom listaára {huf(BASE_SESSION_PRICE)}. A csomagoknál ehhez képest kapsz ingyen
       alkalmakat — ennyi a kedvezmény, más nincs elrejtve sehol.
     </p>
