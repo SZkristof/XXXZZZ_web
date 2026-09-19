@@ -35,7 +35,7 @@ const { detailed = false } = Astro.props;
             <span
               class="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-brand
                      bg-terracotta-500 px-4 py-1.5 font-title text-xs font-bold
-                     uppercase tracking-wider text-white"
+                     uppercase tracking-wider text-black"
             >A legnépszerűbb</span>
           )}
 
@@ -52,7 +52,7 @@ const { detailed = false } = Astro.props;
                   'shrink-0 rounded-brand px-2.5 py-1 font-title text-sm font-bold',
                   p.featured
                     ? 'bg-signal/10 text-signal'
-                    : 'bg-signal/15 text-signal',
+                    : 'bg-signal text-white',
                 ]}
               >{p.deal}</span>
             )}
@@ -88,7 +88,7 @@ const { detailed = false } = Astro.props;
                   'mt-3 inline-block rounded-brand px-3 py-1.5 text-sm font-semibold',
                   p.featured
                     ? 'bg-signal/10 text-signal'
-                    : 'bg-signal/10 text-signal',
+                    : 'bg-signal text-white',
                 ]}
               >Megspórolsz {huf(p.savings)}-ot</p>
             )}

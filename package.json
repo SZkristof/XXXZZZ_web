@@ -13,8 +13,9 @@
     "verify:consent": "node scripts/verify-consent.mjs",
     "shots": "node scripts/shoot.mjs",
     "verify:form": "bash scripts/verify-form.sh",
-    "verify": "npm run verify:links && npm run verify:consent && npm run verify:form",
-    "verify:links": "node scripts/check-links.mjs"
+    "verify": "npm run verify:links && npm run verify:contrast && npm run verify:consent && npm run verify:form",
+    "verify:links": "node scripts/check-links.mjs",
+    "verify:contrast": "node scripts/check-contrast.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",

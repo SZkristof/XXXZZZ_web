@@ -1,6 +1,10 @@
 ---
 import SectionHeading from '@/components/SectionHeading.astro';
 import { testimonials, PROOF_IS_PLACEHOLDER } from '@/data/proof';
+
+// Two columns need at least two quotes to balance; one quote centres instead.
+const quoteCols =
+  testimonials.length >= 2 ? 'columns-1 md:columns-2' : 'columns-1 mx-auto max-w-2xl';
 ---
 
 <section class="section ground-paper" id="velemenyek">
@@ -11,7 +15,7 @@ import { testimonials, PROOF_IS_PLACEHOLDER } from '@/data/proof';
       align="center"
     />
 
-    <div class="mt-14 columns-1 gap-5 md:columns-2 lg:columns-2 [&>*]:mb-5">
+    <div class:list={['mt-14 gap-5 [&>*]:mb-5', quoteCols]}>
       {testimonials.map((t) => (
         <figure class="break-inside-avoid card p-7 shadow-shade">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"

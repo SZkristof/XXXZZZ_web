@@ -66,6 +66,11 @@ jobs:
       - name: Verify internal links
         run: npm run verify:links
 
+      # Measures real rendered contrast. A token migration can leave light
+      # text on a light ground: the build passes and the text is invisible.
+      - name: Verify text contrast
+        run: npm run verify:contrast
+
       - name: Verify GDPR consent behaviour
         run: |
           npx playwright install --with-deps chromium
