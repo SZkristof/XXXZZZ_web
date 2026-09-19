@@ -1,105 +1,108 @@
-# Élesítés: a WordPress leváltása
+# Élesítés
 
-Ez a dokumentum a `brandmuhely.hu` jelenlegi WordPress oldaláról az új statikus
-oldalra való átállást írja le. Olvasd végig, mielőtt bármit törölnél.
-
----
-
-## 0. Mielőtt bármihez hozzányúlsz: mentés
-
-**Ezt ne hagyd ki, akkor sem, ha a régi oldalt szemétnek tartod.**
-
-A Rackhost paneljén (vagy FTP-n) mentsd le:
-
-- [ ] a teljes webgyökeret (az 564 MB-ot), tömörítve, a saját gépedre
-- [ ] a WordPress **adatbázist** (phpMyAdmin → Export → Gyors → SQL)
-
-A mentés azért kell, mert visszaállni csak ebből tudsz, és mert lehet benne
-olyan, amire most nem gondolsz: régi számlák, PDF-ek, képek, egy űrlap
-beérkezett adatai.
-
-> Tartsd meg a mentést legalább 3 hónapig.
+A `brandmuhely.hu` jelenleg egy WordPress oldalt szolgál ki az egyik
+tárhelycsomagon. Az új oldal **egy másik, üres csomagra** kerül, és csak akkor
+váltunk át, amikor már éles körülmények között kipróbáltuk.
 
 ---
 
-## 1. Mit tudj meg a Rackhosttól
+## Miért így, és nem a WordPress fölé
 
-### a) SFTP vagy csak FTP?
+Van egy második, **teljesen üres** csomagod (*Tárhely Mini 2 GB* — 0 domain,
+0% felhasználva), és ezen **van SSH**. Ez három dolgot jelent:
 
-A Rackhost vezérlőpultjában nézd meg a tárhely adatait. Amit keresel:
+- **Nem kell törölni semmit.** A régi oldal fut tovább, amíg az új el nem
+  készül. Nincs visszafordíthatatlan lépés.
+- **SFTP-vel tudunk feltölteni**, nem sima FTP-vel — a jelszó nem utazik
+  titkosítatlanul a hálózaton.
+- **Élesben tudjuk tesztelni** egy ideiglenes aldomainen, mielőtt bárki látná:
+  a Cal.com naptárat, az űrlapot, az SSL-t, a sütisávot, a mérést.
 
-- **SSH / SFTP hozzáférés** — ha van, ezt használjuk (titkosított, ez az ajánlott)
-- ha csak **FTP** van, akkor **FTPS**-t (FTP over TLS) használunk — ez is titkosított
-
-Ha nem egyértelmű, írj a Rackhost ügyfélszolgálatnak:
-
-> „A WP Tárhely Mini csomagomhoz elérhető SFTP (SSH) hozzáférés, vagy csak FTP?
-> Ha csak FTP, támogatja-e az FTPS-t (explicit TLS)? Kérem a szerver nevét és a portot."
-
-Sima, titkosítatlan FTP-t **ne** használjunk: a jelszó tisztán utazik a hálózaton.
-
-### b) A webgyökér pontos útvonala
-
-Jellemzően `/web`, `/public_html` vagy `/domains/brandmuhely.hu/public_html`.
-Ez lesz a `DEPLOY_REMOTE_PATH`.
+A váltás így nem egy „töröljük és reméljük" pillanat, hanem egy átkapcsolás,
+ami egy perc alatt visszafordítható.
 
 ---
 
-## 2. A régi WordPress eltávolítása
+## 1. Az üres csomag előkészítése
 
-**Fontos: nem elég föléírni.** Ha a WordPress fájljai ott maradnak, egy régi,
-frissítetlen WP-mag marad a szerveren, futtatható PHP-vel — ez valódi
-biztonsági kockázat még akkor is, ha az oldal már nem hivatkozik rá.
+A Rackhost panelen, a *Tárhely Mini 2 GB* csomagnál:
 
-A mentés után töröld a webgyökér **teljes tartalmát**, beleértve:
+### a) SSH bekapcsolása
+
+Nyisd meg az **SSH** fület. Ott találod a **kiszolgáló nevét, a portot és a
+felhasználónevet**. Ha van lehetőség **SSH kulcs** feltöltésére, azt használjuk
+jelszó helyett — lásd 3. pont.
+
+### b) Ideiglenes aldomain
+
+A **Domain** fülön → *Domain hozzáadása* → add hozzá:
 
 ```
-wp-admin/  wp-content/  wp-includes/  wp-*.php  xmlrpc.php  .htaccess
+uj.brandmuhely.hu
 ```
 
-Az adatbázist is törölheted a panelen, ha biztos vagy benne — vagy hagyd meg
-még pár hétig, és csak utána.
+> A csomag `0 / 1 DB` domaint enged. Ha az aldomain elhasználja ezt az egy
+> helyet, akkor inkább **rögtön a `brandmuhely.hu`-t** add hozzá ehhez a
+> csomaghoz (lásd 5. pont) — csak akkor, ha már minden más kész. Ezt a panel
+> alapján nem tudom eldönteni; nézd meg, elfogad-e aldomaint a limit terhére.
+
+A **DNS zónák** menüben az `uj` aldomainhez vegyél fel egy **A rekordot**, ami
+az új csomag IP-címére mutat (a Domain fül *IP CÍM* oszlopában látod).
+
+### c) HTTPS
+
+A **Domain** fül *HTTPS* oszlopában kapcsold be a Let's Encrypt tanúsítványt.
+Tanúsítvány nélkül a böngésző figyelmeztetni fog — egy hirdetésekkel foglalkozó
+oldalnál ez azonnali hitelvesztés.
+
+### d) PHP verzió
+
+A *PHP VERZIÓ* oszlopban állíts **8.1-et vagy újabbat**. Az űrlapkezelő
+7.4-től felfelé elindul, de a 8.1+ a biztonságos választás — a régebbi
+verziók már nem kapnak biztonsági javítást. Ha a beállítás túl régi, az űrlap
+nem néma hibával dől el, hanem kiírja, mit kell átállítani.
 
 ---
 
-## 3. Átállás előtt: a régi oldal URL-jei
-
-Ha a régi WordPress oldal aloldalai szerepelnek a Google találatai között, az
-átállás után ezek 404-esek lesznek. Ezt átirányítással kezeljük.
-
-**Mit csinálj:** keresd meg a Google-ben, hogy `site:brandmuhely.hu`, és írd fel
-a találatok URL-jeit. Küldd át őket nekem, és beállítom az átirányításokat.
-
-Ha nincs egy sem (nem volt indexelve), akkor nincs teendő.
-
-Az átirányítások helye a `public/.htaccess` fájl `# --- Régi WordPress URL-ek ---`
-szekciója.
-
----
-
-## 4. Az új oldal feltöltése
+## 2. Feltöltés
 
 ### Automatikusan (ajánlott)
 
-GitHub → *Settings → Secrets and variables → Actions*:
+GitHub → *Settings → Secrets and variables → Actions*.
 
-**Variables** fülön:
-
-| Név | Érték |
-| --- | --- |
-| `DEPLOY_PROTOCOL` | `sftp` vagy `ftps` |
-
-**Secrets** fülön:
+**Variables:**
 
 | Név | Érték |
 | --- | --- |
-| `DEPLOY_HOST` | a Rackhost szerver neve |
-| `DEPLOY_USER` | felhasználónév |
-| `DEPLOY_PASSWORD` | jelszó |
-| `DEPLOY_PORT` | SFTP: `22`, FTPS: `21` |
-| `DEPLOY_REMOTE_PATH` | a webgyökér útvonala (1/b pont) |
+| `DEPLOY_PROTOCOL` | `sftp` |
 
-Ezután a `main` branchre pusholva magától buildel és feltölt.
+**Secrets** (ezeket te töltöd ki, nekem soha ne küldd el őket):
+
+| Név | Érték |
+| --- | --- |
+| `DEPLOY_HOST` | az SSH fülön látható kiszolgáló |
+| `DEPLOY_USER` | SSH felhasználónév |
+| `DEPLOY_SSH_KEY` | a privát kulcs tartalma (ha kulcsot használsz) |
+| `DEPLOY_PASSWORD` | jelszó (csak ha nincs kulcs) |
+| `DEPLOY_PORT` | általában `22` |
+| `DEPLOY_REMOTE_PATH` | a webgyökér útvonala (a Domain fül *KÖNYVTÁR* oszlopa) |
+
+Ezután a `main` branchre pusholva a GitHub Actions buildel, lefuttatja mind a
+30+ ellenőrzést, és feltölt.
+
+### SSH kulcs készítése (biztonságosabb, mint a jelszó)
+
+A saját gépeden:
+
+```bash
+ssh-keygen -t ed25519 -C "github-deploy" -f ~/.ssh/brandmuhely_deploy
+```
+
+- A **publikus** kulcsot (`brandmuhely_deploy.pub`) töltsd fel a Rackhost SSH
+  fülére.
+- A **privát** kulcsot (`brandmuhely_deploy`, kiterjesztés nélkül) másold be
+  teljes egészében a `DEPLOY_SSH_KEY` secretbe.
+- A privát kulcsot soha ne küldd el senkinek, és ne tedd be a repóba.
 
 ### Kézzel
 
@@ -111,7 +114,7 @@ A `dist/` mappa **tartalmát** töltsd fel a webgyökérbe (ne magát a `dist` m
 
 ---
 
-## 5. Szerveroldali beállítás (egyszer)
+## 3. Szerveroldali beállítás (egyszer)
 
 A feltöltés után, a szerveren:
 
@@ -119,67 +122,97 @@ A feltöltés után, a szerveren:
 api/config.local.example.php  →  másold  →  api/config.local.php
 ```
 
-és töltsd ki. **Ebben az egy lépésben dől el, hogy megkapod-e az űrlapos
-üzeneteket.**
+**Ebben az egy lépésben dől el, hogy megkapod-e az űrlapos üzeneteket.**
 
 ### Miért kell SMTP?
 
-A `brandmuhely.hu` levelezése **Google Workspace**-en van. Emiatt a domain SPF
+A `brandmuhely.hu` levelezése **Google Workspace**-en van, ezért a domain SPF
 rekordja a Google-t hatalmazza fel arra, hogy `@brandmuhely.hu` címről küldjön —
-a Rackhostot nem.
+a Rackhostot nem. Ha a PHP a Rackhost szerveréről küldene, a levél elbukna az
+SPF-en, és jellemzően spambe kerülne vagy elveszne. Ezért az űrlap a Google
+saját SMTP-jén küld.
 
-Ha a PHP a Rackhost szerveréről küldi a levelet, az **elbukik az SPF-en**, és
-jellemzően spambe kerül vagy elvész. Ezért az űrlap a Google saját SMTP-jén
-küld, így az SPF, a DKIM és a DMARC is rendben van.
-
-**Google App Password készítése:**
+**Google App Password:**
 
 1. Kapcsold be a 2-lépcsős azonosítást az `info@brandmuhely.hu` fiókon
-2. Menj a https://myaccount.google.com/apppasswords oldalra
-3. Hozz létre egy jelszót (pl. „Brandműhely weboldal")
-4. A kapott 16 karaktert írd a `smtp_pass` mezőbe
+2. https://myaccount.google.com/apppasswords
+3. A kapott 16 karaktert írd az `smtp_pass` mezőbe
 
-Ha az SMTP nincs beállítva, a rendszer visszaesik a sima `mail()` küldésre —
-**és minden üzenet bekerül egy CSV fájlba is**, így akkor sem veszik el
-érdeklődő, ha a levél nem érkezik meg.
+Ha az SMTP nincs beállítva, a rendszer visszaesik a sima `mail()` küldésre — és
+minden üzenet bekerül egy CSV fájlba is, így akkor sem veszik el érdeklődő, ha a
+levél nem érkezik meg.
 
-A CSV elsődlegesen a webgyökér **fölé** kerül (`_private/leads.csv`), ahol a
-webről elvileg elérhetetlen. Ha a tárhely `open_basedir`-rel a webgyökérbe
-zárja a PHP-t — ami osztott tárhelyen gyakori —, akkor automatikusan az
-`api/_leads/` mappába esik vissza, amibe a rendszer egy `Require all denied`
-őrfájlt is tesz, így onnan sem tölthető le. Mindkét útvonalat teszt fedi
-(`npm run verify:form`).
+A CSV elsődlegesen a webgyökér **fölé** kerül (`_private/leads.csv`). Ha a
+tárhely `open_basedir`-rel a webgyökérbe zárja a PHP-t — osztott tárhelyen
+gyakori —, automatikusan az `api/_leads/` mappába esik vissza, amibe a rendszer
+`Require all denied` őrfájlt is tesz. Mindkét útvonalat teszt fedi.
 
-> A deploy **soha nem törli** ezt a mappát: a GitHub Actions kizárja a
-> szinkronból, ahogy az `api/config.local.php` fájlt is.
+> A deploy **soha nem törli** ezeket: az `api/_leads/**` és az
+> `api/config.local.php` ki van zárva a szinkronból.
 
 ---
 
-## 6. Ellenőrzés élesítés után
+## 4. Tesztelés az aldomainen
 
-- [ ] `https://www.brandmuhely.hu` betölt, lakat ikon látszik
-- [ ] `http://brandmuhely.hu` → átirányít `https://www.brandmuhely.hu`-ra
+Mielőtt bárki látná, az `uj.brandmuhely.hu` címen:
+
+- [ ] Betölt, lakat ikon látszik
 - [ ] Mobilon is rendben néz ki
 - [ ] `/kapcsolat` — a Cal.com naptár betölt
-- [ ] Küldj egy teszt üzenetet az űrlapon → **megérkezik-e a levél?** (nézd meg
-      a spam mappát is)
-- [ ] A sütisáv megjelenik, és az „Csak a szükségeseket" gomb működik
+- [ ] **Küldj egy teszt üzenetet az űrlapon → megérkezik a levél?** (a spam
+      mappát is nézd meg)
+- [ ] A sütisáv megjelenik, és a „Csak a szükségeseket" gomb működik
 - [ ] `/nemletezo-oldal` → a saját 404 oldalunk jön
-- [ ] `https://www.brandmuhely.hu/sitemap-index.xml` elérhető
-- [ ] **A levelezés változatlanul működik** (küldj magadnak egy e-mailt) —
-      a DNS MX rekordokhoz nem nyúltunk, de ellenőrizd
+- [ ] `/kepzes`, `/ugynokseg`, `/arak`, `/blog` mind elérhető
 
-### Google Search Console
-
-- [ ] Add hozzá a `brandmuhely.hu` tulajdont (ha még nincs)
-- [ ] Küldd be a sitemapet: `https://www.brandmuhely.hu/sitemap-index.xml`
+> **Fontos:** az aldomaint zárd ki a keresőkből, amíg teszt. A
+> `public/robots.txt` az éles domainre készült; a teszt időszakra a Rackhost
+> panelen vagy egy ideiglenes `robots.txt`-vel tiltsd le az indexelést, hogy a
+> Google ne indexelje kétszer ugyanazt a tartalmat.
 
 ---
 
-## 7. Amihez NEM nyúlunk
+## 5. Átkapcsolás az éles domainre
 
-**A DNS-hez.** Az A rekord már a Rackhostra mutat, az MX rekordok a Google-re.
-Az átállás csak fájlcsere a szerveren — a levelezésed nem érintett.
+Csak akkor, ha a 4. pont minden sora kipipálva.
 
-Ha valaha átköltöztetnénk az oldalt (pl. Vercelre), **csak az A/CNAME rekordot
-szabad módosítani, az MX rekordokat soha** — különben megáll a leveleződ.
+1. A **régi** (WordPress) csomagról vedd le a `brandmuhely.hu` domaint.
+2. Az **új** csomaghoz add hozzá a `brandmuhely.hu`-t (és a `www`-t).
+3. Kapcsold be rá a HTTPS-t.
+4. Ellenőrizd a DNS-t: az **A rekord** az új csomag IP-jére mutasson.
+   **Az MX rekordokhoz ne nyúlj** — azok a Google Workspace-re mutatnak, és a
+   leveleződ ezeken múlik.
+5. Töltsd fel újra (vagy futtasd a GitHub Actions deployt) az éles útvonalra.
+6. Az `uj.brandmuhely.hu` aldomaint töröld, hogy ne maradjon duplikált tartalom.
+
+### Visszaállás
+
+Ha bármi gond van: tedd vissza a domaint a régi csomagra. A WordPress oldal
+érintetlenül ott van — **nem töröltünk semmit**.
+
+---
+
+## 6. Élesítés után
+
+- [ ] `https://www.brandmuhely.hu` betölt
+- [ ] `http://brandmuhely.hu` → átirányít `https://www.brandmuhely.hu`-ra
+- [ ] **A levelezés változatlanul működik** (küldj magadnak egy e-mailt)
+- [ ] Google Search Console: add hozzá a tulajdont, küldd be a sitemapet
+      (`https://www.brandmuhely.hu/sitemap-index.xml`)
+
+### A régi WordPress
+
+Ha az új oldal két hete stabilan fut, a régi csomagon a *Tartalom törlése*
+gombbal takaríthatsz. **Előtte ments le mindent** (fájlok + adatbázis) — lehet
+benne olyan, amire most nem gondolsz. A mentést tartsd meg legalább 3 hónapig.
+
+Egy ottmaradt, frissítetlen WordPress futtatható PHP-vel valódi biztonsági
+kockázat, ezért ha a csomagot nem használod tovább, ne hagyd rajta.
+
+---
+
+## 7. Amihez soha nem nyúlunk
+
+**Az MX rekordokhoz.** A leveleződ a Google Workspace-en van. Az oldal
+költöztetésekor **csak az A/CNAME rekord változhat** — az MX soha, különben
+megáll a leveleződ.

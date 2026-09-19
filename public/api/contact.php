@@ -11,6 +11,18 @@
 
 declare(strict_types=1);
 
+// Fail loudly on an unsupported PHP version instead of a blank 500.
+if (PHP_VERSION_ID < 70400) {
+    http_response_code(500);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode([
+        'ok' => false,
+        'error' => 'A szerver PHP verziója túl régi (' . PHP_VERSION . '). '
+                 . 'Állítsd 8.1-re vagy újabbra a tárhely beállításaiban.',
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 
@@ -48,14 +60,14 @@ if (is_readable($local)) {
     $config = array_merge($config, (array) require $local);
 }
 
-function fail(string $msg, int $code = 400): never
+function fail(string $msg, int $code = 400)
 {
     http_response_code($code);
     echo json_encode(['ok' => false, 'error' => $msg], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-function ok(): never
+function ok()
 {
     echo json_encode(['ok' => true], JSON_UNESCAPED_UNICODE);
     exit;
