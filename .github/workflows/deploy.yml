@@ -83,4 +83,5 @@ jobs:
             **/.git*/**
             **/node_modules/**
             api/config.local.php
+            api/_leads/**
             _private/**

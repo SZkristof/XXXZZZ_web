@@ -11,3 +11,4 @@ dist/
 public/api/config.local.php
 dist/_private/
 shots/
+.verify-jail/

@@ -140,8 +140,18 @@ küld, így az SPF, a DKIM és a DMARC is rendben van.
 4. A kapott 16 karaktert írd a `smtp_pass` mezőbe
 
 Ha az SMTP nincs beállítva, a rendszer visszaesik a sima `mail()` küldésre —
-**és minden üzenet bekerül a `_private/leads.csv` fájlba is**, így akkor sem
-veszik el érdeklődő, ha a levél nem érkezik meg.
+**és minden üzenet bekerül egy CSV fájlba is**, így akkor sem veszik el
+érdeklődő, ha a levél nem érkezik meg.
+
+A CSV elsődlegesen a webgyökér **fölé** kerül (`_private/leads.csv`), ahol a
+webről elvileg elérhetetlen. Ha a tárhely `open_basedir`-rel a webgyökérbe
+zárja a PHP-t — ami osztott tárhelyen gyakori —, akkor automatikusan az
+`api/_leads/` mappába esik vissza, amibe a rendszer egy `Require all denied`
+őrfájlt is tesz, így onnan sem tölthető le. Mindkét útvonalat teszt fedi
+(`npm run verify:form`).
+
+> A deploy **soha nem törli** ezt a mappát: a GitHub Actions kizárja a
+> szinkronból, ahogy az `api/config.local.php` fájlt is.
 
 ---
 

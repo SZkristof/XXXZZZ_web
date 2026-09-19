@@ -124,18 +124,43 @@ if (!$privacy) {
 
 // ------------------------------------------------------------------ store ---
 // CSV lives outside the web root so it is never directly downloadable.
-$dir = dirname($config['log_csv']);
-if (!is_dir($dir)) {
-    @mkdir($dir, 0750, true);
+/**
+ * Prepares a directory for the lead log and returns it, or null if it cannot
+ * be used. Always drops a deny-all guard inside, so the file is unreachable
+ * over the web even if the directory sits inside the document root.
+ */
+function prepare_store(string $dir): ?string
+{
+    if (!is_dir($dir) && !@mkdir($dir, 0750, true) && !is_dir($dir)) {
+        return null;
+    }
+    if (!is_writable($dir)) {
+        return null;
+    }
+    $guard = $dir . '/.htaccess';
+    if (!is_file($guard)) {
+        @file_put_contents($guard, "Require all denied\nDeny from all\nOptions -Indexes\n");
+    }
+    return $dir;
 }
-// Belt and braces: if this directory ever ends up inside the web root on a
-// differently-configured server, this still blocks direct download.
-$guard = $dir . '/.htaccess';
-if (!is_file($guard)) {
-    @file_put_contents($guard, "Require all denied\nDeny from all\nOptions -Indexes\n");
+
+// Preferred location is ABOVE the web root, where nothing can be served. But
+// shared hosts often set open_basedir to jail PHP inside the document root, in
+// which case that write fails silently and the lead is lost. So fall back to a
+// directory inside the web root, protected by the guard file above.
+$csv = $config['log_csv'];
+$dir = prepare_store(dirname($csv));
+if ($dir === null) {
+    $csv = __DIR__ . '/_leads/leads.csv';
+    $dir = prepare_store(dirname($csv));
+    if ($dir !== null) {
+        error_log('[brandmuhely-form] lead store fell back inside the web root: ' . $dir);
+    }
 }
+$config['log_csv'] = $csv;
+$stored = false;
 $needsHeader = !is_file($config['log_csv']) || filesize($config['log_csv']) === 0;
-if ($fh = @fopen($config['log_csv'], 'a')) {
+if ($dir !== null && ($fh = @fopen($config['log_csv'], 'a'))) {
     if (flock($fh, LOCK_EX)) {
         if ($needsHeader) {
             fputcsv($fh, ['datum', 'nev', 'email', 'telefon', 'ceg', 'platform', 'uzenet']);
@@ -144,6 +169,7 @@ if ($fh = @fopen($config['log_csv'], 'a')) {
             date('Y-m-d H:i:s'), $name, $email, $phone, $company, $platform, $message,
         ]);
         flock($fh, LOCK_UN);
+        $stored = true;
     }
     fclose($fh);
 }
@@ -213,8 +239,13 @@ if (!$sent) {
 }
 
 if (!$sent) {
-    // The CSV row is already written, so the lead is not lost.
-    fail('Az e-mail küldés nem sikerült, de az üzenetet elmentettük.', 500);
+    if ($stored) {
+        // The row is on disk, so the lead is not lost.
+        fail('Az e-mail küldés nem sikerült, de az üzenetet elmentettük.', 500);
+    }
+    // Nothing worked — never tell the visitor it was received.
+    error_log('[brandmuhely-form] LEAD LOST: mail and CSV both failed');
+    fail('Nem sikerült elküldeni az üzenetet. Kérlek írj közvetlenül e-mailben.', 500);
 }
 
 ok();

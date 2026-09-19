@@ -73,5 +73,33 @@ if [ -f "$CSV" ]; then
   [ "$rows" = "2" ] && ok 1 "one line per lead, honeypot not stored" || ok 0 "one line per lead (got $rows, want 2)"
 fi
 
+# --- Fallback: simulate a host whose open_basedir jails PHP inside the web
+# root, so the preferred store above it cannot be created. The lead must still
+# land somewhere guarded rather than being lost.
+echo
+echo "Lead storage fallback (open_basedir-style jail)"
+kill "$PID" 2>/dev/null; sleep 0.3
+# The jail must live OUTSIDE the system temp dir: open_basedir has to allow
+# /tmp for the rate-limit lock, so a jail inside /tmp would not be a jail.
+JAIL="$ROOT/.verify-jail"; rm -rf "$JAIL"; mkdir -p "$JAIL"
+cp -r "$ROOT/dist" "$JAIL/web"
+php -S "127.0.0.1:$((PORT+1))" -t "$JAIL/web" \
+  -d open_basedir="$JAIL/web:${TMPDIR:-/tmp}" >/dev/null 2>&1 &
+PID=$!
+for _ in $(seq 1 30); do curl -sf -o /dev/null "http://127.0.0.1:$((PORT+1))/" && break; sleep 0.3; done
+rm -f $LOCKS
+code=$(curl -sS -o /dev/null -w "%{http_code}" -X POST -d "name=Jail Teszt" \
+  -d "email=jail@pelda.hu" -d "message=fallback" -d "privacy=1" \
+  "http://127.0.0.1:$((PORT+1))/api/contact.php")
+FB="$JAIL/web/api/_leads/leads.csv"
+[ -f "$FB" ] && ok 1 "lead stored in the in-root fallback" || ok 0 "lead stored in the in-root fallback"
+[ -f "$JAIL/web/api/_leads/.htaccess" ] && ok 1 "fallback carries a deny-all guard" || ok 0 "fallback carries a deny-all guard"
+if [ -f "$FB" ]; then
+  grep -q "jail@pelda.hu" "$FB" && ok 1 "fallback row is complete" || ok 0 "fallback row is complete"
+fi
+# 500 is expected (no mail server here), but the message must say it was saved.
+[ "$code" = "500" ] && ok 1 "reports mail failure, not silent success" || ok 0 "reports mail failure (got $code)"
+rm -rf "$JAIL"
+
 echo
 if [ "$FAIL" -eq 0 ]; then echo "All $PASS form checks passed."; else echo "$FAIL of $((PASS+FAIL)) checks FAILED."; exit 1; fi
