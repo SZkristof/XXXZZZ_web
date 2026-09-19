@@ -228,6 +228,24 @@ Részletes lépések: **[DEPLOY.md](./DEPLOY.md)** 5. pont.
 Ezt nem feltételezzük: a `npm run verify:form` 13 ellenőrzést futtat valódi PHP
 szerveren, és a CI is lefuttatja minden deploy előtt.
 
+## Staging és éles mód
+
+A `SITE_ENV` repository variable egyszerre két dolgot dönt el, és
+**alapértelmezésben `staging`**:
+
+| | `staging` (alapértelmezett) | `production` |
+| --- | --- | --- |
+| Indexelés | `noindex` minden oldalon, `robots.txt` → `Disallow: /` | indexelhető |
+| Placeholder vélemények | megengedett | **a build megtagadja** |
+| Build parancs | `npm run build` | `npm run build:prod` |
+
+Azért ez az alapértelmezés, mert a két lehetséges hiba nem egyforma súlyú: egy
+elfelejtett beállítás így legfeljebb annyit okoz, hogy az oldal nem indexelődik
+— nem azt, hogy kitalált vélemények kerülnek a Google-be az éles domainen.
+
+Élesítéskor: valós adatok a `proof.ts`-be, `PROOF_IS_PLACEHOLDER = false`, majd
+`SITE_ENV=production`. Minden deploy naplója kiírja, melyik módban futott.
+
 ## Deploy
 
 **A teljes élesítési folyamat — a WordPress leváltásával együtt — itt van:

@@ -26,6 +26,10 @@ const {
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site).href;
+
+// Any deploy that is not the real domain must not be indexed. One env var
+// covers every page, so it cannot be forgotten on an individual template.
+const STAGING = import.meta.env.PUBLIC_NOINDEX === '1';
 const ogImage = new URL(image, Astro.site).href;
 const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
 
@@ -81,7 +85,7 @@ const graph = [
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {(noindex || STAGING) && <meta name="robots" content="noindex, nofollow" />}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />

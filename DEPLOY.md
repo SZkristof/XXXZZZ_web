@@ -33,21 +33,22 @@ Nyisd meg az **SSH** fület. Ott találod a **kiszolgáló nevét, a portot és 
 felhasználónevet**. Ha van lehetőség **SSH kulcs** feltöltésére, azt használjuk
 jelszó helyett — lásd 3. pont.
 
-### b) Ideiglenes aldomain
+### b) A domain átvitele
 
-A **Domain** fülön → *Domain hozzáadása* → add hozzá:
+A `brandmuhely.hu`-ra jelenleg senki nem érkezik és nincs rá hirdetés, ezért
+nem kell teszt-aldomaint használni: rögtön az éles domainre telepítünk, csak
+**indexelés nélkül**, amíg el nem készül minden.
 
-```
-uj.brandmuhely.hu
-```
+1. A **régi** (WordPress) csomagról vedd le a `brandmuhely.hu` domaint.
+2. Ezen a csomagon: **Domain** fül → *Domain hozzáadása* → `brandmuhely.hu`
+   (és a `www` alias, ha külön kéri).
+3. A **DNS zónák** menüben ellenőrizd, hogy az **A rekord** ennek a csomagnak
+   az IP-címére mutat (a Domain fül *IP CÍM* oszlopa).
+4. **Az MX rekordokhoz ne nyúlj** — azok a Google Workspace-re mutatnak, és a
+   leveleződ ezeken múlik.
 
-> A csomag `0 / 1 DB` domaint enged. Ha az aldomain elhasználja ezt az egy
-> helyet, akkor inkább **rögtön a `brandmuhely.hu`-t** add hozzá ehhez a
-> csomaghoz (lásd 5. pont) — csak akkor, ha már minden más kész. Ezt a panel
-> alapján nem tudom eldönteni; nézd meg, elfogad-e aldomaint a limit terhére.
-
-A **DNS zónák** menüben az `uj` aldomainhez vegyél fel egy **A rekordot**, ami
-az új csomag IP-címére mutat (a Domain fül *IP CÍM* oszlopában látod).
+> A régi WordPress csomag érintetlen marad. Ha bármi gond van, a domaint
+> egyetlen lépéssel visszateheted rá.
 
 ### c) HTTPS
 
@@ -75,13 +76,14 @@ GitHub → *Settings → Secrets and variables → Actions*.
 | Név | Érték |
 | --- | --- |
 | `DEPLOY_PROTOCOL` | `sftp` |
+| `SITE_ENV` | `staging` a teszt alatt, `production` élesítéskor |
 
 **Secrets** (ezeket te töltöd ki, nekem soha ne küldd el őket):
 
 | Név | Érték |
 | --- | --- |
-| `DEPLOY_HOST` | az SSH fülön látható kiszolgáló |
-| `DEPLOY_USER` | SSH felhasználónév |
+| `DEPLOY_HOST` | `wh22.rackhost.hu` |
+| `DEPLOY_USER` | `c93146deploy` |
 | `DEPLOY_SSH_KEY` | a privát kulcs tartalma (ha kulcsot használsz) |
 | `DEPLOY_PASSWORD` | jelszó (csak ha nincs kulcs) |
 | `DEPLOY_PORT` | általában `22` |
@@ -152,11 +154,21 @@ gyakori —, automatikusan az `api/_leads/` mappába esik vissza, amibe a rendsz
 
 ---
 
-## 4. Tesztelés az aldomainen
+## 4. Tesztelés az éles domainen, indexelés nélkül
 
-Mielőtt bárki látná, az `uj.brandmuhely.hu` címen:
+A `SITE_ENV` repository variable **alapértelmezésben `staging`**, ezért az
+oldal már kint van, de:
 
-- [ ] Betölt, lakat ikon látszik
+- minden oldal `noindex, nofollow` fejlécet kap,
+- a `robots.txt` `Disallow: /`-t ad vissza, sitemap nélkül,
+- és a build elfogadja a még kitöltetlen (placeholder) véleményeket.
+
+Így nyugodtan nézegethető és mutogatható, de a Google nem indexeli, és nem
+kerülnek kitalált vélemények a keresőbe.
+
+Ellenőrizd élesben:
+
+- [ ] `https://brandmuhely.hu` betölt, lakat ikon látszik
 - [ ] Mobilon is rendben néz ki
 - [ ] `/kapcsolat` — a Cal.com naptár betölt
 - [ ] **Küldj egy teszt üzenetet az űrlapon → megérkezik a levél?** (a spam
@@ -164,39 +176,35 @@ Mielőtt bárki látná, az `uj.brandmuhely.hu` címen:
 - [ ] A sütisáv megjelenik, és a „Csak a szükségeseket" gomb működik
 - [ ] `/nemletezo-oldal` → a saját 404 oldalunk jön
 - [ ] `/kepzes`, `/ugynokseg`, `/arak`, `/blog` mind elérhető
+- [ ] **A levelezés változatlanul működik** (küldj magadnak egy e-mailt)
 
-> **Fontos:** az aldomaint zárd ki a keresőkből, amíg teszt. A
-> `public/robots.txt` az éles domainre készült; a teszt időszakra a Rackhost
-> panelen vagy egy ideiglenes `robots.txt`-vel tiltsd le az indexelést, hogy a
-> Google ne indexelje kétszer ugyanazt a tartalmat.
+## 5. Élesítés (indexelés bekapcsolása)
 
----
+Csak akkor, ha a 4. pont minden sora kipipálva **és** megvannak a valós
+vélemények, eredmények és fotók.
 
-## 5. Átkapcsolás az éles domainre
+1. Cseréld a kitalált adatokat a `src/data/proof.ts` fájlban, és állítsd:
+   `PROOF_IS_PLACEHOLDER = false`
+2. GitHub → *Settings → Secrets and variables → Actions → Variables*:
+   állítsd a **`SITE_ENV`** értékét `production`-re
+3. Push a `main` branchre (vagy indítsd kézzel a workflow-t)
 
-Csak akkor, ha a 4. pont minden sora kipipálva.
-
-1. A **régi** (WordPress) csomagról vedd le a `brandmuhely.hu` domaint.
-2. Az **új** csomaghoz add hozzá a `brandmuhely.hu`-t (és a `www`-t).
-3. Kapcsold be rá a HTTPS-t.
-4. Ellenőrizd a DNS-t: az **A rekord** az új csomag IP-jére mutasson.
-   **Az MX rekordokhoz ne nyúlj** — azok a Google Workspace-re mutatnak, és a
-   leveleződ ezeken múlik.
-5. Töltsd fel újra (vagy futtasd a GitHub Actions deployt) az éles útvonalra.
-6. Az `uj.brandmuhely.hu` aldomaint töröld, hogy ne maradjon duplikált tartalom.
+Ettől a ponttól az oldal indexelhető. A `build:prod` **nem hajlandó lefutni**,
+amíg a `PROOF_IS_PLACEHOLDER` értéke `true` — vagyis kitalált véleményekkel
+fizikailag nem tud éles, indexelhető build készülni.
 
 ### Visszaállás
 
-Ha bármi gond van: tedd vissza a domaint a régi csomagra. A WordPress oldal
-érintetlenül ott van — **nem töröltünk semmit**.
-
----
+Ha bármi gond van: állítsd a `SITE_ENV`-et vissza `staging`-re (kikerül az
+indexelésből), vagy tedd vissza a domaint a régi WordPress csomagra — azt
+**nem töröltük**.
 
 ## 6. Élesítés után
 
 - [ ] `https://www.brandmuhely.hu` betölt
 - [ ] `http://brandmuhely.hu` → átirányít `https://www.brandmuhely.hu`-ra
-- [ ] **A levelezés változatlanul működik** (küldj magadnak egy e-mailt)
+- [ ] `https://www.brandmuhely.hu/robots.txt` — **már nem** `Disallow: /`
+- [ ] A forrásban **nincs** `noindex` (böngészőben: jobb klikk → forrás)
 - [ ] Google Search Console: add hozzá a tulajdont, küldd be a sitemapet
       (`https://www.brandmuhely.hu/sitemap-index.xml`)
 

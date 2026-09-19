@@ -30,10 +30,35 @@ jobs:
       - name: Subset fonts
         run: ./scripts/subset-fonts.sh
 
-      # Refuses to build while src/data/proof.ts still holds invented
-      # testimonials. Remove this step only once real proof is in place.
-      - name: Build (blocks on placeholder testimonials)
-        run: npm run build:prod
+      # SITE_ENV decides two things at once: whether this deploy may be
+      # indexed, and whether the invented testimonials are tolerated.
+      #
+      #   staging (default) -> noindex + robots Disallow: /, placeholders OK
+      #   production        -> indexable, and build:prod REFUSES to build
+      #                        while src/data/proof.ts holds invented reviews
+      #
+      # It defaults to staging, so a forgotten setting yields an un-indexed
+      # site rather than fabricated testimonials indexed on the real domain.
+      - name: Announce target
+        run: |
+          ENV="${{ vars.SITE_ENV || 'staging' }}"
+          echo "::notice title=Deploy target::SITE_ENV=$ENV"
+          if [ "$ENV" = "production" ]; then
+            echo "=== PRODUCTION: indexable, real testimonials required ==="
+          else
+            echo "=== STAGING: noindex + robots Disallow: / ==="
+            echo "Set the repository variable SITE_ENV=production to go live."
+          fi
+
+      - name: Build
+        env:
+          PUBLIC_NOINDEX: ${{ vars.SITE_ENV == 'production' && '0' || '1' }}
+        run: |
+          if [ "${{ vars.SITE_ENV }}" = "production" ]; then
+            npm run build:prod
+          else
+            npm run build
+          fi
 
       # Proves the consent banner still gates tracking correctly before
       # anything reaches production.
