@@ -58,10 +58,24 @@ oldalnál ez azonnali hitelvesztés.
 
 ### d) PHP verzió
 
-A *PHP VERZIÓ* oszlopban állíts **8.1-et vagy újabbat**. Az űrlapkezelő
-7.4-től felfelé elindul, de a 8.1+ a biztonságos választás — a régebbi
-verziók már nem kapnak biztonsági javítást. Ha a beállítás túl régi, az űrlap
-nem néma hibával dől el, hanem kiírja, mit kell átállítani.
+**Kész:** a csomag PHP 8.5-öt futtat, ami bőven megfelel. (Az űrlapkezelő
+7.4-től felfelé elindul, és ha valaha túl régi verzióra váltana a beállítás,
+nem néma hibával dől el, hanem kiírja, mit kell átállítani.)
+
+### e) A csomag adatai — rögzítve
+
+| | |
+| --- | --- |
+| Csomag | #64955 · Tárhely Mini |
+| SSH kiszolgáló | `wh22.rackhost.hu` |
+| SSH felhasználó | `c93146deploy` |
+| Webgyökér | `web/brandmuhely.hu` |
+| IP | `91.227.139.69` |
+| PHP | 8.5 ✓ |
+
+> Ha a deploy „no such directory" hibával áll le, próbáld a `DEPLOY_REMOTE_PATH`
+> értékét `/web/brandmuhely.hu`-ra (perjellel) — attól függ, hova lép be az
+> SSH felhasználó.
 
 ---
 
@@ -87,7 +101,7 @@ GitHub → *Settings → Secrets and variables → Actions*.
 | `DEPLOY_SSH_KEY` | a privát kulcs tartalma (ha kulcsot használsz) |
 | `DEPLOY_PASSWORD` | jelszó (csak ha nincs kulcs) |
 | `DEPLOY_PORT` | általában `22` |
-| `DEPLOY_REMOTE_PATH` | a webgyökér útvonala (a Domain fül *KÖNYVTÁR* oszlopa) |
+| `DEPLOY_REMOTE_PATH` | `web/brandmuhely.hu` |
 
 Ezután a `main` branchre pusholva a GitHub Actions buildel, lefuttatja mind a
 30+ ellenőrzést, és feltölt.
