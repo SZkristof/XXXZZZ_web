@@ -1,4 +1,4 @@
-import { chromium } from 'playwright';
+import { launchChromium } from './browser.mjs';
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join } from 'node:path';
@@ -13,7 +13,7 @@ const server = createServer(async (req, res) => {
 });
 await new Promise((r) => server.listen(4399, r));
 
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+const browser = await launchChromium();
 const fails = [];
 const check = (name, cond, detail='') => {
   console.log(`${cond ? '✓' : '✗'} ${name}${detail ? ' — ' + detail : ''}`);

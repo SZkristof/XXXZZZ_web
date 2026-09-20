@@ -11,7 +11,7 @@
  * Thresholds are WCAG AA: 4.5:1 for body text, 3:1 for large text
  * (>=24px, or >=18.66px when bold).
  */
-import { chromium } from 'playwright';
+import { launchChromium } from './browser.mjs';
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join } from 'node:path';
@@ -42,9 +42,7 @@ const routes = globSync('dist/**/*.html').map((f) => {
   return r === '/.' ? '/' : r.replace(/\/$/, '');
 });
 
-const browser = await chromium.launch({
-  executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome',
-});
+const browser = await launchChromium();
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
 
 const AUDIT = () => {

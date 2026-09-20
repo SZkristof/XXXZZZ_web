@@ -12,6 +12,11 @@ PASS=0; FAIL=0
 cleanup() { kill "${PID:-}" 2>/dev/null; rm -rf "$TMP"; }
 trap cleanup EXIT
 
+command -v php >/dev/null 2>&1 || {
+  echo "php not found on PATH. The contact-form suite needs a PHP CLI."
+  echo "GitHub's ubuntu runners ship one; locally, install php-cli."
+  exit 1
+}
 [ -d "$ROOT/dist" ] || { echo "dist/ missing — run npm run build first."; exit 1; }
 mkdir -p "$TMP"; cp -r "$ROOT/dist" "$TMP/web"
 

@@ -1,4 +1,4 @@
-import { chromium } from 'playwright';
+import { launchChromium } from './browser.mjs';
 import { createServer } from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
 import { extname, join } from 'node:path';
@@ -23,7 +23,7 @@ const server = createServer(async (req, res) => {
 await new Promise((r) => server.listen(4321, r));
 
 const targets = process.argv.slice(2);
-const browser = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium-1194/chrome-linux/chrome' });
+const browser = await launchChromium();
 
 for (const t of targets) {
   const [path, label] = t.split('::');
