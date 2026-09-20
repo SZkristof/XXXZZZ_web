@@ -105,16 +105,21 @@ jobs:
           # captured leads.
           delete_remote_files: false
 
-      # Fallback only, for a host without SSH. Set DEPLOY_PROTOCOL=ftps.
-      - name: Deploy over FTPS
-        if: vars.DEPLOY_PROTOCOL == 'ftps'
+      # Fallback for a host without usable SSH. DEPLOY_PROTOCOL selects the
+      # flavour, because FTP servers differ in what they accept:
+      #   ftps         explicit TLS on port 21 (AUTH TLS) — preferred
+      #   ftps-legacy  implicit TLS on port 990 — older servers only do this
+      #   ftp          NO ENCRYPTION; the password crosses the network in
+      #                clear text. Last resort, and a deliberate choice.
+      - name: Deploy over FTP
+        if: vars.DEPLOY_PROTOCOL != 'sftp'
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           password: ${{ secrets.DEPLOY_PASSWORD }}
           port: ${{ secrets.DEPLOY_PORT || 21 }}
-          protocol: ftps
+          protocol: ${{ vars.DEPLOY_PROTOCOL }}
           local-dir: ./dist/
           server-dir: ${{ secrets.DEPLOY_REMOTE_PATH }}
           # Never touch server-side files the build does not produce.
