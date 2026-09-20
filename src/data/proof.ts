@@ -1,71 +1,62 @@
 /**
- * ⚠️  PLACEHOLDER PROOF DATA  ⚠️
+ * Real, consented proof.
  *
- * Every entry below is INVENTED for layout purposes. Publishing invented
- * testimonials or results is illegal in Hungary (Fogyasztóvédelmi tv. / GVH
- * rules on misleading commercial practice, and the EU Omnibus directive),
- * not merely bad taste.
+ * Every entry below is from a named client who gave written permission to
+ * publish it. Publishing invented testimonials is unlawful in Hungary
+ * (Fttv. / GVH, and the EU Omnibus directive) — so while
+ * PROOF_IS_PLACEHOLDER is true, `npm run build:prod` refuses to build and the
+ * pages show a visible developer warning.
  *
- * Replace each entry with a real one, then set PROOF_IS_PLACEHOLDER = false.
- * While it is true, the build prints a loud warning and `npm run build:prod`
- * refuses to complete.
+ * Adding a new entry: quotes are trimmed for length but never reworded, and
+ * nothing goes in without the client's consent on record.
  */
-export const PROOF_IS_PLACEHOLDER = true;
+export const PROOF_IS_PLACEHOLDER = false;
+
+/** Which half of the business the work belonged to. */
+export type Half = 'kepzes' | 'ugynokseg';
 
 export type Testimonial = {
   quote: string;
   name: string;
   role: string;
   company: string;
-  track: string;
+  half: Half;
+  /** Optional: only set when the client's situation clearly matches a track. */
+  track?: string;
   initials: string;
 };
 
 export const testimonials: Testimonial[] = [
   {
+    // Trimmed from a longer message; wording unchanged. Consent on record.
     quote:
-      'Két ügynökség után azt hittem, a baj velem van. Kiderült, hogy egyszerűen nem mérte senki rendesen, mi történik. A harmadik alkalom után már én találtam meg, melyik kampány viszi el a keretet.',
-    name: 'Placeholder Anna',
-    role: 'ügyvezető',
-    company: 'PLACEHOLDER Kft.',
-    track: 'Futnak, de gyengén',
-    initials: 'PA',
+      'Azzal kerestem meg őket, hogy segítsenek végre átlátni, hogy a jelenlegi hirdetéseink valóban jól működnek-e. Kristóf nagyon részletesen végigment a marketingünkön — és ami számomra különösen hasznos volt: nemcsak elmondta, mit kellene másképp csinálnunk, hanem együtt át is szerkesztettük és optimalizáltuk a kampányokat. Nem általános marketingelmélet volt, hanem kifejezetten a saját vállalkozásunkra szabott, gyakorlatias segítség.',
+    name: 'Demeter B.',
+    role: 'ügyvezető és tulajdonos',
+    company: 'Heaven Laser & Beauty',
+    half: 'kepzes',
+    initials: 'DB',
   },
   {
+    // Trimmed from a longer message; wording unchanged. Consent on record.
     quote:
-      'Soha nem hirdettem még. Azt vártam, hogy technikai lesz és nem fogom érteni. Ehelyett végig a saját termékeimről beszéltünk, és az ötödik alkalomra élesben ment az első kampányom.',
-    name: 'Placeholder Béla',
+      'Korábban az volt a problémám, hogy szerettem volna több új vendéget szerezni, de nem voltam biztos benne, hogyan érdemes Facebookon hirdetnem. 15 nap után 19 ember töltötte ki az űrlapot, közülük 12-vel már beszéltem, és 10-en azóta a vendégeim lettek. Most egy kicsit le is kellett állítanom a hirdetést, mert annyi új jelentkező érkezett, hogy nem győztem őket fogadni.',
+    name: 'Németh T.',
     role: 'tulajdonos',
-    company: 'PLACEHOLDER Bt.',
-    track: 'Most kezdem',
-    initials: 'PB',
-  },
-  {
-    quote:
-      'Nem én rakom a hirdetéseket, van rá emberem. De eddig nem tudtam, mit kérdezzek tőle. Most már tudom, és ez a két alkalom többet ért, mint az elmúlt egy év riportjai.',
-    name: 'Placeholder Csaba',
-    role: 'ügyvezető',
-    company: 'PLACEHOLDER Zrt.',
-    track: 'Vezetőként',
-    initials: 'PC',
-  },
-  {
-    quote:
-      'A felvételek miatt nem kellett jegyzetelnem, végig tudtam figyelni. Utólag háromszor visszanéztem azt a részt, ahol a közönségeket állítottuk be.',
-    name: 'Placeholder Dóra',
-    role: 'marketinges',
-    company: 'PLACEHOLDER Kft.',
-    track: 'Most kezdem',
-    initials: 'PD',
+    company: 'Naturalpilates',
+    half: 'ugynokseg',
+    initials: 'NT',
   },
 ];
 
 export type Result = {
   industry: string;
-  size: string;
+  /** Optional: only when the client stated it. */
+  size?: string;
   platform: string;
   metric: string;
-  from: string;
+  /** Optional: some results are a single figure, not a before/after move. */
+  from?: string;
   to: string;
   timeframe: string;
   note: string;
@@ -73,34 +64,13 @@ export type Result = {
 
 export const results: Result[] = [
   {
-    industry: 'Webshop · sportfelszerelés',
-    size: '6 fő',
+    // Figures as reported by the client in the testimonial above.
+    industry: 'Szolgáltatás · pilates stúdió',
     platform: 'Meta Ads',
-    metric: 'ROAS',
-    from: '1,8×',
-    to: '4,3×',
-    timeframe: '9 hét',
-    note: 'A költés nem nőtt — a szerkezet változott meg.',
-  },
-  {
-    industry: 'Szolgáltatás · fogászat',
-    size: '11 fő',
-    platform: 'Google Ads',
-    metric: 'Egy érdeklődő ára',
-    from: '9 400 Ft',
-    to: '3 100 Ft',
-    timeframe: '6 hét',
-    note: 'Kereső kampányok újraépítése, kizáró kulcsszavakkal.',
-  },
-  {
-    industry: 'B2B · ipari beszállító',
-    size: '24 fő',
-    platform: 'LinkedIn Ads',
-    metric: 'Havi minősített lead',
-    from: '3 db',
-    to: '17 db',
-    timeframe: '3 hónap',
-    note: 'Pozíció és cégméret szerinti célzás, új üzenettel.',
+    metric: 'Új vendég',
+    to: '10',
+    timeframe: '15 nap',
+    note: '19 űrlapkitöltésből. A hirdetést le kellett állítani, mert nem győzte fogadni a jelentkezőket.',
   },
 ];
 

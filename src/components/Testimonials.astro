@@ -2,6 +2,8 @@
 import SectionHeading from '@/components/SectionHeading.astro';
 import { testimonials, PROOF_IS_PLACEHOLDER } from '@/data/proof';
 
+const HALF_LABEL = { kepzes: 'Képzés', ugynokseg: 'Ügynökség' } as const;
+
 // Two columns need at least two quotes to balance; one quote centres instead.
 const quoteCols =
   testimonials.length >= 2 ? 'columns-1 md:columns-2' : 'columns-1 mx-auto max-w-2xl';
@@ -11,7 +13,7 @@ const quoteCols =
   <div class="container-x">
     <SectionHeading
       eyebrow="VÉLEMÉNYEK"
-      title="Mit mondanak azok, akik végigcsinálták"
+      title="Mit mondanak az ügyfeleim"
       align="center"
     />
 
@@ -44,7 +46,7 @@ const quoteCols =
             <span
               class="ml-auto hidden shrink-0 rounded-brand bg-terracotta-200/40 px-2.5 py-1 text-xs
                      font-semibold text-terracotta-800 sm:block"
-            >{t.track}</span>
+            >{t.track ?? HALF_LABEL[t.half]}</span>
           </figcaption>
         </figure>
       ))}

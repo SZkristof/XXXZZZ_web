@@ -17,7 +17,7 @@ import { num } from '@/lib/format';
     <SectionHeading
       eyebrow="EREDMÉNYEK"
       title="Számok, nem jelzők"
-      lead="Az ügyfeleim a saját fiókjukban dolgoznak, ezért az eredmény is az övék marad. Néhány jellemző eset — iparág és cégméret megjelölve, névtelenül."
+      lead="Konkrét számok, konkrét vállalkozásoktól. Az iparágat megjelölöm, a nevet nem — az eredmény az ügyfélé, és az is marad."
     />
 
     <div class:list={['mt-14 grid gap-5', resultCols]}>
@@ -25,9 +25,11 @@ import { num } from '@/lib/format';
         <figure class="flex flex-col card p-7 shadow-shade">
           <figcaption class="flex items-center justify-between gap-3">
             <span class="font-title text-sm font-bold text-black">{r.industry}</span>
-            <span class="shrink-0 rounded-brand bg-black/5 px-2 py-0.5 text-xs font-medium text-black/72">
-              {r.size}
-            </span>
+            {r.size && (
+              <span class="shrink-0 rounded-brand bg-black/5 px-2 py-0.5 text-xs font-medium text-black/72">
+                {r.size}
+              </span>
+            )}
           </figcaption>
 
           <p class="mt-1 text-sm text-black/65">{r.platform}</p>
@@ -36,14 +38,18 @@ import { num } from '@/lib/format';
             {r.metric}
           </p>
           <div class="mt-2 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <span class="font-title text-xl font-bold text-black/45 line-through decoration-black/30">
-              {r.from}
-            </span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
-              class="shrink-0 text-black/45">
-              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.5"
-                stroke-linecap="round" stroke-linejoin="round"></path>
-            </svg>
+            {r.from && (
+              <Fragment>
+                <span class="font-title text-xl font-bold text-black/45 line-through decoration-black/30">
+                  {r.from}
+                </span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                  class="shrink-0 text-black/45">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </Fragment>
+            )}
             <span class="font-title text-3xl font-bold text-signal">{r.to}</span>
           </div>
 
