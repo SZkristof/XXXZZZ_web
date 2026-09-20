@@ -17,10 +17,9 @@ for (const f of html) {
   routes.add(r);
 }
 
-const PENDING_ASSETS = new Set([
-  '/img/kristof-portrait.jpg',
-  '/img/kristof-about.jpg',
-]);
+// Client-supplied assets not delivered yet. Empty now that the portraits
+// have landed; add a path here only while its file is genuinely pending.
+const PENDING_ASSETS = new Set([]);
 
 const bad = [];
 let checked = 0;

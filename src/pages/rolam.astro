@@ -81,14 +81,15 @@ const schema = [
                      text-[12rem] font-bold leading-none text-white/[0.04]"
               aria-hidden="true">B</span
             >
-            <!-- TODO: csere Kristóf portréjára -->
-            <img
-              src="/img/kristof-about.jpg"
-              alt={expert.name}
-              width="900" height="1125" loading="eager" decoding="async"
-              class="relative h-full w-full object-cover object-top"
-              onerror="this.remove()"
-            />
+            <picture>
+              <source srcset="/img/kristof-about.webp" type="image/webp" />
+              <img
+                src="/img/kristof-about.jpg"
+                alt={expert.name}
+                width="720" height="900" loading="eager" decoding="async"
+                class="relative h-full w-full object-cover object-top"
+              />
+            </picture>
           </div>
         </div>
       </div>
