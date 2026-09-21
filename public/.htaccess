@@ -58,10 +58,11 @@ ErrorDocument 404 /404.html
 </IfModule>
 
 # ------------------------------------------------------------ compression --
-<IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml \
-    application/javascript application/json image/svg+xml
-</IfModule>
+# REMOVED. Rackhost already compresses responses, and adding a second DEFLATE
+# layer produced a double-encoded body that Chrome could not decode — which it
+# surfaces by offering the page as a download instead of rendering it. The
+# hosting-level compression is sufficient; re-adding this gains nothing and
+# risks the same failure.
 
 # -------------------------------------------------------------- security ---
 <IfModule mod_headers.c>
