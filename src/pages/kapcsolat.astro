@@ -284,8 +284,13 @@ const expectations = [
       light: {
         'cal-bg': '#ffffff',
         'cal-bg-subtle': '#fbf0ec',        // the slot tiles: paper, not grey
-        'cal-bg-emphasis': '#e5dbd7',
-        'cal-bg-muted': '#f0e5e1',
+        // Day tiles: paper, matching the page ground. They sit only 1.12:1
+        // from the white card, so the tiles all but dissolve and the grid
+        // reads as numbers rather than blocks — deliberate. The dates stay at
+        // 15.50:1, so nothing is harder to read; only the selected day and
+        // today's outline carry weight.
+        'cal-bg-emphasis': '#fbf0ec',
+        'cal-bg-muted': '#f7ebe6',
         'cal-bg-inverted': '#1c1a19',
         'cal-border': '#d3c9c6',
         'cal-border-subtle': '#e2d8d5',
