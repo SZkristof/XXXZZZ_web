@@ -1,0 +1,64 @@
+---
+import { brands } from '@/data/site';
+
+/**
+ * The enterprise logo strip.
+ *
+ * The same list does opposite work on the two halves. On the coaching side
+ * it risks reading as "too expensive for me" to a five-person company, which
+ * is why the homepage band pairs it with the small-business reassurance and
+ * leads with the number of businesses trained instead. On the agency side
+ * the buyer is spending a six-figure retainer, and enterprise experience is
+ * exactly the signal they are looking for — so here the logos lead and there
+ * is no reassurance line to soften them.
+ *
+ * The framing stays honest: these are brands worked ON, in agency roles, not
+ * current clients. "AKIKKEL MÁR DOLGOZTAM" is past tense on purpose, and the
+ * note below says where the experience comes from rather than implying a
+ * running retainer with Deutsche Telekom.
+ */
+interface Props {
+  /** Which ground it sits on. Type colour follows from it. */
+  mode?: 'agency' | 'shared';
+  label?: string;
+  note?: string;
+}
+const {
+  mode = 'agency',
+  label = 'AKIKKEL MÁR DOLGOZTAM',
+  note =
+    'Nagyvállalati kampányokon tanultam meg, mi működik és mi nem. ' +
+    'Ugyanazt a szakmai munkát kapod — a te méretedben, a te kereteddel.',
+} = Astro.props;
+
+const dark = mode === 'agency';
+---
+
+<section data-theme={mode} class="relative overflow-hidden">
+  <div class="container-x section-tight">
+    <div class="grid gap-8 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-14">
+      <p class:list={['t-label shrink-0', dark ? 'text-terracotta-200' : 't-eyebrow']}>
+        {label}
+      </p>
+
+      <ul class="flex flex-wrap items-center gap-x-8 gap-y-3">
+        {brands.map((b) => (
+          <li
+            class:list={[
+              'font-title text-lg font-bold leading-snug tracking-tight lg:text-xl',
+              dark ? 'text-paper' : 'text-black',
+            ]}
+          >{b}</li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- The rule spans the container; the note is measured for reading. A
+         border on the text itself stopped the line mid-air at 68ch. -->
+    <div class:list={['mt-8 border-t pt-6', dark ? 'border-paper/20' : 'border-black/15']}>
+      <p class:list={['t-small max-w-[68ch]', dark ? 'text-paper/80' : 'text-black/75']}>
+        {note}
+      </p>
+    </div>
+  </div>
+</section>

@@ -4,6 +4,7 @@ import Button from '@/components/Button.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Slabs from '@/components/Slabs.astro';
 import Results from '@/components/Results.astro';
+import Brands from '@/components/Brands.astro';
 import Faq from '@/components/Faq.astro';
 import { agencyOffer, site, contact, expert } from '@/data/site';
 import { agencyFaqs } from '@/data/proof';
@@ -318,6 +319,12 @@ const why = [
     lead="Az iparágat megjelölöm, a nevet nem — az eredmény az ügyfélé, és az is marad."
     stats={false}
   />
+
+  <!-- 7b · The enterprise logos, in place of the credibility figures.
+       On the coaching side these risk reading as "too expensive for me";
+       here the buyer is spending a six-figure retainer and they are the
+       signal that lands. Same list, opposite job. -->
+  <Brands mode="agency" />
 
   <!-- 8 · Differentiators that are not "we are professionals". -->
   <section class="section" data-theme="shared">
