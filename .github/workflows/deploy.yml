@@ -105,6 +105,25 @@ jobs:
           # captured leads.
           delete_remote_files: false
 
+      # The step above expands './dist/*' as a glob, and a glob does not match
+      # dotfiles — so .htaccess was silently left behind on every deploy. That
+      # file carries the 404 page, the HTTPS and www redirects, the cache and
+      # security headers, and the directory-listing block, so its absence is
+      # invisible until you hit a 404 or audit the headers. Uploaded explicitly.
+      - name: Deploy .htaccess (dotfiles are not matched by the glob above)
+        if: vars.DEPLOY_PROTOCOL != 'ftps' && vars.DEPLOY_PROTOCOL != 'ftp'
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+          server: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          password: ${{ secrets.DEPLOY_PASSWORD }}
+          ssh_private_key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_PORT || 22 }}
+          local_path: './dist/.htaccess'
+          remote_path: ${{ secrets.DEPLOY_REMOTE_PATH }}
+          sftp_only: true
+          delete_remote_files: false
+
       # Fallback for a host without usable SSH. DEPLOY_PROTOCOL selects the
       # flavour, because FTP servers differ in what they accept:
       #   ftps         explicit TLS on port 21 (AUTH TLS) — preferred
