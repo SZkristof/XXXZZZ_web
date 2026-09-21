@@ -115,10 +115,6 @@ A `PageHero` `mode` propja dönti el, melyik félhez tartozik egy oldal
 (`coaching` / `agency` / `shared`). A
 szolgáltatások a `src/data/site.ts` `agencyServices` tömbjében vannak.
 
-> **Egyeztetendő:** a kézikönyv a webfejlesztést is az Ügynökség alá sorolja, de
-> ezt Kristóf még nem erősítette meg. Ha nem szolgáltatás, töröld a
-> `webfejlesztes` bejegyzést az `agencyServices` tömbből — semmi más nem függ tőle.
-
 Az ügynökségi oldalon **szándékosan nincs árlista**: kampánykezelésnél a munka
 mennyisége a kerettől függ, így egy listaár az ügyfelek egy részének
 félrevezető lenne. Helyette a 30 perces beszélgetés után születik konkrét ajánlat.

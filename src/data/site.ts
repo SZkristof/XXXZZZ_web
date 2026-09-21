@@ -325,9 +325,8 @@ export const agencyServices: AgencyService[] = [
     ],
   },
   {
-    // TODO: Kristóffal egyeztetendő — az arculati kézikönyv említi a
-    // webfejlesztést, de ő eddig nem erősítette meg. Ha nem szolgáltatás,
-    // ez az egy bejegyzés törölhető, a rendszer nem függ tőle.
+    /* Kristóf megerősítette (2026-09): a webfejlesztés valódi ügynökségi
+       szolgáltatás, ahogy az arculati kézikönyv is sorolja. */
     id: 'webfejlesztes',
     name: 'Webfejlesztés',
     body:
