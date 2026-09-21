@@ -231,8 +231,8 @@ export const contact = {
   /** Cal.com booking link. Syncs to Google Calendar and generates Meet links,
    *  but unlike Google's native scheduler it fires a completion event we can
    *  track as a conversion in Google Ads and Meta. */
-  bookingUrl: 'https://cal.com/brandmuhely/konzultacio',
-  bookingNamespace: 'konzultacio',
+  bookingUrl: 'https://cal.com/brandmuhely/30min',
+  bookingNamespace: '30min',
   bookingDurationMin: 30,
 } as const;
 

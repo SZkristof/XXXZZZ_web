@@ -256,9 +256,15 @@ const expectations = [
   })(window, 'https://app.cal.com/embed/embed.js', 'init');
 
   Cal('init', ns, { origin: 'https://app.cal.com' });
+
+  // Carry UTM and gclid parameters from the ad click into the booking, so a
+  // confirmed slot can be attributed back to the campaign that produced it.
+  // Without this the booking arrives with no idea where the visitor came from.
+  Cal.config = Cal.config || {};
+  Cal.config.forwardQueryParams = true;
   Cal.ns[ns]('inline', {
     elementOrSelector: '#cal-embed',
-    config: { layout: 'month_view', theme: 'light' },
+    config: { layout: 'month_view', theme: 'light', useSlotsViewOnSmallScreen: true },
     calLink,
   });
   Cal.ns[ns]('ui', { hideEventTypeDetails: false, layout: 'month_view' });
