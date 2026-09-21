@@ -274,9 +274,41 @@ const expectations = [
     // slot). terracotta-500 carries white at only 3.34:1, so the brand accent
     // here is terracotta-800 — which the brand book defines as "the deep
     // terracotta fill, carrying white at 7.28:1", i.e. made for this.
+    // Cal's whole token set, mapped onto the brand palette so the widget stops
+    // looking like a third-party embed. The brand book carries no grey scale,
+    // so the neutrals are black blended over paper — which keeps them warm and
+    // part of the system rather than Cal's stock cool grey. Every text/surface
+    // pairing below was checked against WCAG AA; cal-text-muted in particular
+    // had to be darkened from the obvious value, which landed at 3.24:1.
     cssVarsPerTheme: {
-      light: { 'cal-brand': '#a12c14' },
-      dark: { 'cal-brand': '#fbf0ec' },
+      light: {
+        'cal-bg': '#ffffff',
+        'cal-bg-subtle': '#fbf0ec',        // the slot tiles: paper, not grey
+        'cal-bg-emphasis': '#e5dbd7',
+        'cal-bg-muted': '#f0e5e1',
+        'cal-bg-inverted': '#1c1a19',
+        'cal-border': '#d3c9c6',
+        'cal-border-subtle': '#e2d8d5',
+        'cal-border-emphasis': '#aba3a0',
+        'cal-border-booker': '#ded4d1',
+        'cal-text': '#1c1a19',
+        'cal-text-emphasis': '#1c1a19',
+        'cal-text-subtle': '#5f5a58',      // 6.08:1 on paper
+        'cal-text-muted': '#716b69',       // 4.68:1 on paper
+        'cal-text-inverted': '#fbf0ec',
+        'cal-brand': '#a12c14',            // carries white at 7.28:1
+        'cal-brand-emphasis': '#892915',
+        'cal-brand-text': '#ffffff',
+      },
+      dark: {
+        'cal-bg': '#224c5c',
+        'cal-bg-subtle': '#1c3d4a',
+        'cal-bg-emphasis': '#2c5a6b',
+        'cal-text': '#fbf0ec',
+        'cal-text-emphasis': '#ffffff',
+        'cal-brand': '#f2c2b9',
+        'cal-brand-text': '#1c1a19',
+      },
     },
   });
 
