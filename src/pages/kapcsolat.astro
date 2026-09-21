@@ -333,6 +333,23 @@ const expectations = [
   const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const status = document.getElementById('form-status');
 
+  // Topic prefill. The homepage's workshop tile has nowhere of its own to link
+  // to yet, so it arrives here as ?tema=workshop. Without this the enquiry
+  // lands in the inbox indistinguishable from every other one, and Kristóf
+  // can't tell who asked about what. Only known topics are ever written into
+  // the field — never the raw query value, which the visitor controls.
+  const TOPICS: Record<string, string> = {
+    workshop: 'Az online workshopok érdekelnek. Kérlek, jelezz, ha indul a következő.',
+    audit: 'Fiókvizsgálat / audit érdekelne.',
+    technikai: 'A mérésemmel van gond (GA4 / GTM / konverziók), ebben kérnék segítséget.',
+  };
+  const topic = new URLSearchParams(location.search).get('tema') ?? '';
+  const prefill = Object.prototype.hasOwnProperty.call(TOPICS, topic) ? TOPICS[topic] : '';
+  if (prefill) {
+    const msg = document.getElementById('f-message') as HTMLTextAreaElement | null;
+    if (msg && !msg.value) msg.value = prefill;
+  }
+
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!form.reportValidity()) return;

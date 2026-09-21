@@ -5,13 +5,19 @@ interface Props {
   title: string;
   lead?: string;
   align?: 'left' | 'center';
+  /** Long leads read badly centred — six centred lines have no stable left
+   *  edge for the eye to return to. Set this to 'left' to centre the title
+   *  but keep the paragraph ranged left inside the same centred column. */
+  leadAlign?: 'left' | 'center';
   /** true when sitting on blue-800 or black: type becomes paper. */
   onDark?: boolean;
   class?: string;
 }
 const {
-  eyebrow, title, lead, align = 'left', onDark = false, class: className = '',
+  eyebrow, title, lead, align = 'left', leadAlign, onDark = false,
+  class: className = '',
 } = Astro.props;
+const leadAlignment = leadAlign ?? align;
 ---
 <div class:list={['max-w-[52rem]', align === 'center' && 'mx-auto text-center', className]}>
   {eyebrow && (
@@ -28,6 +34,7 @@ const {
         't-lead mt-6 max-w-[56ch]',
         onDark ? 'text-paper/85' : 'text-black/80',
         align === 'center' && 'mx-auto',
+        leadAlignment === 'left' && 'text-left',
       ]}
     ><Fragment set:html={lead} /></p>
   )}

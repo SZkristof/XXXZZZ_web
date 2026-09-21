@@ -1,10 +1,12 @@
 ---
 /**
- * Brand rule: the 500 steps are FILLS, never type.
- *   - terracotta fill carries BLACK text (5.19:1)
- *   - blue-800 fill carries PAPER (8.32:1)
- *   - signal fill carries WHITE (5.67:1)
- * Never blue on terracotta or terracotta on blue: both are 2.79:1.
+ * The primary button uses terracotta-800, not the 500 step, because the client
+ * wants light text on it: white on terracotta-500 is 3.34:1 and fails AA,
+ * while on terracotta-800 it is 7.28:1. The brand book sanctions this exact
+ * pairing — "the deep terracotta fill, carrying white at 7.28:1".
+ *
+ * Other fills: blue-800 carries paper (8.32:1), signal carries white (5.67:1).
+ * Never blue on terracotta or the reverse: both land at 2.79:1.
  */
 interface Props {
   href?: string;
@@ -22,12 +24,12 @@ const {
 } = Astro.props;
 
 const base =
-  'group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-brand font-title ' +
+  'group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-button font-title ' +
   'font-bold text-center transition-[transform,background-color,box-shadow] duration-200 ' +
   'disabled:pointer-events-none disabled:opacity-50';
 
 const variants = {
-  primary: 'bg-terracotta-500 text-black shadow-shade hover:-translate-y-px hover:shadow-shade-lift',
+  primary: 'bg-terracotta-800 text-white shadow-shade hover:-translate-y-px hover:shadow-shade-lift hover:bg-[#8a2611]',
   dark:    'bg-blue-800 text-paper shadow-shade hover:-translate-y-px hover:shadow-shade-lift',
   signal:  'bg-signal text-white shadow-shade hover:-translate-y-px hover:shadow-shade-lift',
   outline: 'bg-transparent text-black ring-1 ring-inset ring-black/25 hover:ring-black/60',

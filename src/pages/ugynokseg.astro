@@ -29,7 +29,7 @@ const schema = [
   {
     '@type': 'Service',
     '@id': `${site.url}/ugynokseg#service`,
-    name: 'Hirdetéskezelés és webfejlesztés',
+    name: 'Hirdetéskezelés, fiókmenedzsment és mérés',
     serviceType: 'Online marketing ügynökségi szolgáltatás',
     provider: { '@id': `${site.url}/#business` },
     areaServed: { '@type': 'Country', name: 'Hungary' },
@@ -47,7 +47,7 @@ const schema = [
 
 <Base
   title="Ügynökség"
-  description="Kampánykezelés és webfejlesztés magyar kis- és középvállalkozásoknak. A hirdetési fiók végig a tiéd marad, nincs hűségidő."
+  description="Kampánykezelés, egyszeri fiókbeállítás, audit és mérés magyar kis- és középvállalkozásoknak. A hirdetési fiók végig a tiéd marad, nincs hűségidő."
   schema={schema}
 >
   <PageHero
@@ -61,13 +61,13 @@ const schema = [
     <div class="container-x">
       <SectionHeading
         eyebrow="MIT CSINÁLOK"
-        title="Két dolgot, rendesen"
-        lead="Nem vállalok mindent. Azt csinálom, amihez tizenegy év tapasztalat áll mögöttem."
+        title="Néhány dolgot, rendesen"
+        lead="Nem vállalok mindent. Azt csinálom, amihez tizenegy év tapasztalat áll mögöttem — a teljes kampánykezeléstől az egyszeri beállításig."
       />
 
       <div class="mt-12 grid gap-6 lg:grid-cols-2">
         {agencyServices.map((svc) => (
-          <article class="card flex flex-col p-8">
+          <article id={svc.id} class="card flex flex-col p-8 scroll-mt-28">
             <h3 class="t-subtitle text-black">{svc.name}</h3>
             <p class="t-body mt-4 text-black/80">{svc.body}</p>
             <ul class="mt-6 space-y-3 border-t border-black/10 pt-6">

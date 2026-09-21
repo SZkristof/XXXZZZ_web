@@ -2,69 +2,79 @@
 import SectionHeading from '@/components/SectionHeading.astro';
 import { SESSION_LENGTH_MIN } from '@/data/site';
 
+/**
+ * The step markers used to flip to terracotta-500 with black type on hover.
+ * terracotta-500 is a FILL, and black on it clears AA — but the hover state
+ * moved the numbers from paper-on-blue (8.32:1) to black-on-terracotta
+ * (5.19:1) mid-interaction, which read as a colour glitch rather than a
+ * state. They now keep the blue ground and gain the terracotta only as a
+ * ring, so the hover adds emphasis without swapping the type colour.
+ */
 const steps = [
   {
-    title: 'Ingyenes 30 perc',
+    title: 'Ingyenes 30 perces konzultáció',
     body: 'Elmondod, mivel foglalkozol és hol tartasz. Megmondom őszintén, tudok-e segíteni. Ha nem, azt is megmondom.',
   },
   {
-    title: 'Kiválasztjuk az irányt',
+    title: 'Irányválasztás',
     body: 'Meta, Google vagy LinkedIn — és hány alkalom kell hozzá. Nem adok el nagyobb csomagot, mint amire szükséged van.',
   },
   {
-    title: `${SESSION_LENGTH_MIN} perc, a te fiókodban`,
-    body: 'Nem diákat nézünk. Megosztod a képernyőd, és együtt dolgozunk a saját hirdetési fiókodban, a saját termékeiden.',
+    title: 'Első óra: képernyőmegosztás, közös munka',
+    body: `Nem diákat nézünk. ${SESSION_LENGTH_MIN} percen át megosztod a képernyőd, és együtt dolgozunk a saját hirdetési fiókodban, a saját termékeiden.`,
   },
   {
-    title: 'Feladat két alkalom között',
-    body: 'Konkrét, elvégezhető lépések. A következő alkalommal ezekkel kezdünk, és átnézzük, mi lett belőlük.',
+    title: 'Hirdetések indítása és optimalizálása',
+    body: 'Élesben indulnak a kampányok, nem tesztkörnyezetben. Aztán együtt állítjuk őket, amíg futnak.',
   },
   {
-    title: 'Felvétel, ingyen',
-    body: 'Minden alkalomról videófelvétel készül, amit az óra végén megkapsz. Bármikor visszanézheted — nem kell jegyzetelned.',
+    title: 'Eredmények elemzése',
+    body: 'Átnézzük a számokat: mi hozott, mi nem, és mire megy el a keret. Megtanulod, mit kell nézned hetente.',
   },
+  {
+    title: 'Tanfolyam-felvételek — nem kell jegyzetelned',
+    body: 'Minden alkalomról videófelvétel készül, amit az óra után megkapsz. Bármikor visszanézheted, ingyen.',
+  },
+];
+
+const facts = [
+  { k: 'Alkalmanként', v: '60 perc', wide: false },
+  { k: 'Hetente max.', v: '2 alkalom', wide: false },
+  { k: 'Helyszín', v: 'Online (Google Meet) vagy személyesen Budapesten', wide: true },
+  { k: 'Visszanézhető', v: 'Igen — ingyenes felvétel', wide: true },
 ];
 ---
 
-<section class="section ground-paper" id="hogyan">
+<section class="section ground-white" id="hogyan">
   <div class="container-x">
     <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
       <div class="lg:sticky lg:top-28 lg:self-start">
         <SectionHeading
-          eyebrow="HOGYAN MŰKÖDIK"
-          title="Öt lépés, semmi meglepetés"
-          lead="Nincs tananyag, amit egyedül kell végigrágnod. Minden alkalom a te fiókodról szól."
+          title="Hogyan működik?"
+          lead="Nincs tananyag, nincs házifeladat, csak mi ketten és a vállalkozásod. Szuperintenzív marketing tanfolyam, 100% gyakorlattal és mellébeszélés nélkül."
         />
-        <dl class="mt-9 grid grid-cols-2 gap-5">
-          <div class="rounded-brand bg-paper p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wider text-black/65">Alkalmanként</dt>
-            <dd class="mt-1.5 font-title text-2xl font-bold text-black">60 perc</dd>
-          </div>
-          <div class="rounded-brand bg-paper p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wider text-black/65">Hetente max.</dt>
-            <dd class="mt-1.5 font-title text-2xl font-bold text-black">2 alkalom</dd>
-          </div>
-          <div class="rounded-brand bg-paper p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wider text-black/65">Helyszín</dt>
-            <dd class="mt-1.5 font-title text-lg font-bold text-black">Google Meet</dd>
-          </div>
-          <div class="rounded-brand bg-paper p-5">
-            <dt class="text-xs font-semibold uppercase tracking-wider text-black/65">Felvétel</dt>
-            <dd class="mt-1.5 font-title text-lg font-bold text-signal">Ingyenes</dd>
-          </div>
+        <dl class="mt-9 grid grid-cols-2 gap-3 sm:gap-5">
+          {facts.map((f) => (
+            <div class:list={['rounded-brand bg-paper p-5', f.wide && 'col-span-2']}>
+              <dt class="t-label text-black/65">{f.k.toUpperCase()}</dt>
+              <dd class:list={[
+                'mt-1.5 font-title font-bold text-black',
+                f.wide ? 'text-lg leading-snug' : 'text-2xl',
+              ]}>{f.v}</dd>
+            </div>
+          ))}
         </dl>
       </div>
 
       <ol class="relative space-y-1">
         {steps.map((s, i) => (
           <li class="group relative flex gap-5 pb-8 last:pb-0 sm:gap-7">
-            <!-- Connector line -->
             <div class="relative flex flex-col items-center">
               <span
                 class="z-10 grid h-11 w-11 shrink-0 place-items-center rounded-brand
                        bg-blue-800 font-title text-sm font-bold text-paper
-                       ring-4 ring-paper transition-colors duration-300
-                       group-hover:bg-terracotta-500 group-hover:text-black"
+                       ring-4 ring-white transition-shadow duration-300
+                       group-hover:shadow-[0_0_0_2px_var(--color-terracotta-500)]"
               >
                 {i + 1}
               </span>
@@ -73,7 +83,9 @@ const steps = [
               )}
             </div>
             <div class="pt-1.5">
-              <h3 class="font-title text-xl font-bold text-black">{s.title}</h3>
+              <h3 class="font-title text-xl font-bold leading-snug tracking-tight text-black">
+                {s.title}
+              </h3>
               <p class="mt-2 max-w-lg leading-relaxed text-black/72">{s.body}</p>
             </div>
           </li>

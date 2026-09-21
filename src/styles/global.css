@@ -68,9 +68,13 @@
      map straight onto it: 1=4 2=8 3=12 4=16 6=24 8=32 12=48 16=64 24=96. ---- */
   --spacing: 4px;
 
-  /* ---- One rounding. A second radius would split the system into two shape
-     families, which is what makes a layout look assembled rather than drawn. */
+  /* ---- Rounding. The brand book specifies ONE radius (4px) and warns that a
+     second splits the system into two shape families. The client has asked for
+     rounder buttons on conversion grounds and accepted that trade, so buttons
+     carry their own radius while every other surface keeps 4px. Worth raising
+     with Jay at the next brand-book revision. */
   --radius-brand: 4px;
+  --radius-button: 10px;
 
   /* ---- One shade, plus its single step up ------------------------------ */
   --shadow-shade: 0 4px 20px rgb(28 26 25 / 0.10);

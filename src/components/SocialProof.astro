@@ -1,0 +1,58 @@
+---
+import { brands, brandsReassurance, socialProofClaim, expert } from '@/data/site';
+
+/**
+ * The old brand strip sat inside the hero as a wide logo row with a paragraph
+ * bolted underneath, and it read as an afterthought. This replaces it with a
+ * single tight band whose FIRST statement is the number of businesses trained
+ * — that is the claim a 5-person company actually cares about — and demotes
+ * the enterprise logos to supporting evidence on a second line.
+ *
+ * No star rating. The brand book has no star glyph, and a stars row without
+ * real, sourced reviews behind it implies an aggregate rating that does not
+ * exist. The quality signal here is countable instead: years, businesses,
+ * certifications. Type on terracotta is BLACK (5.19:1) — never white.
+ */
+const credentials = [
+  `${expert.yearsExperience} év a szakmában`,
+  'Google és Meta minősítés',
+  'Saját fiók, saját kampányok',
+];
+---
+
+<section class="ground-terracotta" aria-labelledby="social-proof-claim">
+  <div class="container-x py-10 sm:py-12">
+    <div class="grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14">
+      <div>
+        <p id="social-proof-claim" class="t-title max-w-[22ch] text-black">
+          {socialProofClaim}
+        </p>
+        <ul class="mt-5 flex flex-wrap gap-x-5 gap-y-2">
+          {credentials.map((c) => (
+            <li class="t-small flex items-center gap-2 text-black/80">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                class="shrink-0">
+                <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+              {c}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Evidence, not decoration: the logos justify the claim above them. -->
+      <div class="border-t border-black/20 pt-6 lg:border-l lg:border-t-0 lg:pl-14 lg:pt-0">
+        <p class="t-label text-black/70">DOLGOZTAM VELÜK</p>
+        <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-1.5">
+          {brands.map((b) => (
+            <li class="font-title text-[17px] font-bold leading-snug tracking-tight text-black">
+              {b}
+            </li>
+          ))}
+        </ul>
+        <p class="t-small mt-4 text-black/80">{brandsReassurance}</p>
+      </div>
+    </div>
+  </div>
+</section>

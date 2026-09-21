@@ -1,0 +1,77 @@
+---
+import Button from '@/components/Button.astro';
+import { contact } from '@/data/site';
+
+/**
+ * No eyebrow here, by request: this is the page's central argument, and a
+ * 12px label above it would frame it as just another section. The client's
+ * paragraph is long, so it is broken at its own sentence boundaries into
+ * three beats — the words are unchanged — and the three hard facts inside it
+ * are pulled out as a strip, because a fact buried in the fifth sentence of a
+ * paragraph is a fact nobody reads.
+ *
+ * Blue ground: type is paper (8.32:1) or terracotta-200 (5.85:1), never
+ * terracotta-500 or -800.
+ */
+const facts = [
+  { k: 'Időigény', v: 'kb. 5 óra egy felület' },
+  { k: 'Mikor', v: 'hétköznap vagy hétvégén' },
+  { k: 'Előképzettség', v: 'nem szükséges' },
+];
+---
+
+<section class="section ground-blue" id="oktatas">
+  <div class="container-x">
+    <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <h2 class="t-title text-paper">Hirdetéskezelés egyéni oktatás</h2>
+
+        <dl class="mt-8 space-y-4 border-t border-paper/20 pt-8">
+          {facts.map((f) => (
+            <div class="flex items-baseline justify-between gap-4">
+              <dt class="t-label text-terracotta-200">{f.k.toUpperCase()}</dt>
+              <dd class="t-body text-right font-medium text-paper">{f.v}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div class="mt-9 hidden lg:block">
+          <Button href="/kepzes" size="lg" variant="onDark" track="course-intro">
+            Az oktatásról bővebben
+          </Button>
+        </div>
+      </div>
+
+      <div>
+        <p class="t-lead text-paper">
+          Ha eleged van abból, hogy nem mennek a hirdetéseid és csak égeted a pénzt. Ha nem
+          tudod, hogyan kezdj hozzá, akkor az oktatásom pont Neked szól.
+        </p>
+
+        <p class="t-body mt-6 text-paper/85">
+          Megfelelő tudással vértezlek fel, hogy könnyedén boldogulj a Facebook, Instagram
+          (Meta) vagy Google hirdetéskezelő felületén, és magabiztosan tudj kampányokat
+          létrehozni a megfelelő célközönségnek. Az oktatás a saját tempód szerint zajlik,
+          hétköznap vagy hétvégén: csupán 5 órát vesz igénybe egy felület elsajátítása, és
+          nem igényel előképzettséget — de természetesen ha van, az sem baj.
+        </p>
+
+        <p class="t-body mt-6 text-paper/85">
+          Azonnali tudást kapsz, ahol nem csak általános sallangot hallasz a hirdetésekről,
+          hanem közösen alkotunk, hogy felépítsük a digitális marketinged.
+        </p>
+
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row lg:hidden">
+          <Button href="/kepzes" size="lg" variant="onDark" track="course-intro-mobile">
+            Az oktatásról bővebben
+          </Button>
+        </div>
+
+        <p class="t-small mt-6 text-paper/70">
+          Kérdésed van? Hívj: <a href={`tel:${contact.phoneHref}`}
+            class="font-medium text-paper underline underline-offset-4">{contact.phone}</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -19,7 +19,10 @@ export const expert = {
   firstName: 'Kristóf',
   role: 'Paid media szakértő · Brandműhely',
   yearsExperience: 11,
-  businessesTrained: 500,
+  /** Kristóf először 500-at mondott, később "több, mint 200"-at írt. A kisebbik,
+   *  biztosan tartható számot használjuk mindenhol — ha az 500 is igazolható,
+   *  elég ezt az egy sort átírni, minden felület követi. */
+  businessesTrained: 200,
   shortBio:
     '11 éve élek abból, hogy hirdetési kampányok teljesítenek. Dolgoztam nemzetközi paid media csapatok élén és a legnagyobb magyar ügynökségeknél, olyan márkákon, amiket nap mint nap használsz.',
 } as const;
@@ -35,6 +38,12 @@ export const brands = [
   'Sportfactory',
   'Football Factor',
 ] as const;
+
+/** A főoldali bizalmi sáv fő állítása. Szándékosan szám, nem csillag:
+ *  az arculati kézikönyvben nincs csillag-ikon, és egy értékelés-widget
+ *  látszata valódi értékelések nélkül félrevezető lenne. */
+export const socialProofClaim =
+  'Több, mint 200 magyar vállalkozás választotta már a Brandműhely oktatásait.';
 
 export const brandsReassurance =
   'De az ügyfeleim többsége 3–15 fős vállalkozás, havi 30–250 000 Ft hirdetési kerettel.';
@@ -91,7 +100,7 @@ function pkg(
 }
 
 const COMMON_INCLUDES = [
-  '60 perces, egyéni Google Meet konzultáció',
+  '60 perces, egyéni alkalom — online vagy személyesen Budapesten',
   'Minden alkalomról videófelvétel, ingyen',
   'A saját hirdetési fiókodban dolgozunk',
   'Konkrét feladatok két alkalom között',
@@ -329,6 +338,133 @@ export const agencyServices: AgencyService[] = [
       'A hirdetési üzenetre hangolt landing oldal',
       'GDPR-megfelelő süti- és mérési beállítás',
     ],
+  },
+  {
+    id: 'egyszeri-beallitas',
+    name: 'Egyszeri kampány- és fiókbeállítás',
+    body:
+      'Rövid együttműködés: egyszer beállítom a fiókot és az első kampányokat az általad megadott adatok alapján, aztán a tiéd. Nincs havidíj és nincs folytatási kötelezettség.',
+    points: [
+      'Fiókstruktúra és mérés beállítása',
+      'Az első kampányok felépítése, indításra készen',
+      'Egyszeri díj, nincs havidíj',
+      'A fiók és minden hozzáférés a tiéd marad',
+    ],
+  },
+  {
+    id: 'audit',
+    name: 'Digitális marketing audit, fiókvizsgálat',
+    body:
+      'Fiókvizsgálat, kampányelemzés és hatékonyságnövelési javaslatok. Megkapod írásban, mit érdemes átalakítani — akkor is, ha utána egyedül csinálod tovább.',
+    points: [
+      'Tételes fiók- és kampányátvizsgálás',
+      'Hol folyik el a költés, és miért',
+      'Írásos javaslatcsomag, prioritási sorrendben',
+      'Nem kötelező utána együtt dolgoznunk',
+    ],
+  },
+  {
+    id: 'technikai',
+    name: 'Technikai beállítás és mérés-audit',
+    body:
+      'Google Analytics, Google Tag Manager, konverziómérés, shopping feedek. Ha sejted, hogy rossz a mérésed, de nem tudod, mit csinálj: az ingyenes hibafeltárás után kapsz árajánlatot a javításra.',
+    points: [
+      'Ingyenes hibafeltárás, utána árajánlat',
+      'GA4 és GTM beállítás vagy átvizsgálás',
+      'Konverziómérés Meta és Google oldalon',
+      'Shopping feed hibák javítása',
+    ],
+  },
+];
+
+/* ------------------------------------------------------------------------ */
+/* Services — the six entry points shown on the homepage                      */
+/*                                                                            */
+/* This is the homepage's routing layer, not a price list: every tile has to   */
+/* land somewhere real, so each href points at a section that exists. The      */
+/* workshop tile goes to the contact form because there is no workshop page    */
+/* yet — better an honest enquiry than a link to nothing.                      */
+/* ------------------------------------------------------------------------ */
+
+export type Service = {
+  id: string;
+  name: string;
+  body: string;
+  /** Mobilon két csempe fér egymás mellé, ott a hosszú leírás olvashatatlan.
+   *  Ez az egy mondat megy ki telefonon, a teljes szöveg sm-től felfelé. */
+  short: string;
+  href: string;
+  cta: string;
+  /** terracotta = képzés oldal, blue = ügynökségi oldal. */
+  tone: 'terracotta' | 'blue';
+};
+
+export const services: Service[] = [
+  {
+    id: 'oktatas',
+    name: 'Hirdetéskezelés oktatás, személyre szabva',
+    body:
+      'Saját tempóban sajátíthatod el az otthonod kényelméből a hirdetéskezelés fortélyait. Megtanítalak rendszerben gondolkodni, miközben igazi kampányokat hozunk létre a vállalkozásod számára — az eredményeket pedig együtt vizsgáljuk meg utána.',
+    short:
+      'Együtt építjük meg a kampányaidat, a te fiókodban.',
+    href: '/kepzes',
+    cta: 'Az oktatásról',
+    tone: 'terracotta',
+  },
+  {
+    id: 'kampanykezeles',
+    name: 'Teljes körű hirdetéskezelés, fiókmenedzsment',
+    body:
+      'Ha kiszerveznéd a marketinged, vagy megbízható partnert keresel, aki nem csak hirdetést kezel, hanem stratégiailag gondolkodik együtt a cégeddel — akkor valószínűleg egymást keressük.',
+    short:
+      'Kiszervezed: én viszem a kampányokat, stratégiával.',
+    href: '/ugynokseg#kampanykezeles',
+    cta: 'Kampánykezelés',
+    tone: 'blue',
+  },
+  {
+    id: 'egyszeri-beallitas',
+    name: 'Egyszeri kampány- és fiókbeállítás',
+    body:
+      'Rövid együttműködési lehetőség, ahol egyszeri fiók- és kampánybeállítást végzünk el a legjobb tudásunk szerint, az általad megadott adatok alapján.',
+    short:
+      'Egyszer beállítom a fiókot és a kampányokat. Utána a tiéd.',
+    href: '/ugynokseg#egyszeri-beallitas',
+    cta: 'Részletek',
+    tone: 'blue',
+  },
+  {
+    id: 'audit',
+    name: 'Digitális marketing audit, fiókvizsgálat',
+    body:
+      'Fiókvizsgálat, kampányelemzés, hatékonyságnövelési lehetőségek felkutatása és javaslattétel a jobb eredmények elérése érdekében.',
+    short:
+      'Átvizsgálom a fiókod, és megmondom, hol folyik el a pénz.',
+    href: '/ugynokseg#audit',
+    cta: 'Kérek auditot',
+    tone: 'blue',
+  },
+  {
+    id: 'technikai',
+    name: 'Technikai beállítás és audit',
+    body:
+      'Google Analytics, Google Tag Manager, shopping feedek. Sejted, hogy rossz a mérésed, de nem tudod, mit csinálj pontosan? Hívj nyugodtan: ingyenes hibafeltárás után kapsz árajánlatot a javításra.',
+    short:
+      'GA4, GTM, mérés, feedek. Ingyenes hibafeltárással indulunk.',
+    href: '/ugynokseg#technikai',
+    cta: 'Hibafeltárás',
+    tone: 'blue',
+  },
+  {
+    id: 'workshop',
+    name: 'Online workshopok',
+    body:
+      'Gyakorlatorientált, élő és visszanézhető csoportos alkalmak, ahol egy-egy témát és újdonságot dolgozunk fel a digitális marketing területéről.',
+    short:
+      'Élő és visszanézhető csoportos alkalmak, egy-egy témára.',
+    href: '/kapcsolat?tema=workshop',
+    cta: 'Szólj, ha indul',
+    tone: 'terracotta',
   },
 ];
 
