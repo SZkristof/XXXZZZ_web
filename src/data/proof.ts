@@ -32,8 +32,8 @@ export const testimonials: Testimonial[] = [
     quote:
       'Azzal kerestem meg őket, hogy segítsenek végre átlátni, hogy a jelenlegi hirdetéseink valóban jól működnek-e. Kristóf nagyon részletesen végigment a marketingünkön — és ami számomra különösen hasznos volt: nemcsak elmondta, mit kellene másképp csinálnunk, hanem együtt át is szerkesztettük és optimalizáltuk a kampányokat. Nem általános marketingelmélet volt, hanem kifejezetten a saját vállalkozásunkra szabott, gyakorlatias segítség.',
     name: 'Demeter B.',
-    role: 'ügyvezető és tulajdonos',
-    company: 'Heaven Laser & Beauty',
+    role: 'tulajdonos',
+    company: 'Szépségipar',
     half: 'kepzes',
     initials: 'DB',
   },
@@ -43,8 +43,8 @@ export const testimonials: Testimonial[] = [
       'Korábban az volt a problémám, hogy szerettem volna több új vendéget szerezni, de nem voltam biztos benne, hogyan érdemes Facebookon hirdetnem. 15 nap után 19 ember töltötte ki az űrlapot, közülük 12-vel már beszéltem, és 10-en azóta a vendégeim lettek. Most egy kicsit le is kellett állítanom a hirdetést, mert annyi új jelentkező érkezett, hogy nem győztem őket fogadni.',
     name: 'Németh T.',
     role: 'tulajdonos',
-    company: 'Naturalpilates',
-    half: 'ugynokseg',
+    company: 'Fitness',
+    half: 'kepzes',
     initials: 'NT',
   },
 ];
@@ -65,12 +65,37 @@ export type Result = {
 export const results: Result[] = [
   {
     // Figures as reported by the client in the testimonial above.
-    industry: 'Szolgáltatás · pilates stúdió',
-    platform: 'Meta Ads',
-    metric: 'Új vendég',
+    industry: 'Szolgáltatás · Fitness',
+    platform: 'Facebook egyéni oktatás',
+    metric: 'Új fizető vendég',
     to: '10',
     timeframe: '15 nap',
     note: '19 űrlapkitöltésből. A hirdetést le kellett állítani, mert nem győzte fogadni a jelentkezőket.',
+  },
+  {
+    industry: 'Szolgáltatás · Szépségipar',
+    platform: 'Facebook egyéni oktatás',
+    metric: 'Költség/vásárlás',
+    from: '3 500 Ft',
+    to: '1 800 Ft',
+    timeframe: '2 hónap',
+    note: 'Az Advantage+ kikapcsolásával és konkrét célzási stratégiákkal sikerült javítani a vásárlásonkénti költséget.',
+  },
+  {
+    industry: 'Webshop · Sport',
+    platform: 'Facebook és Google hirdetéskezelés',
+    metric: 'Black Friday bevétel',
+    to: '18 millió Ft',
+    timeframe: '1 nap',
+    note: 'Black Friday és karácsonyi akciók kampánykezelésére kértek fel, ahol 1 nap alatt értük el a közel teljes évi bevételt.',
+  },
+  {
+    industry: 'Oktatás',
+    platform: 'Facebook egyéni oktatás',
+    metric: 'Költség / lead',
+    to: '40 Ft',
+    timeframe: 'napi 700 Ft keretből',
+    note: 'Kecskeméti ügyfelemnek napi 700 forintból kellett hírlevél-feliratkozókat szereznünk egy „csali" e-mail kampányhoz.',
   },
 ];
 
@@ -78,28 +103,30 @@ export type Faq = { q: string; a: string };
 
 export const faqs: Faq[] = [
   {
-    q: 'Nem értek a technikához. Ez baj?',
-    a: 'Nem. Az ügyfeleim többsége soha nem állított be hirdetést. Együtt kattintunk végig mindent, és ha valami nem világos, addig maradunk rajta, amíg az lesz. Nincs olyan kérdés, ami túl alap.',
+    q: 'Még soha nem hirdettem. Így is jelentkezhetek?',
+    // A kérdés átfogalmazásakor a válasz nyitó "Nem."-je az ellenkezőjét
+    // kezdte jelenteni ("nem jelentkezhetsz"), ezért igenlőre fordítva.
+    a: 'Persze. Az ügyfeleim többsége soha nem állított be hirdetést. Együtt kattintunk végig mindent, és ha valami nem világos, átbeszéljük — nincs buta kérdés. Ha már hirdettél, akkor a szintednek megfelelően haladunk a hirdetéskezelésben, és komplexebb módszereket mutatok.',
   },
   {
-    q: 'Havi 30–50 ezer forintot tudok hirdetésre költeni. Ez neked kicsi?',
-    a: 'Nem. Az ügyfeleim jelentős része ebben a sávban van, és pont itt számít a legtöbbet, hogy jó helyre megy a pénz. Kis kerettel nincs mozgástér a hibázásra — ezért éri meg megtanulni.',
+    q: 'Havi 30–50 ezer forintot tudok hirdetésre költeni. Ez elég?',
+    a: 'Az ügyfeleim jelentős része ebben a sávban van, és pont itt számít a legtöbbet, hogy jó helyre menjen a pénz. Kis kerettel nincs mozgástér a hibázásra — ezért éri meg megtanulni jól hirdetni.',
   },
   {
     q: 'Miben más ez, mint egy online kurzus?',
-    a: 'Egy kurzus általánosságban beszél. Itt a te hirdetési fiókodat nyitjuk meg, a te termékeidet nézzük, és a te kereteddel számolunk. Ha elakadsz, azonnal kérdezel, nem egy fórumon három nap múlva.',
+    a: 'Egy csoportos online kurzus általánosságban tanít meg az alapokra. Az én egyéni oktatásaimon a te hirdetési fiókodat nyitjuk meg, a te termékeidet és szolgáltatásaidat nézzük át, és a te kereteddel állítunk be hirdetéseket. Ha elakadsz, azonnal tudsz kérdezni, nem egy Facebook-csoportban kapsz választ három nap múlva.',
   },
   {
     q: 'Mi van, ha a végén mégis inkább kiszerveznénk?',
-    a: 'Akkor is jobban jársz, mintha most szerveznéd ki: tudni fogod, mit kérsz számon. És ha tényleg ez a jó döntés, szólj — ezt is meg tudom oldani.',
+    a: 'Akkor is jobban jársz, mintha most szerveznéd ki: tudni fogod, mit kérsz számon. És ha tényleg ez a jó döntés, szólj — természetesen ezzel is foglalkozunk.',
   },
   {
     q: 'Mennyi idő alatt végzünk az 5 alkalommal?',
-    a: 'Jellemzően 5 hét, heti egy alkalommal. Ha sietsz, heti kettővel 3 hét alatt is megvan. Ennél sűrűbben nem javaslom — a két alkalom között dolgozni is kell a kampányokon.',
+    a: 'Jellemzően 5 hét, heti egy alkalommal. Ha sietsz, heti kettővel 2–3 hét alatt is megtanulhatod a hirdetéskezelést. Ennél sűrűbben nem javaslom — a két alkalom között érdemes pihenni, mert elég intenzívek az órák.',
   },
   {
     q: 'Kapok felvételt az alkalmakról?',
-    a: 'Igen, mindegyikről, felár nélkül. Az alkalom végén küldöm. Nem kell jegyzetelned, és bármikor visszanézheted.',
+    a: 'Igen, mindegyikről, felár nélkül. Az alkalom végén, legkésőbb másnap kiküldöm e-mailben. Nem kell jegyzetelned, és bármikor visszanézheted.',
   },
   {
     q: 'Egyszerre több platformot is tanulhatok?',

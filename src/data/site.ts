@@ -17,7 +17,7 @@ export const site = {
 export const expert = {
   name: 'Szabó Kristóf',
   firstName: 'Kristóf',
-  role: 'Paid media szakértő · Brandműhely',
+  role: 'Facebook és Google szakértő · Oktató',
   yearsExperience: 11,
   /** Kristóf először 500-at mondott, később "több, mint 200"-at írt. A kisebbik,
    *  biztosan tartható számot használjuk mindenhol — ha az 500 is igazolható,
@@ -46,7 +46,11 @@ export const socialProofClaim =
   'Több, mint 200 magyar vállalkozás választotta már a Brandműhely oktatásait.';
 
 export const brandsReassurance =
-  'De az ügyfeleim többsége 3–15 fős vállalkozás, havi 30–250 000 Ft hirdetési kerettel.';
+  'Továbbá: Heaven Laser & Beauty Szépségszalon, TippTour Utazási Iroda, ' +
+  'Mokambo Kávé, Prémium Kőszőnyeg, Caninashop.hu, Trend Építészet Group, ' +
+  'StoreFront, Hell Cuts Barber & more, AzsuzsA a magyartanár, ' +
+  "GRK's Greek Kitchen, Deuter Magyarország, Store for Explorers és még " +
+  'sokan mások';
 
 /* ------------------------------------------------------------------------ */
 /* Pricing                                                                    */
@@ -65,7 +69,11 @@ export type Package = {
   dealExplainer: string | null;
   savings: number;
   name: string;
+  /** The cut header band's label. Authored in uppercase, never text-transform. */
+  band: string;
   tagline: string;
+  /** Each package asks for the sale in its own words. */
+  cta: string;
   featured: boolean;
   bestFor: string;
   includes: string[];
@@ -77,7 +85,10 @@ function pkg(
   sessions: number,
   price: number,
   paidSessions: number,
-  opts: { tagline: string; bestFor: string; featured?: boolean; includes: string[] },
+  opts: {
+    band: string; tagline: string; cta: string;
+    bestFor: string; featured?: boolean; includes: string[];
+  },
 ): Package {
   const free = sessions - paidSessions;
   return {
@@ -93,7 +104,9 @@ function pkg(
         : null,
     savings: sessions * BASE_SESSION_PRICE - price,
     featured: opts.featured ?? false,
+    band: opts.band,
     tagline: opts.tagline,
+    cta: opts.cta,
     bestFor: opts.bestFor,
     includes: opts.includes,
   };
@@ -108,21 +121,27 @@ const COMMON_INCLUDES = [
 
 export const packages: Package[] = [
   pkg('single', 'Egy alkalom', 1, 35_000, 1, {
-    tagline: 'Kipróbálod, mielőtt elköteleződsz.',
-    bestFor: 'Egy konkrét kérdés, egy elakadás, vagy egy gyors fiók-átnézés.',
+    band: 'AUDIT, FIÓKVIZSGÁLAT',
+    tagline: 'Konkrét probléma megoldása, kampány indítása',
+    cta: 'Ez érdekel',
+    bestFor: 'Egy konkrét kérdés, egy elakadás, vagy egy alapos fiók-átnézés.',
     includes: COMMON_INCLUDES,
   }),
   pkg('five', '5 alkalmas csomag', 5, 140_000, 4, {
-    tagline: 'A legtöbben ezzel kezdenek.',
+    band: 'START CSOMAG',
+    tagline: 'A legnépszerűbb.',
+    cta: 'Ezt választom',
     bestFor:
-      'Nulláról felépíted a hirdetéseidet, vagy rendet raksz egy meglévő, gyengén teljesítő fiókban.',
+      'Nulláról felépítjük a hirdetéseidet Facebookon vagy Google-n, rendet rakunk a meglévő, gyengén teljesítő fiókodban.',
     featured: true,
     includes: [...COMMON_INCLUDES, 'Egy platform: Meta, Google vagy LinkedIn'],
   }),
   pkg('ten', '10 alkalmas csomag', 10, 245_000, 7, {
+    band: 'TELJES CSOMAG',
     tagline: 'Két platform, a teljes út.',
+    cta: 'Ezt szeretném',
     bestFor:
-      'Komolyan skálázni akarsz, és két csatornát futtatnál párhuzamosan — jellemzően Meta + Google.',
+      'Érdekel a Facebook és Google hirdetéskezelés világa. Komolyan skálázni akarsz, és két csatornát futtatnál párhuzamosan.',
     includes: [
       ...COMMON_INCLUDES,
       'Két platform párhuzamosan (pl. Meta + Google)',
@@ -213,13 +232,13 @@ export const platforms = [
     id: 'meta',
     name: 'Meta Ads',
     sub: 'Facebook &amp; Instagram',
-    bestFor: 'Webshopok, szolgáltatások, helyi vállalkozások — ahol a vizualitás visz.',
+    bestFor: 'Webshopok, szolgáltatások, helyi vállalkozások — itt szinte mindenkinek ajánlott hirdetni.',
   },
   {
     id: 'google',
     name: 'Google Ads',
-    sub: 'Keresés, Display, Performance Max',
-    bestFor: 'Amikor már keresnek rád — a kész vásárlási szándék lefölözése.',
+    sub: 'Keresés, Shopping, PMax',
+    bestFor: 'Keresési, vásárlási szándék elkapása vevőszerzés céljából.',
   },
   {
     id: 'linkedin',
@@ -316,7 +335,7 @@ export const agencyServices: AgencyService[] = [
     id: 'kampanykezeles',
     name: 'Kampánykezelés',
     body:
-      'Átveszem a Meta, Google vagy LinkedIn kampányaidat: felépítés, mérés, optimalizálás, havi riport. A fiók végig a tiéd marad, és bármikor belenézhetsz.',
+      'Átveszem a Meta, Google vagy LinkedIn kampányaidat: tervezés, stratégia, felépítés, mérés, optimalizálás, heti/havi riport. A fiók végig a tiéd marad, és bármikor belenézhetsz.',
     points: [
       'A hirdetési fiók a te tulajdonodban marad',
       'Havi riport, magyarul, érthetően',
@@ -342,7 +361,7 @@ export const agencyServices: AgencyService[] = [
     id: 'egyszeri-beallitas',
     name: 'Egyszeri kampány- és fiókbeállítás',
     body:
-      'Rövid együttműködés: egyszer beállítom a fiókot és az első kampányokat az általad megadott adatok alapján, aztán a tiéd. Nincs havidíj és nincs folytatási kötelezettség.',
+      'Rövid együttműködés: 24–48 órán belül felépítem az első kampányokat az általad megadott adatok alapján, aztán a tiéd. Nincs havidíj és nincs folytatási kötelezettség.',
     points: [
       'Fiókstruktúra és mérés beállítása',
       'Az első kampányok felépítése, indításra készen',
@@ -401,7 +420,7 @@ export type Service = {
 export const services: Service[] = [
   {
     id: 'oktatas',
-    name: 'Hirdetéskezelés oktatás, személyre szabva',
+    name: 'Egyéni hirdetéskezelés oktatás',
     body:
       'Saját tempóban sajátíthatod el az otthonod kényelméből a hirdetéskezelés fortélyait. Megtanítalak rendszerben gondolkodni, miközben igazi kampányokat hozunk létre a vállalkozásod számára — az eredményeket pedig együtt vizsgáljuk meg utána.',
     short:
@@ -416,7 +435,7 @@ export const services: Service[] = [
     body:
       'Ha kiszerveznéd a marketinged, vagy megbízható partnert keresel, aki nem csak hirdetést kezel, hanem stratégiailag gondolkodik együtt a cégeddel — akkor valószínűleg egymást keressük.',
     short:
-      'Kiszervezed: én viszem a kampányokat, stratégiával.',
+      'Ha megbízható stratégiai partnert keresel.',
     href: '/ugynokseg#kampanykezeles',
     cta: 'Kampánykezelés',
     tone: 'blue',
@@ -427,7 +446,7 @@ export const services: Service[] = [
     body:
       'Rövid együttműködési lehetőség, ahol egyszeri fiók- és kampánybeállítást végzünk el a legjobb tudásunk szerint, az általad megadott adatok alapján.',
     short:
-      'Egyszer beállítom a fiókot és a kampányokat. Utána a tiéd.',
+      'Gyors hirdetésindítás, akár 24 órán belül.',
     href: '/ugynokseg#egyszeri-beallitas',
     cta: 'Részletek',
     tone: 'blue',
@@ -438,14 +457,14 @@ export const services: Service[] = [
     body:
       'Fiókvizsgálat, kampányelemzés, hatékonyságnövelési lehetőségek felkutatása és javaslattétel a jobb eredmények elérése érdekében.',
     short:
-      'Átvizsgálom a fiókod, és megmondom, hol folyik el a pénz.',
+      'Átvizsgálom a fiókod, és megmondom, hol égeted el a pénzt.',
     href: '/ugynokseg#audit',
     cta: 'Kérek auditot',
     tone: 'blue',
   },
   {
     id: 'technikai',
-    name: 'Technikai beállítás és audit',
+    name: 'Mérések beállítása, audit',
     body:
       'Google Analytics, Google Tag Manager, shopping feedek. Sejted, hogy rossz a mérésed, de nem tudod, mit csinálj pontosan? Hívj nyugodtan: ingyenes hibafeltárás után kapsz árajánlatot a javításra.',
     short:
@@ -468,8 +487,8 @@ export const services: Service[] = [
 ];
 
 export const nav = [
-  { href: '/kepzes', label: 'Képzés' },
-  { href: '/ugynokseg', label: 'Ügynökség' },
+  { href: '/kepzes', label: 'Egyéni Oktatás' },
+  { href: '/ugynokseg', label: 'Hirdetéskezelés' },
   { href: '/arak', label: 'Árak' },
   { href: '/rolam', label: 'Rólam' },
   { href: '/eredmenyek', label: 'Eredmények' },

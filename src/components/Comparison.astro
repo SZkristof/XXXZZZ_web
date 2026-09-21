@@ -10,18 +10,18 @@ import SectionHeading from '@/components/SectionHeading.astro';
  */
 
 const rows = [
-  { label: 'Ki nyúl a fiókodhoz', agency: 'Ők — te nem is látod', course: 'Te, de egyedül', us: 'Te, én végig melletted' },
-  { label: 'Kié marad a fiók', agency: 'Gyakran az övék', course: 'A tiéd', us: 'A tiéd, örökre' },
-  { label: 'Ha véget ér', agency: 'Megáll minden', course: 'Marad a kérdőjel', us: 'Tudod folytatni' },
-  { label: 'A te termékedről szól', agency: 'Igen', course: 'Nem, általános', us: 'Igen, kizárólag' },
-  { label: 'Havi díj', agency: '150–400 e Ft + %', course: '20–80 e Ft egyszer', us: 'Nincs. Alkalmat veszel' },
-  { label: 'Kérdezhetsz élőben', agency: 'Emailben, napok múlva', course: 'Nem', us: 'Végig, 60 percen át' },
+  { label: 'Teljesítmény', agency: 'Mástól függsz', course: 'Túl általános tudás', us: '100% egyénre szabva' },
+  { label: 'Tulajdonjog', agency: 'Gyakran vitás', course: 'A tiéd', us: 'A tiéd, örökre' },
+  { label: 'Megbízhatóság', agency: 'Napok, mire válaszol', course: 'Nincs kitől kérdezni', us: 'Azonnal tudsz kérdezni' },
+  { label: 'Te vagy a központban?', agency: 'Részben, + más cégek', course: 'Nem, általános', us: 'Igen, kizárólag' },
+  { label: 'Havi díj', agency: '150–400 e Ft havonta', course: 'Havi előfizetés 20–30 e Ft', us: 'Nincs havidíj. Egyszer fizetsz a tudásért' },
+  { label: 'Elégedettség', agency: 'Változó', course: 'Alacsony', us: '200+ pozitív visszajelzés' },
 ];
 
 const cols = [
-  { key: 'agency', title: 'Ügynökség', sub: 'Kiszervezed' },
-  { key: 'course', title: 'Online kurzus', sub: 'Videókat nézel' },
-  { key: 'us', title: 'Brandműhely', sub: 'Megcsinálod, vezetéssel' },
+  { key: 'agency', title: 'Marketinges', sub: 'Kiszervezed' },
+  { key: 'course', title: 'Csoportos tanfolyam', sub: 'Videókat nézel' },
+  { key: 'us', title: 'Egyéni oktatás', sub: 'Megcsinálod, vezetéssel' },
 ] as const;
 ---
 
@@ -29,7 +29,7 @@ const cols = [
   <div class="container-x">
     <SectionHeading
       title="Három lehetőséged van, nem mindegy mit választasz!"
-      lead="Ha egy marketingesben nem tudsz bízni, már rég rossz. Az online csoportos tanfolyamok elmondják papíron, hogy kéne működnie mindennek, de a te fiókodat nem látta senki, hogy megmondja, ott hogyan is kell csinálni. A Brandműhely egyéni oktatásom alatt 11 év tapasztalatát adom át pár óra alatt, hogy a legjobb kampányokat készítsük el együtt, a Te fiókodra szabva."
+      lead="Az egyéni oktatás neked szól, ha a marketingesekben már nem bízol, és a csoportos tanfolyamok alatt rájöttél, hogy az nem neked való."
       align="center"
       leadAlign="left"
     />
@@ -38,7 +38,7 @@ const cols = [
     <div class="mt-14 hidden overflow-hidden card lg:block">
       <table class="w-full text-left">
         <caption class="sr-only">
-          Ügynökség, online kurzus és a Brandműhely képzés összehasonlítása
+          Marketinges, csoportos tanfolyam és egyéni oktatás összehasonlítása
         </caption>
         <thead>
           <tr class="border-b border-black/10">
@@ -90,15 +90,15 @@ const cols = [
           </p>
           <dl class="divide-y divide-black/10">
             <div class="flex items-start justify-between gap-4 px-4 py-3">
-              <dt class="text-sm text-black/65">Ügynökség</dt>
+              <dt class="text-sm text-black/65">Marketinges</dt>
               <dd class="text-right text-sm text-black/72">{r.agency}</dd>
             </div>
             <div class="flex items-start justify-between gap-4 px-4 py-3">
-              <dt class="text-sm text-black/65">Online kurzus</dt>
+              <dt class="text-sm text-black/65">Csoportos tanfolyam</dt>
               <dd class="text-right text-sm text-black/72">{r.course}</dd>
             </div>
             <div class="flex items-start justify-between gap-4 bg-terracotta-500 px-4 py-3">
-              <dt class="text-sm font-semibold text-black/75">Brandműhely</dt>
+              <dt class="text-sm font-semibold text-black/75">Egyéni oktatás</dt>
               <dd class="text-right text-sm font-medium text-black">{r.us}</dd>
             </div>
           </dl>

@@ -14,9 +14,9 @@ import { brands, brandsReassurance, socialProofClaim, expert } from '@/data/site
  * certifications. Type on terracotta is BLACK (5.19:1) — never white.
  */
 const credentials = [
-  `${expert.yearsExperience} év a szakmában`,
+  `${expert.yearsExperience} éve a szakmában`,
   'Google és Meta minősítés',
-  'Saját fiók, saját kampányok',
+  'Csak veled foglalkozok',
 ];
 ---
 
@@ -43,7 +43,7 @@ const credentials = [
 
       <!-- Evidence, not decoration: the logos justify the claim above them. -->
       <div class="border-t border-black/20 pt-6 lg:border-l lg:border-t-0 lg:pl-14 lg:pt-0">
-        <p class="t-label text-black/70">DOLGOZTAM VELÜK</p>
+        <p class="t-label text-black/70">AKIKKEL MÁR DOLGOZTAM</p>
         <ul class="mt-4 flex flex-wrap gap-x-5 gap-y-1.5">
           {brands.map((b) => (
             <li class="font-title text-[17px] font-bold leading-snug tracking-tight text-black">

@@ -2,10 +2,13 @@
 import SectionHeading from '@/components/SectionHeading.astro';
 import { results, PROOF_IS_PLACEHOLDER } from '@/data/proof';
 
-// Three real results look better than three columns holding one. The grid
-// follows the data so an honest, short list never reads as a gap.
+// The grid follows the data so an honest, short list never reads as a gap —
+// and an even count goes two-up rather than leaving one card stranded on a
+// second row of three.
 const resultCols =
-  results.length >= 3 ? 'md:grid-cols-3'
+  results.length >= 5 ? 'md:grid-cols-3'
+  : results.length === 4 ? 'sm:grid-cols-2 mx-auto max-w-5xl'
+  : results.length === 3 ? 'md:grid-cols-3'
   : results.length === 2 ? 'sm:grid-cols-2 mx-auto max-w-3xl'
   : 'mx-auto max-w-md';
 import { expert } from '@/data/site';
@@ -16,8 +19,8 @@ import { num } from '@/lib/format';
   <div class="container-x">
     <SectionHeading
       eyebrow="EREDMÉNYEK"
-      title="Számok, nem jelzők"
-      lead="Konkrét számok, konkrét vállalkozásoktól. Az iparágat megjelölöm, a nevet nem — az eredmény az ügyfélé, és az is marad."
+      title="Mások már megtanulták, te készen állsz?"
+      lead="Szeretnék megosztani Veled pár eredményt korábbi ügyfeleimtől, hogy lásd, mire számíthatsz."
     />
 
     <div class:list={['mt-14 grid gap-5', resultCols]}>
@@ -53,7 +56,11 @@ import { num } from '@/lib/format';
             <span class="font-title text-3xl font-bold text-signal">{r.to}</span>
           </div>
 
-          <p class="mt-3 text-sm font-medium text-black">{r.timeframe} alatt</p>
+          <!-- Some timeframes are a duration ("15 nap"), some are a condition
+               ("napi 700 Ft keretből"). Only the first takes "alatt". -->
+          <p class="mt-3 text-sm font-medium text-black">
+            {/\d/.test(r.timeframe.trim()[0] ?? '') ? `${r.timeframe} alatt` : r.timeframe}
+          </p>
           <p class="mt-3 flex-1 text-sm leading-relaxed text-black/72">{r.note}</p>
         </figure>
       ))}
@@ -73,9 +80,9 @@ import { num } from '@/lib/format';
     <dl class="mt-16 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
       {[
         { n: `${num(expert.businessesTrained)}+`, l: 'képzett vállalkozás' },
-        { n: `${expert.yearsExperience} év`, l: 'a szakmában' },
+        { n: `${expert.yearsExperience} év`, l: 'szakmai tapasztalat' },
         { n: '3', l: 'platform: Meta, Google, LinkedIn' },
-        { n: '60 perc', l: 'egy alkalom, egyénileg' },
+        { n: '100%', l: 'elégedettség' },
       ].map((s) => (
         <div>
           <dt class="sr-only">{s.l}</dt>

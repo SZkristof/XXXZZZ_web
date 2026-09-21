@@ -40,22 +40,31 @@ const facts = [
         <div class="mt-9 hidden lg:block">
           <Button href="/kepzes" size="lg" variant="light" track="course-intro">
             Az oktatásról bővebben
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+              class="shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
           </Button>
         </div>
       </div>
 
       <div>
         <p class="t-lead">
-          Ha eleged van abból, hogy nem mennek a hirdetéseid és csak égeted a pénzt. Ha nem
-          tudod, hogyan kezdj hozzá, akkor az oktatásom pont Neked szól.
+          Eleged van abból, hogy nem mennek a hirdetéseid és csak égeted a pénzt?
+          Ha nem tudod, hogyan kezdj hozzá, akkor az oktatásom pont Neked szól.
         </p>
 
         <p class="t-body mt-6 text-black/80">
-          Megfelelő tudással vértezlek fel, hogy könnyedén boldogulj a Facebook, Instagram
-          (Meta) vagy Google hirdetéskezelő felületén, és magabiztosan tudj kampányokat
-          létrehozni a megfelelő célközönségnek. Az oktatás a saját tempód szerint zajlik,
-          hétköznap vagy hétvégén: csupán 5 órát vesz igénybe egy felület elsajátítása, és
-          nem igényel előképzettséget — de természetesen ha van, az sem baj.
+          Megfelelő tudással vértezlek fel, hogy könnyedén boldogulj a
+          <strong class="font-semibold text-black">Facebook, Instagram (Meta) vagy Google
+          hirdetéskezelő felületén</strong>, és magabiztosan tudj kampányokat létrehozni a
+          megfelelő célközönségnek. Az oktatás a
+          <strong class="font-semibold text-black">saját tempód szerint</strong> zajlik,
+          hétköznap vagy hétvégén:
+          <strong class="font-semibold text-black">csupán 5 órát</strong> vesz igénybe egy
+          felület elsajátítása, és nem igényel előképzettséget — de természetesen ha van,
+          az sem baj.
         </p>
 
         <p class="t-body mt-6 text-black/80">
@@ -66,11 +75,16 @@ const facts = [
         <div class="mt-9 flex flex-col gap-3 sm:flex-row lg:hidden">
           <Button href="/kepzes" size="lg" variant="light" track="course-intro-mobile">
             Az oktatásról bővebben
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+              class="shrink-0 transition-transform duration-300 ease-out group-hover:translate-x-1">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
           </Button>
         </div>
 
         <p class="t-small mt-6 text-black/75">
-          Kérdésed van? Hívj: <a href={`tel:${contact.phoneHref}`}
+          Nem tudod, mi lenne számodra a megfelelő? Hívj: <a href={`tel:${contact.phoneHref}`}
             class="font-medium underline underline-offset-4">{contact.phone}</a>
         </p>
       </div>

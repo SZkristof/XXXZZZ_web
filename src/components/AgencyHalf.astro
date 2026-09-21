@@ -6,9 +6,9 @@ import { agencyServices } from '@/data/site';
  * The Ügynökség half on the homepage.
  *
  * Brandműhely is one brand with two halves; what separates them is which
- * colour a section is in. Képzés carries terracotta, so this one carries
- * blue-800 — where type is paper (8.32:1) and accents are terracotta-200
- * (5.85:1). Never blue-on-terracotta or the reverse: both are 2.79:1.
+ * colour a section is in. Coaching carries terracotta, so this one is agency
+ * mode — blue-800 ground, type paper (9.55:1), small accents terracotta-200
+ * (6.88:1). Blue is never type on terracotta, at any size.
  *
  * It also catches the visitor who decides mid-page that they don't want to
  * do this themselves — previously only saved on a sales call.
@@ -19,25 +19,26 @@ import { agencyServices } from '@/data/site';
   <div class="container-x section">
     <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
       <div>
-        <p class="t-label text-terracotta-200">A MÁSIK FELE</p>
+        <p class="t-label t-eyebrow">HIRDETÉSKEZELÉS KISZERVEZÉSE</p>
         <h2 class="t-title mt-4 text-paper">
-          És ha nincs rá időd, hogy magad csináld?
+          És ha nincs rá időm, hogy magamnak csináljam a hirdetéseim?
         </h2>
         <p class="t-lead mt-6 max-w-[46ch] text-paper/85">
-          Van, akinek egyszerűen nincs rá kapacitása — és ez teljesen rendben van.
-          Ilyenkor átveszem a munkát.
+          Van, akinek egyszerűen nincs rá kapacitása — vagy elmúlt a bizalom a
+          jelenlegi marketingesével. Beszélgessünk, és nézzük meg, tudok-e segíteni
+          és átvenni a hirdetéskezelést.
         </p>
         <p class="t-body mt-4 max-w-[46ch] text-paper/75">
-          Ugyanaz a szakmai háttér, ugyanaz az őszinte beszéd a számokról. Csak nem
-          neked kell elvégezned.
+          Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélések.
+          Nálam a marketing nem csak a kivitelezésről szól.
         </p>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">
           <Button href="/ugynokseg" size="lg" track="agency-half">
-            Az ügynökségről
+            Hirdetéskezelésről bővebben
           </Button>
           <Button href="/kapcsolat" size="lg" variant="light" track="agency-half-contact">
-            Kérek ajánlatot
+            Ajánlatot kérek
           </Button>
         </div>
       </div>
