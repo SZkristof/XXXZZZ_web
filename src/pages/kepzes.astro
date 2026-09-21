@@ -29,13 +29,13 @@ const schema = tracks.map((t) => ({
   schema={schema}
 >
   <PageHero
-    tone="terracotta"
+    mode="coaching"
     eyebrow="PROGRAMOK"
     title="Három út. Válaszd azt, ahol most vagy."
     lead="Nem ugyanazt tanítom annak, aki még el sem indult, és annak, aki már két ügynökségen van túl. Az első, ingyenes beszélgetésen közösen eldöntjük, melyik a tiéd."
   />
 
-  <section class="section ground-paper">
+  <section class="section" data-theme="shared">
     <div class="container-x space-y-6">
       {tracks.map((t, i) => {
         const rec = packages.find((p) => p.id === t.recommended)!;
@@ -65,7 +65,7 @@ const schema = tracks.map((t) => ({
                   <Button href="/kapcsolat" track={`program-${t.slug}`}>
                     Ingyenes konzultáció
                   </Button>
-                  <Button href="/arak" variant="outline">Árak megnézése</Button>
+                  <Button href="/arak" variant="light">Árak megnézése</Button>
                 </div>
               </div>
 

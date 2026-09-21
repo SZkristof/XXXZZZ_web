@@ -1,4 +1,14 @@
 ---
+/**
+ * Colour comes from the section's mode, not from a prop. The `onDark` flag
+ * this used to take made every call site responsible for knowing which
+ * ground it sat on, and it went wrong the moment a section changed mode —
+ * which is exactly what happened when the pricing and course blocks moved
+ * from the agency ground to the coaching one.
+ *
+ * Now the title and lead simply inherit `--text`, and the eyebrow takes
+ * `.t-eyebrow`, whose colour each mode sets for itself in global.css.
+ */
 interface Props {
   /** Authored in UPPERCASE — never text-transform, so Ő and Ű keep their acutes. */
   eyebrow?: string;
@@ -9,30 +19,22 @@ interface Props {
    *  edge for the eye to return to. Set this to 'left' to centre the title
    *  but keep the paragraph ranged left inside the same centred column. */
   leadAlign?: 'left' | 'center';
-  /** true when sitting on blue-800 or black: type becomes paper. */
-  onDark?: boolean;
   class?: string;
 }
 const {
-  eyebrow, title, lead, align = 'left', leadAlign, onDark = false,
-  class: className = '',
+  eyebrow, title, lead, align = 'left', leadAlign, class: className = '',
 } = Astro.props;
 const leadAlignment = leadAlign ?? align;
 ---
 <div class:list={['max-w-[52rem]', align === 'center' && 'mx-auto text-center', className]}>
-  {eyebrow && (
-    <p class:list={['t-label', onDark ? 'text-terracotta-200' : 'text-terracotta-800']}>
-      {eyebrow}
-    </p>
-  )}
-  <h2 class:list={['t-title', eyebrow && 'mt-4', onDark ? 'text-paper' : 'text-black']}>
+  {eyebrow && <p class="t-label t-eyebrow">{eyebrow}</p>}
+  <h2 class:list={['t-title', eyebrow && 'mt-4']}>
     <Fragment set:html={title} />
   </h2>
   {lead && (
     <p
       class:list={[
-        't-lead mt-6 max-w-[56ch]',
-        onDark ? 'text-paper/85' : 'text-black/80',
+        't-lead mt-6 max-w-[56ch] opacity-85',
         align === 'center' && 'mx-auto',
         leadAlignment === 'left' && 'text-left',
       ]}

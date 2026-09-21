@@ -8,7 +8,7 @@ const { title, description, updated } = Astro.props;
 
 <Base title={title} description={description} noindex>
   <PageHero eyebrow="JOGI TUDNIVALÓK" title={title} />
-  <section class="section-tight ground-paper">
+  <section class="section-tight" data-theme="shared">
     <div
       class="container-prose
              [&_h2]:mt-12 [&_h2]:text-2xl [&_h2]:first:mt-0
@@ -25,7 +25,7 @@ const { title, description, updated } = Astro.props;
       <p class="!mt-0 text-sm text-black/65">Utolsó frissítés: {updated}</p>
 
       <div
-        class="mt-6 rounded-brand border border-dashed border-terracotta-500/40 bg-terracotta-200/40 p-5 text-sm
+        class="mt-6 rounded-brand bg-terracotta-200 p-5 text-sm
                leading-relaxed text-terracotta-800"
       >
         <strong>Fejlesztői megjegyzés (élesítés előtt törlendő):</strong> a cégadatok

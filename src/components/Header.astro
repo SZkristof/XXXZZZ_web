@@ -14,7 +14,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
 >
   <div class="container-x">
     <div class="flex h-[4.5rem] items-center justify-between gap-4 lg:h-20">
-      <Logo variant="lockup" size={34} href="/" class="shrink-0 text-black" />
+      <Logo variant="lockup" size={19} href="/" class="shrink-0 text-black" />
 
       <!-- Desktop nav -->
       <nav class="hidden items-center gap-1 lg:flex" aria-label="Fő navigáció">
@@ -37,8 +37,8 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
       <div class="flex items-center gap-2">
         <a
           href={`tel:${contact.phoneHref}`}
-          class="hidden rounded-brand px-3 py-2 text-[0.9375rem] font-medium text-black/72
-                 transition-colors hover:text-black xl:inline-block"
+          class="hidden whitespace-nowrap rounded-brand px-3 py-2 text-[0.9375rem] font-medium
+                 text-black/72 transition-colors hover:text-black xl:inline-block"
         >
           {contact.phone}
         </a>

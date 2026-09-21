@@ -10,8 +10,10 @@ import { contact } from '@/data/site';
  * are pulled out as a strip, because a fact buried in the fifth sentence of a
  * paragraph is a fact nobody reads.
  *
- * Blue ground: type is paper (8.32:1) or terracotta-200 (5.85:1), never
- * terracotta-500 or -800.
+ * Coaching mode: this is the training pitch, and Round 6 ties colour to the
+ * half. Type on terracotta is BLACK (5.19:1) — never paper, never blue at
+ * any size. The secondary button is the white `light` variant, because the
+ * action role here is blue-800 and a second blue fill would compete.
  */
 const facts = [
   { k: 'Időigény', v: 'kb. 5 óra egy felület' },
@@ -20,35 +22,35 @@ const facts = [
 ];
 ---
 
-<section class="section ground-blue" id="oktatas">
+<section class="section" data-theme="coaching" id="oktatas">
   <div class="container-x">
     <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
       <div class="lg:sticky lg:top-28 lg:self-start">
-        <h2 class="t-title text-paper">Hirdetéskezelés egyéni oktatás</h2>
+        <h2 class="t-title">Hirdetéskezelés egyéni oktatás</h2>
 
-        <dl class="mt-8 space-y-4 border-t border-paper/20 pt-8">
+        <dl class="mt-8 space-y-4 border-t border-black/20 pt-8">
           {facts.map((f) => (
             <div class="flex items-baseline justify-between gap-4">
-              <dt class="t-label text-terracotta-200">{f.k.toUpperCase()}</dt>
-              <dd class="t-body text-right font-medium text-paper">{f.v}</dd>
+              <dt class="t-label t-eyebrow">{f.k.toUpperCase()}</dt>
+              <dd class="t-body text-right font-medium">{f.v}</dd>
             </div>
           ))}
         </dl>
 
         <div class="mt-9 hidden lg:block">
-          <Button href="/kepzes" size="lg" variant="onDark" track="course-intro">
+          <Button href="/kepzes" size="lg" variant="light" track="course-intro">
             Az oktatásról bővebben
           </Button>
         </div>
       </div>
 
       <div>
-        <p class="t-lead text-paper">
+        <p class="t-lead">
           Ha eleged van abból, hogy nem mennek a hirdetéseid és csak égeted a pénzt. Ha nem
           tudod, hogyan kezdj hozzá, akkor az oktatásom pont Neked szól.
         </p>
 
-        <p class="t-body mt-6 text-paper/85">
+        <p class="t-body mt-6 text-black/80">
           Megfelelő tudással vértezlek fel, hogy könnyedén boldogulj a Facebook, Instagram
           (Meta) vagy Google hirdetéskezelő felületén, és magabiztosan tudj kampányokat
           létrehozni a megfelelő célközönségnek. Az oktatás a saját tempód szerint zajlik,
@@ -56,20 +58,20 @@ const facts = [
           nem igényel előképzettséget — de természetesen ha van, az sem baj.
         </p>
 
-        <p class="t-body mt-6 text-paper/85">
+        <p class="t-body mt-6 text-black/80">
           Azonnali tudást kapsz, ahol nem csak általános sallangot hallasz a hirdetésekről,
           hanem közösen alkotunk, hogy felépítsük a digitális marketinged.
         </p>
 
         <div class="mt-9 flex flex-col gap-3 sm:flex-row lg:hidden">
-          <Button href="/kepzes" size="lg" variant="onDark" track="course-intro-mobile">
+          <Button href="/kepzes" size="lg" variant="light" track="course-intro-mobile">
             Az oktatásról bővebben
           </Button>
         </div>
 
-        <p class="t-small mt-6 text-paper/70">
+        <p class="t-small mt-6 text-black/75">
           Kérdésed van? Hívj: <a href={`tel:${contact.phoneHref}`}
-            class="font-medium text-paper underline underline-offset-4">{contact.phone}</a>
+            class="font-medium underline underline-offset-4">{contact.phone}</a>
         </p>
       </div>
     </div>

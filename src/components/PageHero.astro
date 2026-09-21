@@ -1,4 +1,6 @@
 ---
+import Slabs from '@/components/Slabs.astro';
+
 interface Props {
   /** Authored in UPPERCASE — never text-transform. */
   eyebrow?: string;
@@ -6,20 +8,24 @@ interface Props {
   lead?: string;
   /**
    * Which half of the business this page belongs to. Colour is the only thing
-   * that separates them, so it has to be deliberate:
-   *   blue       → Ügynökség and neutral pages; type is paper (8.32:1)
-   *   terracotta → Képzés; type is BLACK (5.19:1), never paper or blue
+   * that separates them, so it has to be deliberate — and under Round 6 the
+   * mode IS the meaning:
+   *   agency   → blue-800 ground, type paper (9.55:1)
+   *   coaching → terracotta-500 ground, type BLACK (5.19:1), never blue
+   * A page belonging to neither half takes 'shared' and gets the slab triplet
+   * instead of a colour, so it still opens with weight.
    */
-  tone?: 'blue' | 'terracotta';
+  mode?: 'agency' | 'coaching' | 'shared';
 }
-const { eyebrow, title, lead, tone = 'blue' } = Astro.props;
-const dark = tone === 'blue';
+const { eyebrow, title, lead, mode = 'agency' } = Astro.props;
+const dark = mode === 'agency';
 ---
-<section class:list={[dark ? 'ground-blue' : 'ground-terracotta']}>
-  <div class="container-x py-16 lg:py-24">
+<section data-theme={mode} class="relative overflow-hidden">
+  {mode === 'shared' && <Slabs group="triplet" />}
+  <div class="container-x relative z-10 py-16 lg:py-24">
     <div class="max-w-[52rem]">
       {eyebrow && (
-        <p class:list={['t-label', dark ? 'text-terracotta-200' : 'text-black/70']}>{eyebrow}</p>
+        <p class:list={['t-label', dark ? 'text-terracotta-200' : 'text-highlight']}>{eyebrow}</p>
       )}
       <h1 class:list={['t-display', eyebrow && 'mt-4', dark ? 'text-paper' : 'text-black']}>
         {title}

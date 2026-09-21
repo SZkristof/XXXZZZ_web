@@ -3,12 +3,12 @@ import SectionHeading from '@/components/SectionHeading.astro';
 import { SESSION_LENGTH_MIN } from '@/data/site';
 
 /**
- * The step markers used to flip to terracotta-500 with black type on hover.
- * terracotta-500 is a FILL, and black on it clears AA — but the hover state
- * moved the numbers from paper-on-blue (8.32:1) to black-on-terracotta
- * (5.19:1) mid-interaction, which read as a colour glitch rather than a
- * state. They now keep the blue ground and gain the terracotta only as a
- * ring, so the hover adds emphasis without swapping the type colour.
+ * Shared mode, where the brand book has both colours available as accents:
+ * terracotta marks coaching items, blue marks agency items. These steps are
+ * the coaching process, so the markers are terracotta-500 carrying black
+ * (5.19:1) — they were blue, which quietly filed the coaching process under
+ * the agency half. Hover deepens the ring rather than swapping the type
+ * colour, so the number never changes contrast mid-interaction.
  */
 const steps = [
   {
@@ -45,7 +45,7 @@ const facts = [
 ];
 ---
 
-<section class="section ground-white" id="hogyan">
+<section class="section" data-theme="shared" id="hogyan">
   <div class="container-x">
     <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
       <div class="lg:sticky lg:top-28 lg:self-start">
@@ -55,7 +55,7 @@ const facts = [
         />
         <dl class="mt-9 grid grid-cols-2 gap-3 sm:gap-5">
           {facts.map((f) => (
-            <div class:list={['rounded-brand bg-paper p-5', f.wide && 'col-span-2']}>
+            <div class:list={['card p-5', f.wide && 'col-span-2']}>
               <dt class="t-label text-black/65">{f.k.toUpperCase()}</dt>
               <dd class:list={[
                 'mt-1.5 font-title font-bold text-black',
@@ -72,9 +72,9 @@ const facts = [
             <div class="relative flex flex-col items-center">
               <span
                 class="z-10 grid h-11 w-11 shrink-0 place-items-center rounded-brand
-                       bg-blue-800 font-title text-sm font-bold text-paper
-                       ring-4 ring-white transition-shadow duration-300
-                       group-hover:shadow-[0_0_0_2px_var(--color-terracotta-500)]"
+                       bg-terracotta-500 font-title text-sm font-bold text-black
+                       ring-4 ring-paper transition-shadow duration-300
+                       group-hover:shadow-[0_0_0_2px_var(--color-terracotta-800)]"
               >
                 {i + 1}
               </span>

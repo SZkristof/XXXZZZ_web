@@ -1,28 +1,30 @@
 ---
 import Base from '@/layouts/Base.astro';
 import Button from '@/components/Button.astro';
+import Slabs from '@/components/Slabs.astro';
 import { nav } from '@/data/site';
 ---
 
 <Base title="A keresett oldal nem található" noindex>
-  <section class="ground-blue">
-    <div class="container-x">
+  <section data-theme="shared" class="relative overflow-hidden">
+    <Slabs group="triplet" />
+    <div class="container-x relative z-10">
       <div class="mx-auto max-w-xl py-24 text-center sm:py-32">
-        <p class="font-title text-7xl font-bold tracking-tight text-terracotta-200">404</p>
-        <h1 class="mt-5 text-4xl font-bold text-paper">Ez az oldal nincs meg</h1>
-        <p class="mt-5 leading-relaxed text-paper/85">
+        <p class="font-title text-7xl font-bold tracking-tight text-highlight">404</p>
+        <h1 class="mt-5 text-4xl font-bold text-black">Ez az oldal nincs meg</h1>
+        <p class="mt-5 leading-relaxed text-black/80">
           Lehet, hogy elírtuk a linket, vagy régóta nincs már itt semmi. Innen viszont
           bárhová eljutsz.
         </p>
         <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
           <Button href="/" size="lg">Vissza a főoldalra</Button>
-          <Button href="/kapcsolat" size="lg" variant="onDark">Ingyenes konzultáció</Button>
+          <Button href="/kapcsolat" size="lg" variant="light">Ingyenes konzultáció</Button>
         </div>
-        <nav class="mt-12 border-t border-white/10 pt-8" aria-label="Gyorslinkek">
+        <nav class="mt-12 border-t border-black/10 pt-8" aria-label="Gyorslinkek">
           <ul class="flex flex-wrap justify-center gap-x-6 gap-y-3">
             {nav.map((i) => (
               <li>
-                <a href={i.href} class="text-sm text-paper/75 transition-colors hover:text-terracotta-200">
+                <a href={i.href} class="text-sm text-black/75 transition-colors hover:text-highlight">
                   {i.label}
                 </a>
               </li>

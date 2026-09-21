@@ -9,7 +9,7 @@ const quoteCols =
   testimonials.length >= 2 ? 'columns-1 md:columns-2' : 'columns-1 mx-auto max-w-2xl';
 ---
 
-<section class="section ground-paper" id="velemenyek">
+<section class="section" data-theme="shared" id="velemenyek">
   <div class="container-x">
     <SectionHeading
       eyebrow="VÉLEMÉNYEK"
@@ -20,9 +20,12 @@ const quoteCols =
     <div class:list={['mt-14 gap-5 [&>*]:mb-5', quoteCols]}>
       {testimonials.map((t) => (
         <figure class="break-inside-avoid card p-7 shadow-shade">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
-            class="text-terracotta-200">
-            <path d="M9.5 5C6.46 5 4 7.46 4 10.5c0 2.76 2.02 5.05 4.66 5.44-.2 1.3-1.1 2.4-2.4 2.86a.6.6 0 0 0 .2 1.17c3.3-.3 6.54-3.3 6.54-8.47V10.5C13 7.46 12.54 5 9.5 5zm9 0C15.46 5 13 7.46 13 10.5c0 2.76 2.02 5.05 4.66 5.44-.2 1.3-1.1 2.4-2.4 2.86a.6.6 0 0 0 .2 1.17c3.3-.3 6.54-3.3 6.54-8.47V10.5C22 7.46 21.54 5 18.5 5z"/>
+          <!-- The brand's own quote mark: the ű's two 13° bars, not a
+               generic typographic glyph. -->
+          <svg class="qm" viewBox="0 0 56 40" fill="currentColor" aria-hidden="true"
+            style="height:28px;width:auto;color:var(--color-terracotta-500)">
+            <path d="M9.24 0H24.4L15.16 40H0L9.24 0Z" />
+            <path d="M40.84 0H56L46.76 40H31.6L40.84 0Z" />
           </svg>
 
           <blockquote class="mt-4">
@@ -31,8 +34,10 @@ const quoteCols =
 
           <figcaption class="mt-6 flex items-center gap-3.5 border-t border-black/10 pt-5">
             <span
-              class="grid h-11 w-11 shrink-0 place-items-center rounded-brand bg-blue-800
-                     font-title text-sm font-bold text-white"
+              class:list={[
+                'grid h-11 w-11 shrink-0 place-items-center rounded-brand font-title text-sm font-bold',
+                t.half === 'ugynokseg' ? 'bg-blue-800 text-paper' : 'bg-terracotta-500 text-black',
+              ]}
               aria-hidden="true"
             >{t.initials}</span>
             <span class="min-w-0">
@@ -43,17 +48,21 @@ const quoteCols =
                 {t.role} · {t.company}
               </span>
             </span>
+            <!-- The half chip used to be terracotta whatever it said, so an
+                 agency testimonial was badged in the coaching colour. -->
             <span
-              class="ml-auto hidden shrink-0 rounded-brand bg-terracotta-200/40 px-2.5 py-1 text-xs
-                     font-semibold text-terracotta-800 sm:block"
-            >{t.track ?? HALF_LABEL[t.half]}</span>
+              class:list={[
+                'ml-auto hidden shrink-0 bm-tag sm:inline-block',
+                t.half === 'ugynokseg' ? 'bm-tag--agency' : 'bm-tag--coaching',
+              ]}
+            >{(t.track ?? HALF_LABEL[t.half]).toUpperCase()}</span>
           </figcaption>
         </figure>
       ))}
     </div>
 
     {PROOF_IS_PLACEHOLDER && (
-      <p class="mt-2 rounded-brand border border-dashed border-terracotta-500/40 bg-terracotta-200/40 px-4 py-3 text-sm text-terracotta-800">
+      <p class="mt-2 rounded-brand bg-terracotta-200 px-4 py-3 text-sm text-terracotta-800">
         <strong>Fejlesztői megjegyzés (élesítés előtt törlendő):</strong> ezek kitalált
         vélemények, a tördelés bemutatására. Valós, engedélyezett véleményekre cserélendők a
         <code class="font-mono">src/data/proof.ts</code> fájlban.

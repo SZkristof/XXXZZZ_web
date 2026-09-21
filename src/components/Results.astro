@@ -12,7 +12,7 @@ import { expert } from '@/data/site';
 import { num } from '@/lib/format';
 ---
 
-<section class="section ground-paper" id="eredmenyek">
+<section class="section" data-theme="shared" id="eredmenyek">
   <div class="container-x">
     <SectionHeading
       eyebrow="EREDMÉNYEK"
@@ -60,28 +60,36 @@ import { num } from '@/lib/format';
     </div>
 
     {PROOF_IS_PLACEHOLDER && (
-      <p class="mt-6 rounded-brand border border-dashed border-terracotta-500/40 bg-terracotta-200/40 px-4 py-3 text-sm text-terracotta-800">
+      <p class="mt-6 rounded-brand bg-terracotta-200 px-4 py-3 text-sm text-terracotta-800">
         <strong>Fejlesztői megjegyzés (élesítés előtt törlendő):</strong> a fenti adatok
         kitaláltak, csak a tördelés bemutatására szolgálnak. Valós adatokra cserélendők a
         <code class="font-mono">src/data/proof.ts</code> fájlban.
       </p>
     )}
 
-    <!-- Credibility stats -->
-    <dl class="mt-16 grid grid-cols-2 gap-px overflow-hidden rounded-brand bg-black/10 md:grid-cols-4">
+    <!-- Credibility stats, as the brand book's stat: a figure standing beside
+         one slab at cap height. The slab is the mark's own shape, which is
+         why the figures no longer need a boxed grid to read as a set. -->
+    <dl class="mt-16 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
       {[
         { n: `${num(expert.businessesTrained)}+`, l: 'képzett vállalkozás' },
         { n: `${expert.yearsExperience} év`, l: 'a szakmában' },
         { n: '3', l: 'platform: Meta, Google, LinkedIn' },
         { n: '60 perc', l: 'egy alkalom, egyénileg' },
       ].map((s) => (
-        <div class="bg-white px-5 py-8 text-center">
+        <div>
           <dt class="sr-only">{s.l}</dt>
-          <dd>
-            <span class="block font-title text-3xl font-bold tracking-tight text-black">
-              {s.n}
-            </span>
-            <span class="mt-2 block text-sm leading-snug text-black/72">{s.l}</span>
+          <dd class="bm-stat">
+            <!-- One slab of the mark: width 0.24 of its height, sheared by
+                 0.2309 of it. Both ratios measured off A Vágás's middle
+                 slab, which is the one the mark does not crop. -->
+            <svg class="sl" viewBox="0 0 25.43 54" aria-hidden="true">
+              <path d="M12.47 0 H25.43 L12.96 54 H0 Z" />
+            </svg>
+            <div>
+              <b class="block text-black">{s.n}</b>
+              <span class="block text-black/72">{s.l}</span>
+            </div>
           </dd>
         </div>
       ))}

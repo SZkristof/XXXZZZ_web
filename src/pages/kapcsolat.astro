@@ -17,12 +17,13 @@ const expectations = [
   description="Foglalj egy ingyenes, 30 perces online konzultációt. Nem kell rá készülnöd, és nem lesz belőle értékesítési hívás."
 >
   <PageHero
+    mode="shared"
     eyebrow="KAPCSOLAT"
     title="Foglalj egy ingyenes 30 percet"
     lead="Google Meeten beszélgetünk. Nem kell rá készülnöd, nem kell hozzáférést adnod semmihez, és nem lesz belőle értékesítési hívás."
   />
 
-  <section class="section ground-paper">
+  <section class="section" data-theme="shared">
     <div class="container-x">
       <div class="grid gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
         <!-- What happens -->
@@ -283,13 +284,13 @@ const expectations = [
     cssVarsPerTheme: {
       light: {
         'cal-bg': '#ffffff',
-        'cal-bg-subtle': '#fbf0ec',        // the slot tiles: paper, not grey
+        'cal-bg-subtle': '#f3efe7',        // the slot tiles: paper, not grey
         // Day tiles: paper, matching the page ground. They sit only 1.12:1
         // from the white card, so the tiles all but dissolve and the grid
         // reads as numbers rather than blocks — deliberate. The dates stay at
         // 15.50:1, so nothing is harder to read; only the selected day and
         // today's outline carry weight.
-        'cal-bg-emphasis': '#fbf0ec',
+        'cal-bg-emphasis': '#f3efe7',
         'cal-bg-muted': '#f7ebe6',
         'cal-bg-inverted': '#1c1a19',
         'cal-border': '#d3c9c6',
@@ -300,16 +301,16 @@ const expectations = [
         'cal-text-emphasis': '#1c1a19',
         'cal-text-subtle': '#5f5a58',      // 6.08:1 on paper
         'cal-text-muted': '#716b69',       // 4.68:1 on paper
-        'cal-text-inverted': '#fbf0ec',
+        'cal-text-inverted': '#f3efe7',
         'cal-brand': '#a12c14',            // carries white at 7.28:1
         'cal-brand-emphasis': '#892915',
         'cal-brand-text': '#ffffff',
       },
       dark: {
-        'cal-bg': '#224c5c',
+        'cal-bg': '#1c414f',
         'cal-bg-subtle': '#1c3d4a',
         'cal-bg-emphasis': '#2c5a6b',
-        'cal-text': '#fbf0ec',
+        'cal-text': '#f3efe7',
         'cal-text-emphasis': '#ffffff',
         'cal-brand': '#f2c2b9',
         'cal-brand-text': '#1c1a19',

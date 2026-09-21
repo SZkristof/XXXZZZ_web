@@ -57,7 +57,7 @@ const schema = [
   />
 
   <!-- Services -->
-  <section class="section ground-paper">
+  <section class="section" data-theme="shared">
     <div class="container-x">
       <SectionHeading
         eyebrow="MIT CSINÁLOK"
@@ -89,7 +89,7 @@ const schema = [
   </section>
 
   <!-- Which half is for you -->
-  <section class="section ground-paper">
+  <section class="section" data-theme="shared">
     <div class="container-x">
       <SectionHeading
         eyebrow="MELYIK VALÓ NEKED?"
@@ -102,10 +102,8 @@ const schema = [
         {halves.map((h) => (
           <a
             href={h.href}
-            class:list={[
-              'group flex flex-col rounded-brand p-8 shadow-shade transition-transform duration-200 hover:-translate-y-1',
-              h.tone === 'terracotta' ? 'ground-terracotta' : 'ground-blue',
-            ]}
+            data-theme={h.tone === 'terracotta' ? 'coaching' : 'agency'}
+            class="group flex flex-col rounded-brand p-8 shadow-shade transition-transform duration-200 hover:-translate-y-1"
           >
             <p class:list={['t-label', h.tone === 'terracotta' ? 'text-black/70' : 'text-terracotta-200']}>
               {h.name.toUpperCase()}
@@ -136,7 +134,7 @@ const schema = [
   </section>
 
   <!-- Process -->
-  <section class="section ground-paper">
+  <section class="section" data-theme="shared">
     <div class="container-x">
       <div class="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
         <div class="lg:sticky lg:top-28 lg:self-start">
@@ -170,7 +168,7 @@ const schema = [
   </section>
 
   <!-- Pricing: deliberately not a price list -->
-  <section class="section ground-blue">
+  <section class="section" data-theme="agency">
     <div class="container-x">
       <div class="mx-auto max-w-3xl text-center">
         <p class="t-label text-terracotta-200">ÁRAZÁS</p>
@@ -186,7 +184,7 @@ const schema = [
         </p>
         <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
           <Button href="/kapcsolat" size="lg" track="agency-quote">Kérek ajánlatot</Button>
-          <Button href="/arak" size="lg" variant="onDark">
+          <Button href="/arak" size="lg" variant="light">
             A képzés árai
           </Button>
         </div>

@@ -1,16 +1,31 @@
 ---
 /**
- * The primary button uses terracotta-800, not the 500 step, because the client
- * wants light text on it: white on terracotta-500 is 3.34:1 and fails AA,
- * while on terracotta-800 it is 7.28:1. The brand book sanctions this exact
- * pairing — "the deep terracotta fill, carrying white at 7.28:1".
+ * The brand's button: a 13° cut right end, the same lean as the mark, with
+ * the left corners keeping the one 4px rounding. The 10px pill that briefly
+ * lived here is gone — Round 6 gives the button a distinguishing shape
+ * instead of a second radius.
  *
- * Other fills: blue-800 carries paper (8.32:1), signal carries white (5.67:1).
- * Never blue on terracotta or the reverse: both land at 2.79:1.
+ * Colour is never named at a call site. It comes from the section's mode
+ * through the `action` / `on-action` roles, which means the same markup is
+ * terracotta-on-linen in a shared section, blue-on-terracotta in a coaching
+ * one, and terracotta-on-blue in an agency one — each pairing already
+ * verified by the brand book.
+ *
+ * On a shared ground the terracotta fill sits 2.91:1 against the linen, under
+ * the 3:1 floor for a component boundary, so the CSS gives it a 1px
+ * terracotta-800 edge (6.35:1). That rule lives in global.css, not here, so a
+ * white card gets it too.
+ *
+ * The shade is a drop-shadow filter on the wrapper: box-shadow is clipped
+ * away by clip-path, so it has to sit on the element above the cut.
  */
 interface Props {
   href?: string;
-  variant?: 'primary' | 'dark' | 'outline' | 'onDark' | 'signal';
+  /**
+   * 'action' takes the section's action colour. 'light' is the white button
+   * for a coloured ground where a second action fill would compete.
+   */
+  variant?: 'action' | 'light';
   size?: 'sm' | 'md' | 'lg';
   class?: string;
   type?: 'button' | 'submit';
@@ -19,32 +34,20 @@ interface Props {
 }
 
 const {
-  href, variant = 'primary', size = 'md',
+  href, variant = 'action', size = 'md',
   class: className = '', type = 'button', track, ...rest
 } = Astro.props;
 
-const base =
-  'group inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-button font-title ' +
-  'font-bold text-center transition-[transform,background-color,box-shadow] duration-200 ' +
-  'disabled:pointer-events-none disabled:opacity-50';
+const cls = [
+  'bm-btn',
+  variant === 'light' && 'bm-btn--light',
+  size === 'sm' && 'bm-btn--sm',
+  size === 'lg' && 'bm-btn--lg',
+  className,
+].filter(Boolean).join(' ');
 
-const variants = {
-  primary: 'bg-terracotta-800 text-white shadow-shade hover:-translate-y-px hover:shadow-shade-lift hover:bg-[#8a2611]',
-  dark:    'bg-blue-800 text-paper shadow-shade hover:-translate-y-px hover:shadow-shade-lift',
-  signal:  'bg-signal text-white shadow-shade hover:-translate-y-px hover:shadow-shade-lift',
-  outline: 'bg-transparent text-black ring-1 ring-inset ring-black/25 hover:ring-black/60',
-  onDark:  'bg-transparent text-paper ring-1 ring-inset ring-paper/35 hover:bg-paper/10 hover:ring-paper/60',
-};
-
-const sizes = {
-  sm: 'px-4 py-2 text-[15px]',
-  md: 'px-5 py-3 text-[17px]',
-  lg: 'px-7 py-4 text-[18px]',
-};
-
-const cls = [base, variants[variant], sizes[size], className].join(' ');
 const Tag = href ? 'a' : 'button';
 ---
 <Tag class={cls} {...href ? { href } : { type }} {...track ? { 'data-track': track } : {}} {...rest}>
-  <slot />
+  <span><slot /></span>
 </Tag>

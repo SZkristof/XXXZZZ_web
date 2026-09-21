@@ -4,6 +4,24 @@ import Button from '@/components/Button.astro';
 import { packages, BASE_SESSION_PRICE } from '@/data/site';
 import { huf } from '@/lib/format';
 
+/**
+ * Coaching mode, not agency. These are the training packages, and Round 6
+ * ties colour to the half: terracotta is coaching. The section used to sit on
+ * blue-800, which read as the agency half's price list.
+ *
+ * Moving to terracotta forced the cards to change with it. The old layout put
+ * two translucent white-on-blue cards next to one solid white one, and white
+ * type on terracotta-500 is 3.34:1 — it fails outright. The brand book
+ * already answers this with `bm-pack`: the package card stays WHITE in every
+ * mode, precisely so a coaching and an agency package can sit side by side,
+ * and a white card re-enters shared mode so everything inside it follows the
+ * paper rules. That also brings signal back into legal territory — it lives
+ * on paper and white only, never on a coloured ground.
+ *
+ * The featured card is distinguished by lift and scale rather than by a ring
+ * of colour, since a coloured outline on a white card would read as one of
+ * the banned coloured rules.
+ */
 interface Props {
   /** Home shows a condensed version; /arak shows the full feature lists. */
   detailed?: boolean;
@@ -11,146 +29,104 @@ interface Props {
 const { detailed = false } = Astro.props;
 ---
 
-<section class="section bg-blue-800 text-white" id="arak">
+<section class="section" data-theme="coaching" id="arak">
   <div class="container-x">
     <SectionHeading
       eyebrow="ÁRAK"
       title="Minden ár itt van. Nincs mögötte semmi."
       lead="Nincs havidíj, nincs hűségidő, nincs rejtett felár. Alkalmat veszel — és minél többet, annál olcsóbb egy alkalom."
       align="center"
-      onDark
     />
 
     <div class="mt-14 grid gap-6 lg:grid-cols-3 lg:items-start">
       {packages.map((p) => (
         <div
           class:list={[
-            'relative flex h-full flex-col rounded-brand p-7 sm:p-8',
-            p.featured
-              ? 'bg-white text-black shadow-shade-lift ring-2 ring-terracotta-500 lg:-mt-4 lg:pb-10'
-              : 'bg-white/[0.04] ring-1 ring-inset ring-white/10 transition-colors hover:bg-white/[0.07]',
+            'bm-pack card relative flex h-full flex-col overflow-hidden',
+            p.featured && 'shadow-shade-lift lg:-mt-4',
           ]}
         >
-          {p.featured && (
-            <span
-              class="absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-brand
-                     bg-terracotta-500 px-4 py-1.5 font-title text-xs font-bold
-                     uppercase tracking-wider text-black"
-            >A legnépszerűbb</span>
-          )}
-
-          <div class="flex items-start justify-between gap-3">
-            <h3
-              class:list={[
-                'font-title text-xl font-bold tracking-tight',
-                p.featured ? 'text-black' : 'text-white',
-              ]}
-            >{p.name}</h3>
-            {p.deal && (
-              <span
-                class:list={[
-                  'shrink-0 rounded-brand px-2.5 py-1 font-title text-sm font-bold',
-                  p.featured
-                    ? 'bg-signal/10 text-signal'
-                    : 'bg-signal text-white',
-                ]}
-              >{p.deal}</span>
-            )}
-          </div>
-
-          <p class:list={['mt-1.5 text-sm', p.featured ? 'text-black/65' : 'text-paper/75']}>
-            {p.tagline}
+          <!-- The cut header band: 64px tall, right end cut at 13°. -->
+          <p class="hd bm-pack--coaching-hd">
+            {p.featured ? 'A LEGNÉPSZERŰBB' : p.name.toUpperCase()}
           </p>
 
-          <div class="mt-7">
-            <span
-              class:list={[
-                'font-title text-4xl font-bold tracking-tight',
-                p.featured ? 'text-black' : 'text-white',
-              ]}
-            >{huf(p.price)}</span>
-
-            <p class:list={['mt-2 text-sm', p.featured ? 'text-black/72' : 'text-paper/75']}>
-              {p.sessions === 1 ? (
-                <span>egy 60 perces alkalom</span>
-              ) : (
-                <Fragment>
-                  <strong class:list={['font-semibold', p.featured ? 'text-black' : 'text-white']}>
-                    {huf(p.perSession)}
-                  </strong> / alkalom · {p.sessions} alkalom
-                </Fragment>
+          <div class="flex flex-1 flex-col p-7 sm:p-8">
+            <div class="flex items-start justify-between gap-3">
+              <h3 class="font-title text-xl font-bold tracking-tight text-black">{p.name}</h3>
+              {p.deal && (
+                <span class="shrink-0 rounded-brand bg-signal/10 px-2.5 py-1 font-title text-sm font-bold text-signal">
+                  {p.deal}
+                </span>
               )}
+            </div>
+
+            <p class="mt-1.5 text-sm text-black/65">{p.tagline}</p>
+
+            <div class="mt-7">
+              <span class="font-title text-4xl font-bold tracking-tight text-black">
+                {huf(p.price)}
+              </span>
+
+              <p class="mt-2 text-sm text-black/72">
+                {p.sessions === 1 ? (
+                  <span>egy 60 perces alkalom</span>
+                ) : (
+                  <Fragment>
+                    <strong class="font-semibold text-black">{huf(p.perSession)}</strong>
+                    {' '}/ alkalom · {p.sessions} alkalom
+                  </Fragment>
+                )}
+              </p>
+
+              {p.savings > 0 && (
+                <p class="mt-3 inline-block rounded-brand bg-signal/10 px-3 py-1.5 text-sm font-semibold text-signal">
+                  Megspórolsz {huf(p.savings)}-ot
+                </p>
+              )}
+
+              {p.dealExplainer && (
+                <p class="mt-3 text-sm text-black/65">{p.dealExplainer}</p>
+              )}
+            </div>
+
+            <!-- A neutral hairline is the only rule the brand allows. -->
+            <p class="mt-7 border-t border-black/10 pt-6 text-sm leading-relaxed text-black/72">
+              <span class="font-semibold text-black">Kinek jó:</span> {p.bestFor}
             </p>
 
-            {p.savings > 0 && (
-              <p
-                class:list={[
-                  'mt-3 inline-block rounded-brand px-3 py-1.5 text-sm font-semibold',
-                  p.featured
-                    ? 'bg-signal/10 text-signal'
-                    : 'bg-signal text-white',
-                ]}
-              >Megspórolsz {huf(p.savings)}-ot</p>
+            {detailed && (
+              <ul class="mt-6 space-y-3">
+                {p.includes.map((f) => (
+                  <li class="flex items-start gap-2.5">
+                    <svg
+                      width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                      class="mt-0.5 shrink-0 text-signal"
+                    >
+                      <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="2.5"
+                        stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    <span class="text-sm leading-relaxed text-black/80">{f}</span>
+                  </li>
+                ))}
+              </ul>
             )}
 
-            {p.dealExplainer && (
-              <p class:list={['mt-3 text-sm', p.featured ? 'text-black/65' : 'text-paper/75']}>
-                {p.dealExplainer}
-              </p>
-            )}
+            <div class="mt-8 flex-1"></div>
+            <Button
+              href="/kapcsolat"
+              size="md"
+              variant={p.featured ? 'action' : 'light'}
+              track={`pricing-${p.id}`}
+            >
+              {p.sessions === 1 ? 'Egy alkalmat kérek' : 'Ezt választom'}
+            </Button>
           </div>
-
-          <p
-            class:list={[
-              'mt-7 border-t pt-6 text-sm leading-relaxed',
-              p.featured ? 'border-black/10 text-black/72' : 'border-white/10 text-paper/75',
-            ]}
-          >
-            <span class:list={['font-semibold', p.featured ? 'text-black' : 'text-white']}>
-              Kinek jó:
-            </span> {p.bestFor}
-          </p>
-
-          {detailed && (
-            <ul class="mt-6 space-y-3">
-              {p.includes.map((f) => (
-                <li class="flex items-start gap-2.5">
-                  <svg
-                    width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
-                    class:list={[
-                      'mt-0.5 shrink-0',
-                      p.featured ? 'text-signal' : 'text-signal',
-                    ]}
-                  >
-                    <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="2.5"
-                      stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                  <span
-                    class:list={[
-                      'text-sm leading-relaxed',
-                      p.featured ? 'text-black/80' : 'text-paper/85',
-                    ]}
-                  >{f}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-
-          <div class="mt-8 flex-1"></div>
-          <Button
-            href="/kapcsolat"
-            size="md"
-            variant={p.featured ? 'primary' : 'onDark'}
-            class="w-full"
-            track={`pricing-${p.id}`}
-          >
-            {p.sessions === 1 ? 'Egy alkalmat kérek' : 'Ezt választom'}
-          </Button>
         </div>
       ))}
     </div>
 
-    <p class="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-paper/75">
+    <p class="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-black/80">
       Egy alkalom listaára {huf(BASE_SESSION_PRICE)}. A csomagoknál ehhez képest kapsz ingyen
       alkalmakat — ennyi a kedvezmény, más nincs elrejtve sehol.
     </p>

@@ -10,12 +10,17 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 const fmt = (d: Date) =>
   new Intl.DateTimeFormat('hu-HU', { year: 'numeric', month: 'long', day: 'numeric' }).format(d);
 
-const chip: Record<string, string> = {
-  'Meta Ads': 'bg-blue-50 text-blue-800',
-  'Google Ads': 'bg-amber-50 text-amber-900',
-  'LinkedIn Ads': 'bg-sky-50 text-sky-900',
-  'Általános': 'bg-black/5 text-black/80',
-};
+/**
+ * These chips used to colour-code the platform with Tailwind's default amber,
+ * sky and blue scales. Three problems at once: those colours are not among
+ * the brand's ten; amber sits in the banned 20–70° hue band; and sky is
+ * platform blue, also banned outright.
+ *
+ * The brand's answer is `bm-tag`, the 13° parallelogram. Its three variants
+ * are coaching, agency and neutral — a half, not a platform — so every post
+ * chip is neutral. Inventing a terracotta-for-Meta / blue-for-Google mapping
+ * would quietly reassign the two colours that carry the business's halves.
+ */
 ---
 
 <Base
@@ -41,12 +46,7 @@ const chip: Record<string, string> = {
             >
               <a href={`/blog/${post.id}`} class="flex h-full flex-col p-7">
                 <div class="flex items-center gap-3">
-                  <span
-                    class:list={[
-                      'rounded-brand px-2.5 py-1 text-xs font-semibold',
-                      chip[post.data.category] ?? chip['Általános'],
-                    ]}
-                  >{post.data.category}</span>
+                  <span class="bm-tag bm-tag--neutral">{post.data.category}</span>
                   <span class="text-xs text-black/65">{post.data.readingMinutes} perc</span>
                 </div>
 
