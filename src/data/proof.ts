@@ -50,6 +50,10 @@ export const testimonials: Testimonial[] = [
 ];
 
 export type Result = {
+  /** Which half produced it. An agency sales page that argues with coaching
+   *  results is quietly claiming credit for work the client did themselves,
+   *  so every surface filters on this rather than showing all of them. */
+  half: Half;
   industry: string;
   /** Optional: only when the client stated it. */
   size?: string;
@@ -65,6 +69,7 @@ export type Result = {
 export const results: Result[] = [
   {
     // Figures as reported by the client in the testimonial above.
+    half: 'kepzes',
     industry: 'Szolgáltatás · Fitness',
     platform: 'Facebook egyéni oktatás',
     metric: 'Új fizető vendég',
@@ -73,6 +78,7 @@ export const results: Result[] = [
     note: '19 űrlapkitöltésből. A hirdetést le kellett állítani, mert nem győzte fogadni a jelentkezőket.',
   },
   {
+    half: 'kepzes',
     industry: 'Szolgáltatás · Szépségipar',
     platform: 'Facebook egyéni oktatás',
     metric: 'Költség/vásárlás',
@@ -82,6 +88,7 @@ export const results: Result[] = [
     note: 'Az Advantage+ kikapcsolásával és konkrét célzási stratégiákkal sikerült javítani a vásárlásonkénti költséget.',
   },
   {
+    half: 'ugynokseg',
     industry: 'Webshop · Sport',
     platform: 'Facebook és Google hirdetéskezelés',
     metric: 'Black Friday bevétel',
@@ -90,6 +97,7 @@ export const results: Result[] = [
     note: 'Black Friday és karácsonyi akciók kampánykezelésére kértek fel, ahol 1 nap alatt értük el a közel teljes évi bevételt.',
   },
   {
+    half: 'kepzes',
     industry: 'Oktatás',
     platform: 'Facebook egyéni oktatás',
     metric: 'Költség / lead',
@@ -135,5 +143,55 @@ export const faqs: Faq[] = [
   {
     q: 'Mi történik az ingyenes konzultáción?',
     a: '30 perc, Google Meeten. Elmondod, mivel foglalkozol és hol tartasz, én pedig megmondom, tudok-e segíteni. Ha úgy látom, hogy nem, azt is megmondom — nem adok el neked olyat, aminek nincs értelme.',
+  },
+];
+
+/**
+ * FIGYELEM: jelenleg EGYETLEN ügynökségi (hirdetéskezelési) eredmény van,
+ * a többi négyből három képzés. Az ügynökségi oldal ezért egyetlen
+ * esettanulmányt tud mutatni. Kristóftól kellene még 2–3 dokumentált,
+ * hirdetéskezelési eredmény — enélkül az oldal legerősebb szekciója marad
+ * a leggyengébb. Kitalált szám nem kerülhet ide (Fttv. / GVH).
+ */
+export const agencyResults = results.filter((r) => r.half === 'ugynokseg');
+export const coachingResults = results.filter((r) => r.half === 'kepzes');
+
+/**
+ * Agency FAQ. Separate from the coaching list because the questions are
+ * different ones — and because the answer to "how long until results" must
+ * not promise a number nobody can promise.
+ */
+export const agencyFaqs: Faq[] = [
+  {
+    q: 'A hirdetési költség benne van a havi díjban?',
+    a: 'Nem. A havi díj a menedzsmentért jár. A hirdetési költést közvetlenül a Google és a Meta felé fizeted, a saját fiókodból — így pontosan látod, mennyi megy hirdetésre és mennyi a munkadíj.',
+  },
+  {
+    q: 'Mennyi hirdetési költséggel érdemes indulni?',
+    a: 'Havi 300 000 Ft körül kezd értelmessé válni két platformon, mert ennél kevesebből nem gyűlik elég adat ahhoz, hogy optimalizálni lehessen. Ha ennél kisebb kerettel indulnál, az első beszélgetésen őszintén megmondom, hogy érdemes-e — lehet, hogy egy platform vagy az egyéni oktatás jobban megéri neked.',
+  },
+  {
+    q: 'Mennyi idő alatt lesz eredmény?',
+    a: 'Nem ígérek garantált érdeklődő- vagy bevételszámot, mert ilyet senki nem tud tartani. Az első 4–6 hét arról szól, hogy felépüljenek az alapok, összegyűljön az adat, és kiderüljön, melyik irány működik. Onnantól az optimalizálás hoz javulást, nem a szerencse.',
+  },
+  {
+    q: 'Van szerződéses hűségidő?',
+    a: 'Nincs. Havi díjas együttműködés, egy hónapos felmondási idővel. Ha nem vagy elégedett, nem tart bent semmilyen szerződés.',
+  },
+  {
+    q: 'Mi történik, ha már van hirdetési fiókom?',
+    a: 'Átnézem, auditálom, és ahol szükséges, újrastrukturálom. Nem indítunk nulláról, ha van mire építeni — a korábbi adat érték, nem teher.',
+  },
+  {
+    q: 'Kié marad a hirdetési fiók?',
+    a: 'A tiéd, végig. A saját fiókodban dolgozom, hozzáféréssel. Ha véget ér az együttműködés, minden ott marad nálad: a fiók, az adat, a kampányok.',
+  },
+  {
+    q: 'Csak Google vagy csak Meta hirdetést szeretnék. Lehet?',
+    a: 'A havi díj a két platform együttes kezelésére szól, mert a kettő együtt működik igazán jól — ugyanaz a költségkeret, ugyanaz a mérés, egy stratégia. Ha csak az egyikre van szükséged, szólj: megbeszéljük, mi a reális.',
+  },
+  {
+    q: 'Miben más ez, mint egy nagy ügynökség?',
+    a: 'Egy nagy ügynökségnél jellemzően egy junior account manager ül a fiókodon, a senior pedig az értékesítésen volt. Itt végig én dolgozom a kampányaidon, tizenegy év tapasztalattal — és ugyanaz az ember válaszol, akivel az első beszélgetést folytattad.',
   },
 ];

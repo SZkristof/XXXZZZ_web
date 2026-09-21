@@ -23,7 +23,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/');
             href={item.href}
             aria-current={isActive(item.href) ? 'page' : undefined}
             class:list={[
-              'rounded-brand px-3.5 py-2 text-[0.9375rem] font-medium transition-colors',
+              'whitespace-nowrap rounded-brand px-3 py-2 text-[0.9375rem] font-medium transition-colors',
               isActive(item.href)
                 ? 'text-terracotta-800'
                 : 'text-black/72 hover:bg-paper hover:text-black',

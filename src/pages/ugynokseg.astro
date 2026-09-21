@@ -1,81 +1,223 @@
 ---
 import Base from '@/layouts/Base.astro';
-import PageHero from '@/components/PageHero.astro';
-import SectionHeading from '@/components/SectionHeading.astro';
 import Button from '@/components/Button.astro';
-import Testimonials from '@/components/Testimonials.astro';
-import { agencyServices, halves, expert, site, contact } from '@/data/site';
+import SectionHeading from '@/components/SectionHeading.astro';
+import Slabs from '@/components/Slabs.astro';
+import Results from '@/components/Results.astro';
+import Faq from '@/components/Faq.astro';
+import { agencyOffer, site, contact, expert } from '@/data/site';
+import { agencyFaqs } from '@/data/proof';
+import { huf } from '@/lib/format';
 
-const steps = [
-  {
-    title: 'Ingyenes 30 perc',
-    body: 'Megnézzük, mivel foglalkozol, mi fut most, és mi a cél. Ennek alapján mondok árat — nem előre gyártott csomagot.',
-  },
-  {
-    title: 'Átnézem, ami van',
-    body: 'Fiók, mérés, korábbi eredmények. Ha valami alapvetően hiányzik, azt előre megmondom, nem a harmadik hónapban.',
-  },
-  {
-    title: 'Felépítés és indítás',
-    body: 'Megépítem a kampányokat a saját fiókodban. A hozzáférés végig a tiéd marad.',
-  },
-  {
-    title: 'Havi riport, magyarul',
-    body: 'Nem dashboard-link. Leírom, mi történt, mibe került, és mit javaslok a következő hónapra.',
-  },
-];
+/**
+ * A single-offer sales page, not a services catalogue.
+ *
+ * The page it replaces listed what the agency half does and then asked the
+ * visitor to request a quote. This one carries one offer, states its price,
+ * and spends its length earning that price — because a published number
+ * qualifies harder than any "kérjen ajánlatot" button, and it does the
+ * qualifying before the call rather than on it.
+ *
+ * THE PRICE CARRIES NO VAT LINE. The ÁSZF states Kristóf is alanyi adómentes
+ * and charges no VAT; "+ ÁFA" here would contradict a contractual document
+ * on the same site. See the note on `agencyOffer` in src/data/site.ts.
+ *
+ * FIRST PERSON THROUGHOUT. He works alone, so "egy teljes csapatot kapsz"
+ * would be a claim nothing supports — and it would throw away the actual
+ * differentiator, which is that the senior person is the one on the account.
+ *
+ * Colour: this is the agency half, so blue. But a page cannot be blue end to
+ * end — the brand book moves a page shared -> focus -> shared, and the
+ * minimum colour-section height exists so a coloured band reads as a section
+ * rather than a banner. The three moments that carry the offer (the opening,
+ * the price, the close) are agency; the argument between them is shared.
+ */
 
 const schema = [
   {
     '@type': 'Service',
     '@id': `${site.url}/ugynokseg#service`,
-    name: 'Hirdetéskezelés, fiókmenedzsment és mérés',
-    serviceType: 'Online marketing ügynökségi szolgáltatás',
+    name: 'Google és Meta hirdetéskezelés',
+    serviceType: 'PPC hirdetéskezelés',
     provider: { '@id': `${site.url}/#business` },
     areaServed: { '@type': 'Country', name: 'Hungary' },
-    hasOfferCatalog: {
-      '@type': 'OfferCatalog',
-      name: 'Ügynökségi szolgáltatások',
-      itemListElement: agencyServices.map((s) => ({
-        '@type': 'Offer',
-        itemOffered: { '@type': 'Service', name: s.name, description: s.body },
-      })),
+    offers: {
+      '@type': 'Offer',
+      name: 'Teljes körű Google + Meta hirdetéskezelés',
+      price: agencyOffer.price,
+      priceCurrency: 'HUF',
+      url: `${site.url}/ugynokseg#ar`,
+      availability: 'https://schema.org/InStock',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        price: agencyOffer.price,
+        priceCurrency: 'HUF',
+        /* valueAddedTaxIncluded: true is correct for a VAT-exempt trader —
+           the buyer pays exactly this, with no tax added on top. */
+        valueAddedTaxIncluded: true,
+        unitText: 'hó',
+      },
     },
+  },
+  {
+    '@type': 'FAQPage',
+    '@id': `${site.url}/ugynokseg#faq`,
+    mainEntity: agencyFaqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+
+const chips = ['Google Ads', 'Meta Ads', 'Kampánystratégia', 'Optimalizálás', 'Remarketing', 'Riportolás'];
+
+const why = [
+  {
+    t: 'Google és Meta egy rendszerben',
+    b: 'Nem két külön ember, két külön stratégia és két külön riport. Egy költségkeret, egy mérés, egy döntés.',
+  },
+  {
+    t: 'Nem egy junior ül a fiókodon',
+    b: `Egy nagy ügynökségnél a senior az értékesítésen volt. Itt végig én dolgozom a kampányaidon, ${expert.yearsExperience} év tapasztalattal.`,
+  },
+  {
+    t: 'Üzleti szemlélet',
+    b: 'Nem a kattintás és a CTR a végcél. A kampánynak az üzleted eredményét kell vinnie, különben szép számokat gyártunk a semmiért.',
+  },
+  {
+    t: 'Átlátható havi díj',
+    b: `${huf(agencyOffer.price)} / ${agencyOffer.period}. Nincs százféle csomag, nincs sávos árazás, ami mindig éppen fölötted kezdődik.`,
   },
 ];
 ---
 
 <Base
-  title="Ügynökség"
-  description="Kampánykezelés, egyszeri fiókbeállítás, audit és mérés magyar kis- és középvállalkozásoknak. A hirdetési fiók végig a tiéd marad, nincs hűségidő."
+  title="Google és Meta hirdetéskezelés"
+  description={`Teljes körű Google és Meta hirdetéskezelés vállalkozásoknak: stratégia, kampányépítés, optimalizálás és riportolás. Fix ${huf(agencyOffer.price)} / hó, a hirdetési költés ezen felül. A fiók végig a tiéd marad.`}
   schema={schema}
 >
-  <PageHero
-    eyebrow="ÜGYNÖKSÉG"
-    title="Nincs rá időd? Csináljuk mi."
-    lead="A Brandműhely másik fele. Ugyanaz a szakmai háttér, ugyanaz az őszinte beszéd a számokról — csak nem neked kell elvégezned."
-  />
+  <!-- 1 · Opening. Agency mode: the page's identity. -->
+  <section data-theme="agency" class="relative overflow-hidden">
+    <Slabs group="triplet" color="var(--color-terracotta-500)" opacity={0.14} height="420px" />
+    <div class="container-x relative z-10 py-16 lg:py-24">
+      <div class="max-w-[54rem]">
+        <p class="t-label text-terracotta-200">GOOGLE + META HIRDETÉSKEZELÉS</p>
+        <h1 class="t-display mt-5 max-w-[20ch] text-paper">
+          A hirdetéseid ne csak költsenek. <span class="text-highlight">Hozzanak is.</span>
+        </h1>
+        <p class="t-lead mt-6 max-w-[54ch] text-paper/85">
+          Teljes körű Google és Meta hirdetéskezelés vállalkozásoknak, akik ki szeretnék
+          szervezni a hirdetéseik működtetését — stratégiai tervezéstől az optimalizálásig,
+          fix havi díjért.
+        </p>
 
-  <!-- Services -->
+        <p class="t-body mt-6 text-paper">
+          <strong class="font-title text-2xl font-bold">{huf(agencyOffer.price)}</strong>
+          <span class="text-paper/80"> / {agencyOffer.period} · a hirdetési költés ezen felül</span>
+        </p>
+
+        <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+          <Button href="/kapcsolat" size="lg" track="agency-hero">Kérek egy konzultációt</Button>
+          <span class="t-small text-paper/70">
+            20–30 perces, kötelezettségmentes beszélgetés
+          </span>
+        </div>
+
+        <ul class="mt-10 flex flex-wrap gap-x-6 gap-y-2 border-t border-paper/20 pt-6">
+          {chips.map((c) => (
+            <li class="t-small flex items-center gap-2 text-paper/85">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                class="shrink-0 text-terracotta-200">
+                <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="3"
+                  stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+              {c}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · Self-recognition. The visitor knows the symptom, not the service. -->
   <section class="section" data-theme="shared">
     <div class="container-x">
       <SectionHeading
-        eyebrow="MIT CSINÁLOK"
-        title="Néhány dolgot, rendesen"
-        lead="Nem vállalok mindent. Azt csinálom, amihez tizenegy év tapasztalat áll mögöttem — a teljes kampánykezeléstől az egyszeri beállításig."
+        eyebrow="ISMERŐS?"
+        title="Ha ezek közül akár egy igaz rád, érdemes beszélnünk."
       />
+      <ul class="mt-10 grid gap-x-10 gap-y-4 md:grid-cols-2">
+        {agencyOffer.symptoms.map((s) => (
+          <li class="flex items-start gap-3">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+              class="mt-0.5 shrink-0 text-signal">
+              <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="2.5"
+                stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            <span class="t-body text-black/80">{s}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="t-lead mt-10 max-w-[46ch] font-medium">
+        Nem kell még egy embert felvenned. A hirdetéskezelést egészében is ki tudod szervezni.
+      </p>
+    </div>
+  </section>
 
-      <div class="mt-12 grid gap-6 lg:grid-cols-2">
-        {agencyServices.map((svc) => (
-          <article id={svc.id} class="card flex flex-col p-8 scroll-mt-28">
-            <h3 class="t-subtitle text-black">{svc.name}</h3>
-            <p class="t-body mt-4 text-black/80">{svc.body}</p>
-            <ul class="mt-6 space-y-3 border-t border-black/10 pt-6">
-              {svc.points.map((pt) => (
-                <li class="flex items-start gap-3">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+  <!-- 3 · The problem, named precisely. -->
+  <section class="section" data-theme="shared">
+    <div class="container-x">
+      <div class="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
+        <div>
+          <p class="t-label t-eyebrow">A PROBLÉMA</p>
+          <h2 class="t-title mt-4">A hirdetés elindítása nem a nehéz rész.</h2>
+          <p class="t-body mt-6 text-black/80">
+            Egy kampányt bárki el tud indítani — a felület végigvezet rajta. A nehéz rész
+            utána kezdődik, és ott dől el, hogy a keret elfogy vagy megtérül.
+          </p>
+        </div>
+        <div class="card p-8">
+          <p class="t-small font-semibold">A nehéz rész az, hogy:</p>
+          <ul class="mt-5 grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
+            {agencyOffer.hardParts.map((h) => (
+              <li class="flex items-start gap-2.5">
+                <span class="mt-2.5 block h-1.5 w-1.5 shrink-0 bg-terracotta-500" aria-hidden="true"></span>
+                <span class="t-small text-black/80">{h}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · What the retainer actually buys. -->
+  <section class="section" data-theme="shared" id="mit-kapsz">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="MIT KAPSZ"
+        title="Nem hirdetéskezelést kapsz. A teljes hirdetési működésed kiszervezed."
+        lead="Hat dolog, amit havonta elvégzek — egyetlen díjért, két platformon."
+      />
+      <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {agencyOffer.blocks.map((b, i) => (
+          <article class="card flex flex-col p-7">
+            <span class="font-title text-xs font-bold tracking-widest text-black/40">
+              0{i + 1}
+            </span>
+            <h3 class="mt-4 font-title text-xl font-bold leading-snug tracking-tight text-black">
+              {b.name}
+            </h3>
+            {'body' in b && b.body && (
+              <p class="mt-3 text-[0.9375rem] leading-relaxed text-black/72">{b.body}</p>
+            )}
+            <ul class="mt-5 space-y-2.5 border-t border-black/10 pt-5">
+              {b.points.map((pt) => (
+                <li class="flex items-start gap-2.5">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"
                     class="mt-1 shrink-0 text-signal">
-                    <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="2.5"
+                    <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="3"
                       stroke-linecap="round" stroke-linejoin="round"></path>
                   </svg>
                   <span class="t-small text-black/80">{pt}</span>
@@ -88,112 +230,222 @@ const schema = [
     </div>
   </section>
 
-  <!-- Which half is for you -->
+  <!-- 5 · The edges of the offer. Saying what is NOT in it raises trust. -->
   <section class="section" data-theme="shared">
     <div class="container-x">
       <SectionHeading
-        eyebrow="MELYIK VALÓ NEKED?"
-        title="Megtanulod, vagy kiszervezed"
-        lead="Nincs rossz válasz. Az számít, hogy mennyi időd van rá — és hogy akarod-e érteni."
+        eyebrow="TISZTA KERETEK"
+        title="Mi van benne, és mi nincs"
+        lead="Egy havi díj, aminek nincs kimondott határa, az egy havi díj, ami nőni fog. Itt megvan."
+      />
+      <div class="mt-12 grid gap-5 lg:grid-cols-2">
+        <div class="card p-8">
+          <p class="t-subtitle">
+            A {huf(agencyOffer.price)} / {agencyOffer.period} tartalmazza
+          </p>
+          <ul class="mt-6 space-y-3">
+            {agencyOffer.includes.map((x) => (
+              <li class="flex items-start gap-3">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                  class="mt-0.5 shrink-0 text-signal">
+                  <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span class="t-body text-black/80">{x}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="card p-8">
+          <p class="t-subtitle">Nem tartalmazza</p>
+          <ul class="mt-6 space-y-4">
+            {agencyOffer.excludes.map((x) => (
+              <li class="flex items-start gap-3">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                  class="mt-0.5 shrink-0 text-black/40">
+                  <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round"></path>
+                </svg>
+                <span>
+                  <span class="t-body block font-medium text-black">{x.what}</span>
+                  <span class="t-small block text-black/65">{x.note}</span>
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · How the work runs. -->
+  <section class="section" data-theme="shared" id="hogyan">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="HOGYAN DOLGOZUNK"
+        title="Így lesz a hirdetésből rendszer"
+        lead="Nem havonta egyszer nézek rá a fiókra, és nem riportot küldök dashboard-link helyett."
+      />
+      <ol class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {agencyOffer.process.map((s, i) => (
+          <li class="flex gap-5">
+            <span
+              class="grid h-11 w-11 shrink-0 place-items-center rounded-brand bg-blue-800
+                     font-title text-sm font-bold text-paper"
+              aria-hidden="true"
+            >{i + 1}</span>
+            <div>
+              <h3 class="font-title text-lg font-bold leading-snug tracking-tight text-black">
+                {s.title}
+              </h3>
+              <p class="mt-2 text-[0.9375rem] leading-relaxed text-black/72">{s.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- 7 · Proof. Agency results only — see the note in src/data/proof.ts.
+       The credibility figures are OFF here: "200+ képzett vállalkozás" and
+       "100% elégedettség" belong to the coaching half, and borrowing them to
+       sell ad management would be claiming credit for different work. -->
+  <Results
+    half="ugynokseg"
+    eyebrow="EREDMÉNYEK"
+    title="Valódi számok, valódi vállalkozásoktól"
+    lead="Az iparágat megjelölöm, a nevet nem — az eredmény az ügyfélé, és az is marad."
+    stats={false}
+  />
+
+  <!-- 8 · Differentiators that are not "we are professionals". -->
+  <section class="section" data-theme="shared">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="MIÉRT ÉN"
+        title="Nem egy freelancer a sok közül. Nem is egy ügynökségi labirintus."
         align="center"
       />
-
-      <div class="mx-auto mt-12 grid max-w-4xl gap-6 md:grid-cols-2">
-        {halves.map((h) => (
-          <a
-            href={h.href}
-            data-theme={h.tone === 'terracotta' ? 'coaching' : 'agency'}
-            class="group flex flex-col rounded-brand p-8 shadow-shade transition-transform duration-200 hover:-translate-y-1"
-          >
-            <p class:list={['t-label', h.tone === 'terracotta' ? 'text-black/70' : 'text-terracotta-200']}>
-              {h.name.toUpperCase()}
-            </p>
-            <p class:list={['t-subtitle mt-3', h.tone === 'terracotta' ? 'text-black' : 'text-paper']}>
-              {h.tagline}
-            </p>
-            <p class:list={['t-small mt-4 flex-1', h.tone === 'terracotta' ? 'text-black/80' : 'text-paper/80']}>
-              {h.summary}
-            </p>
-            <span
-              class:list={[
-                't-label mt-6 inline-flex items-center gap-2',
-                h.tone === 'terracotta' ? 'text-black' : 'text-paper',
-              ]}
-            >
-              TOVÁBB
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"
-                class="transition-transform duration-200 group-hover:translate-x-1">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.5"
-                  stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </span>
-          </a>
+      <div class="mt-12 grid gap-5 md:grid-cols-2">
+        {why.map((w) => (
+          <div class="card p-7">
+            <h3 class="font-title text-lg font-bold tracking-tight text-black">{w.t}</h3>
+            <p class="mt-3 text-[0.9375rem] leading-relaxed text-black/72">{w.b}</p>
+          </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- Process -->
-  <section class="section" data-theme="shared">
-    <div class="container-x">
-      <div class="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-        <div class="lg:sticky lg:top-28 lg:self-start">
-          <SectionHeading
-            eyebrow="HOGYAN INDULUNK"
-            title="Négy lépés, meglepetés nélkül"
-            lead="Nincs hűségidő és nincs beköltözés a fiókodba. Bármikor kiszállhatsz, és minden ott marad, ahol volt."
-          />
-        </div>
-        <ol class="space-y-1">
-          {steps.map((s, i) => (
-            <li class="group relative flex gap-6 pb-8 last:pb-0">
-              <div class="relative flex flex-col items-center">
-                <span
-                  class="z-10 grid h-11 w-11 shrink-0 place-items-center rounded-brand
-                         bg-blue-800 font-title text-sm font-bold text-paper"
-                >{i + 1}</span>
-                {i < steps.length - 1 && (
-                  <span class="absolute top-11 h-full w-px bg-black/15" aria-hidden="true"></span>
-                )}
-              </div>
-              <div class="pt-1.5">
-                <h3 class="t-subtitle text-black">{s.title}</h3>
-                <p class="t-body mt-2 max-w-lg text-black/80">{s.body}</p>
-              </div>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <!-- Pricing: deliberately not a price list -->
-  <section class="section" data-theme="agency">
+  <!-- 9 · The price, stated plainly. Agency mode again: this is the offer. -->
+  <section class="section" data-theme="agency" id="ar">
     <div class="container-x">
       <div class="mx-auto max-w-3xl text-center">
-        <p class="t-label text-terracotta-200">ÁRAZÁS</p>
-        <h2 class="t-title mt-4 text-paper">Itt nincs árlista — és ennek oka van</h2>
-        <p class="t-lead mt-6 text-paper/85">
-          A képzésnél fix árakat adok, mert ott egy alkalom egy alkalom. Kampánykezelésnél
-          viszont más a munka egy havi 50 000 forintos és egy havi 2 millió forintos
-          kerettel — ha itt listaárat írnék ki, az egyikőtöknek biztosan hazugság lenne.
+        <p class="t-label text-terracotta-200">ÁRAK</p>
+        <h2 class="t-title mt-4 text-paper">Teljes körű Google + Meta hirdetéskezelés</h2>
+
+        <p class="mt-8 font-title text-[clamp(44px,3rem+3vw,72px)] font-bold leading-none tracking-tight text-paper">
+          {huf(agencyOffer.price)}
+          <span class="t-lead align-middle font-text text-paper/75"> / {agencyOffer.period}</span>
         </p>
-        <p class="t-body mt-5 text-paper/75">
-          A 30 perces beszélgetés után konkrét összeget mondok. Nincs csomag, amit rád
-          kell húzni, és nincs sávos árazás, ami mindig éppen fölötted kezdődik.
+
+        <p class="t-body mt-6 text-paper/85">
+          Egyetlen havi díj. Két hirdetési platform. Teljes körű kezelés.
+          A hirdetési költést közvetlenül a Google és a Meta felé fizeted.
         </p>
-        <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-          <Button href="/kapcsolat" size="lg" track="agency-quote">Kérek ajánlatot</Button>
-          <Button href="/arak" size="lg" variant="light">
-            A képzés árai
-          </Button>
+        <p class="t-small mt-3 text-paper/70">
+          Alanyi adómentes szolgáltatóként számlázok, így áfa nem kerül rá — ennyit fizetsz.
+        </p>
+
+        <div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <Button href="/kapcsolat" size="lg" track="agency-price">Beszéljünk a vállalkozásodról</Button>
+          <span class="t-small text-paper/70">Vagy hívj: {contact.phone}</span>
         </div>
-        <p class="t-small mt-5 text-paper/70">
-          Vagy hívj közvetlenül: {contact.phone}
+
+        <p class="t-small mt-8 text-paper/75">
+          Nem tudod, hogy megéri-e neked? Az első beszélgetésen ezt nézzük meg — nem azt,
+          hogyan adjam el.
         </p>
       </div>
     </div>
   </section>
 
-  <Testimonials />
+  <!-- 10 · The filter. The "nem neked való" half is what makes the other believable. -->
+  <section class="section" data-theme="shared">
+    <div class="container-x">
+      <SectionHeading eyebrow="KINEK VALÓ" title="Kinek tudok segíteni, és kinek nem" />
+      <div class="mt-12 grid gap-5 lg:grid-cols-2">
+        <div class="card p-8">
+          <p class="t-subtitle">Akkor tudok igazán segíteni, ha…</p>
+          <ul class="mt-6 space-y-3">
+            {agencyOffer.fitFor.map((x) => (
+              <li class="flex items-start gap-3">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                  class="mt-0.5 shrink-0 text-signal">
+                  <path d="M4 12.5l5 5L20 6.5" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                <span class="t-body text-black/80">{x}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div class="card p-8">
+          <p class="t-subtitle">Nem neked való, ha…</p>
+          <ul class="mt-6 space-y-3">
+            {agencyOffer.notFitFor.map((x) => (
+              <li class="flex items-start gap-3">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                  class="mt-0.5 shrink-0 text-black/40">
+                  <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round"></path>
+                </svg>
+                <span class="t-body text-black/80">{x}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <p class="t-small mt-8 max-w-[62ch] text-black/72">
+        Ezt nem udvariasságból írom ki. Ha a második listából igaz rád valami, a
+        beszélgetésen úgyis kiderül — jobb, ha addigra mindketten tudjuk.
+      </p>
+    </div>
+  </section>
+
+  <!-- 11 · Questions that come up on every first call. -->
+  <Faq items={agencyFaqs} eyebrow="GYIK" title="Amit a leggyakrabban megkérdeznek" />
+
+  <!-- 12 · Close. No new argument, just the next step. -->
+  <section data-theme="agency" class="relative overflow-hidden">
+    <div class="container-x section relative z-10">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="t-title text-paper">Készen állsz kiszervezni a hirdetéseidet?</h2>
+        <p class="t-lead mt-5 text-paper/85">
+          Beszéljük át, hogyan tudna működni a vállalkozásodnál.
+        </p>
+        <div class="mt-9 flex justify-center">
+          <Button href="/kapcsolat" size="lg" track="agency-final">Kérek egy konzultációt</Button>
+        </div>
+        <p class="t-small mt-6 text-paper/75">
+          Az első beszélgetés célja nem az, hogy rád adjak egy szolgáltatást.
+          Megnézzük, van-e értelme együtt dolgoznunk — és ha nincs, azt is megmondom.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- The other half, kept to one quiet line at the very bottom: on a sales
+       page every link away is a leak, but someone who lands here and actually
+       wants to learn it themselves should not have to go hunting. -->
+  <section class="section-tight" data-theme="shared">
+    <div class="container-x">
+      <p class="t-small text-center text-black/72">
+        Inkább magad tanulnád meg? Akkor az
+        <a href="/kepzes" class="font-medium text-highlight underline underline-offset-4"
+          >egyéni oktatás</a> való neked.
+      </p>
+    </div>
+  </section>
 </Base>

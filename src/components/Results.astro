@@ -1,30 +1,51 @@
 ---
 import SectionHeading from '@/components/SectionHeading.astro';
-import { results, PROOF_IS_PLACEHOLDER } from '@/data/proof';
+import { results, PROOF_IS_PLACEHOLDER, type Half } from '@/data/proof';
+import { expert } from '@/data/site';
+import { num } from '@/lib/format';
+
+interface Props {
+  /** Show only the results one half produced. An agency page arguing with
+   *  coaching results would be claiming credit for work the client did. */
+  half?: Half;
+  eyebrow?: string;
+  title?: string;
+  lead?: string;
+  /** The credibility figures belong to the business as a whole, so they are
+   *  off by default on a page scoped to one half. */
+  stats?: boolean;
+}
+const {
+  half,
+  eyebrow = 'EREDMÉNYEK',
+  title = 'Mások már megtanulták, te készen állsz?',
+  lead = 'Szeretnék megosztani Veled pár eredményt korábbi ügyfeleimtől, hogy lásd, mire számíthatsz.',
+  stats = true,
+} = Astro.props;
+
+const shown = half ? results.filter((r) => r.half === half) : results;
 
 // The grid follows the data so an honest, short list never reads as a gap —
 // and an even count goes two-up rather than leaving one card stranded on a
 // second row of three.
 const resultCols =
-  results.length >= 5 ? 'md:grid-cols-3'
-  : results.length === 4 ? 'sm:grid-cols-2 mx-auto max-w-5xl'
-  : results.length === 3 ? 'md:grid-cols-3'
-  : results.length === 2 ? 'sm:grid-cols-2 mx-auto max-w-3xl'
+  shown.length >= 5 ? 'md:grid-cols-3'
+  : shown.length === 4 ? 'sm:grid-cols-2 mx-auto max-w-5xl'
+  : shown.length === 3 ? 'md:grid-cols-3'
+  : shown.length === 2 ? 'sm:grid-cols-2 mx-auto max-w-3xl'
   : 'mx-auto max-w-md';
-import { expert } from '@/data/site';
-import { num } from '@/lib/format';
 ---
 
 <section class="section" data-theme="shared" id="eredmenyek">
   <div class="container-x">
     <SectionHeading
-      eyebrow="EREDMÉNYEK"
-      title="Mások már megtanulták, te készen állsz?"
-      lead="Szeretnék megosztani Veled pár eredményt korábbi ügyfeleimtől, hogy lásd, mire számíthatsz."
+      eyebrow={eyebrow}
+      title={title}
+      lead={lead}
     />
 
     <div class:list={['mt-14 grid gap-5', resultCols]}>
-      {results.map((r) => (
+      {shown.map((r) => (
         <figure class="flex flex-col card p-7 shadow-shade">
           <figcaption class="flex items-center justify-between gap-3">
             <span class="font-title text-sm font-bold text-black">{r.industry}</span>
@@ -77,6 +98,7 @@ import { num } from '@/lib/format';
     <!-- Credibility stats, as the brand book's stat: a figure standing beside
          one slab at cap height. The slab is the mark's own shape, which is
          why the figures no longer need a boxed grid to read as a set. -->
+    {stats && (
     <dl class="mt-16 grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4">
       {[
         { n: `${num(expert.businessesTrained)}+`, l: 'képzett vállalkozás' },
@@ -101,5 +123,6 @@ import { num } from '@/lib/format';
         </div>
       ))}
     </dl>
+    )}
   </div>
 </section>

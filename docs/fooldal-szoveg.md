@@ -480,6 +480,8 @@ Van, akinek egyszerűen nincs rá kapacitása — vagy elmúlt a bizalom a jelen
 
 Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélések. Nálam a marketing nem csak a kivitelezésről szól.
 
+250 000 Ft / hó · a hirdetési költés ezen felül
+
 **Gomb:** `Hirdetéskezelésről bővebben` → /ugynokseg
 
 **Gomb:** `Ajánlatot kérek` → /kapcsolat

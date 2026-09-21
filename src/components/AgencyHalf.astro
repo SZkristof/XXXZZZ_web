@@ -1,6 +1,7 @@
 ---
 import Button from '@/components/Button.astro';
-import { agencyServices } from '@/data/site';
+import { agencyServices, agencyOffer } from '@/data/site';
+import { huf } from '@/lib/format';
 
 /**
  * The Ügynökség half on the homepage.
@@ -31,6 +32,11 @@ import { agencyServices } from '@/data/site';
         <p class="t-body mt-4 max-w-[46ch] text-paper/75">
           Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélések.
           Nálam a marketing nem csak a kivitelezésről szól.
+        </p>
+
+        <p class="t-body mt-6 text-paper">
+          <strong class="font-title text-2xl font-bold">{huf(agencyOffer.price)}</strong>
+          <span class="text-paper/80"> / {agencyOffer.period} · a hirdetési költés ezen felül</span>
         </p>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">

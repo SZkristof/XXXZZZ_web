@@ -1,21 +1,39 @@
 ---
 import SectionHeading from '@/components/SectionHeading.astro';
-import { faqs } from '@/data/proof';
+import { faqs, type Faq } from '@/data/proof';
 
-interface Props { limit?: number }
-const { limit } = Astro.props;
-const items = limit ? faqs.slice(0, limit) : faqs;
+interface Props {
+  limit?: number;
+  /** A different list entirely — the agency page asks different questions. */
+  items?: Faq[];
+  eyebrow?: string;
+  title?: string;
+  lead?: string;
+  /** Anchor. Two FAQ sections on one page would otherwise collide. */
+  id?: string;
+}
+const {
+  limit,
+  items: given,
+  eyebrow = 'GYAKORI KÉRDÉSEK',
+  title = 'Amit a legtöbben megkérdeznek',
+  lead = 'Ha nincs köztük a tiéd, írj vagy hívj — és mindent átbeszélünk.',
+  id = 'gyik',
+} = Astro.props;
+
+const source = given ?? faqs;
+const items = limit ? source.slice(0, limit) : source;
 ---
 
 <!-- Native <details>: fully accessible and keyboard-operable with zero JS. -->
-<section class="section" data-theme="shared" id="gyik">
+<section class="section" data-theme="shared" id={id}>
   <div class="container-x">
     <div class="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
       <div class="lg:sticky lg:top-28 lg:self-start">
         <SectionHeading
-          eyebrow="GYAKORI KÉRDÉSEK"
-          title="Amit a legtöbben megkérdeznek"
-          lead="Ha nincs köztük a tiéd, írj vagy hívj — és mindent átbeszélünk."
+          eyebrow={eyebrow}
+          title={title}
+          lead={lead}
         />
       </div>
 

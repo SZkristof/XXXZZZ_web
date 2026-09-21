@@ -494,3 +494,157 @@ export const nav = [
   { href: '/eredmenyek', label: 'Eredmények' },
   { href: '/blog', label: 'Blog' },
 ] as const;
+
+/* ------------------------------------------------------------------------ */
+/* The agency offer — one retainer, published in full                        */
+/*                                                                            */
+/* The agency page used to argue that it could not publish a price, because   */
+/* the work differs between a 50 000 Ft and a 2 000 000 Ft monthly budget.    */
+/* Kristóf has since decided on one flat retainer, which makes that argument  */
+/* obsolete — a published price is a stronger filter than any "kérjen         */
+/* ajánlatot" button, and it does the qualifying before the call.             */
+/*                                                                            */
+/* NO VAT LINE. The ÁSZF states he is alanyi adómentes and charges no VAT, so  */
+/* "+ ÁFA" would contradict a contractual document on the same site. If that   */
+/* status ever changes, `legalEntity.vatStatus`, ÁSZF §3 and this comment all  */
+/* have to move together.                                                     */
+/* ------------------------------------------------------------------------ */
+
+export const agencyOffer = {
+  price: 250_000,
+  period: 'hó',
+  /** What the retainer buys, as the six things actually delivered. */
+  blocks: [
+    {
+      id: 'strategia',
+      name: 'Stratégia',
+      points: [
+        'Üzleti célok átbeszélése',
+        'Célcsoportok és ajánlatok elemzése',
+        'Google + Meta stratégia egyben',
+        'Kampánystruktúra megtervezése',
+        'Költségkeret elosztása a csatornák között',
+      ],
+    },
+    {
+      id: 'google',
+      name: 'Google Ads',
+      points: [
+        'Search kampányok',
+        'Performance Max',
+        'Remarketing',
+        'Kulcsszókezelés',
+        'Hirdetésszövegek',
+      ],
+    },
+    {
+      id: 'meta',
+      name: 'Meta Ads',
+      points: [
+        'Facebook és Instagram',
+        'Új közönségek elérése',
+        'Remarketing',
+        'Kreatívtesztelés',
+        'Célcsoport-tesztelés',
+      ],
+    },
+    {
+      id: 'optimalizalas',
+      name: 'Folyamatos optimalizálás',
+      body: 'Nem egyszer beállítom és otthagyom.',
+      points: ['Figyelem', 'Elemzem', 'Tesztelem', 'Optimalizálom'],
+    },
+    {
+      id: 'meres',
+      name: 'Mérés és riportolás',
+      points: [
+        'Konverziókövetés beállítása',
+        'Kampányeredmények',
+        'CPA / CPL / ROAS',
+        'Havi riport, magyarul',
+        'Konkrét következő lépések',
+      ],
+    },
+    {
+      id: 'tamogatas',
+      name: 'Proaktív szakmai támogatás',
+      body: 'Nem neked kell észrevenned, ha valami nem működik. Szólok.',
+      points: [
+        'Szakmai javaslatok',
+        'Gyors reakció',
+        'Hosszú távú gondolkodás',
+        'Üzleti szemlélet',
+      ],
+    },
+  ],
+
+  /* Saying what is NOT in the price raises trust rather than lowering it: a
+     retainer with no stated edges reads as one that will grow an invoice. */
+  includes: [
+    'Google Ads kezelés',
+    'Meta Ads kezelés',
+    'Stratégia és kampányépítés',
+    'Folyamatos optimalizálás',
+    'Remarketing',
+    'Konverziómérés és riportolás',
+    'Havi konzultáció',
+    'Folyamatos szakmai javaslatok',
+  ],
+  excludes: [
+    { what: 'A hirdetési költés', note: 'Közvetlenül a Google és a Meta felé fizeted, a saját fiókodból.' },
+    { what: 'Landing oldal készítése', note: 'Külön megrendelhető.' },
+    { what: 'Videógyártás', note: 'Külön megrendelhető.' },
+    { what: 'Komolyabb kreatívgyártás', note: 'Külön megrendelhető.' },
+    { what: 'Webfejlesztés', note: 'Külön megrendelhető.' },
+    { what: 'Egyedi tracking-fejlesztés', note: 'A szokásos mérési beállítás benne van.' },
+  ],
+
+  /** The symptoms a visitor recognises before they know what to buy. */
+  symptoms: [
+    'Már hirdetsz, de nem tudod pontosan, hogy jó helyre megy-e a pénz.',
+    'A kampányaid működnek, de nincs időd folyamatosan optimalizálni őket.',
+    'Van marketingesed, de nincs valódi hirdetési szakembered.',
+    'Több érdeklődőt vagy vásárlást szeretnél ugyanabból a keretből.',
+    'Két külön emberrel kell egyeztetned a Google és a Meta miatt.',
+    'Egyszerűen le szeretnéd venni a hirdetéskezelést a válladról.',
+  ],
+
+  /** The hard part, spelled out. Starting a campaign is not the hard part. */
+  hardParts: [
+    'mit hirdessünk',
+    'kinek',
+    'milyen ajánlattal',
+    'melyik csatornán',
+    'milyen kampánystruktúrával',
+    'milyen kreatívval',
+    'milyen landing oldalra',
+    'mennyiért',
+    'és mit kezdjünk az adatokkal, amikor megérkeznek',
+  ],
+
+  process: [
+    { title: 'Megismerem az üzleted', body: 'Célok, ajánlat, célcsoport, jelenlegi eredmények.' },
+    { title: 'Átnézem, amid már van', body: 'Google Ads, Meta, mérés, landing oldal, kreatívok.' },
+    { title: 'Elkészítem a stratégiát', body: 'Melyik csatornán, milyen kampányokkal és milyen üzenettel dolgozunk.' },
+    { title: 'Elindítom vagy újratervezem', body: 'Kampányok, célzások, kreatívok, mérés.' },
+    { title: 'Optimalizálok', body: 'Nem havonta egyszer nézek rá. Az adatok alapján folyamatosan döntök.' },
+    { title: 'Megmutatom, mi történt', body: 'Havi riport, eredmények és a következő tesztek.' },
+  ],
+
+  /** A filter that works in both directions. Saying who this is not for is
+   *  what makes the "igen" half believable. */
+  fitFor: [
+    'Már van működő terméked vagy szolgáltatásod',
+    'Van értelmezhető hirdetési kereted',
+    'Rendszeresen szeretnél hirdetni, nem kampányszerűen',
+    'Hajlandó vagy adat alapján dönteni',
+    'Van kapacitásod a beérkező érdeklődők kezelésére',
+    'Hosszú távon szeretnéd építeni a rendszert',
+  ],
+  notFitFor: [
+    'Még nincs kipróbált, működő ajánlatod',
+    'Azt várod, hogy havi 50 000 Ft költésből milliókat csináljunk',
+    'Nem tudsz vagy nem akarsz időt fordítani az együttműködésre',
+    'Csak annyit szeretnél, hogy valaki egyszer beállítsa',
+  ],
+} as const;

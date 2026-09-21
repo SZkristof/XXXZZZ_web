@@ -83,14 +83,6 @@
   --color-black: #1c1a19;
   --color-signal: #0c7370;
 
-  /* ---- The five role tokens. These are the ones to build with: they point
-     at the live values below, which [data-theme] flips per mode. ---------- */
-  --color-ground: var(--ground);
-  --color-text: var(--text);
-  --color-action: var(--action);
-  --color-on-action: var(--on-action);
-  --color-highlight: var(--highlight);
-
   /* ---- 4px grid. Tailwind's scale is already 4px-based, so the brand steps
      map straight onto it: 1=4 2=8 3=12 4=16 6=24 8=32 12=48 16=64 24=96. ---- */
   --spacing: 4px;
@@ -264,6 +256,22 @@
     --on-action: var(--color-black);    /* 5.19:1 */
     --highlight: var(--color-terracotta-500); /* Archivo 700, 19px+ only */
   }
+
+  /* ---- Utilities for the role tokens. --------------------------------
+     These are written by hand rather than registered in @theme as
+     `--color-highlight: var(--highlight)`. That alias looks equivalent and
+     is not: a custom property declared on :root computes ITS OWN value at
+     :root, where the role variables are not set yet — so it froze to the
+     guaranteed-invalid value and every `text-highlight` in the site silently
+     fell back to inheriting its parent's colour. It failed quietly, too: the
+     inherited colour happened to be legible, so the contrast check passed.
+     Declared this way the var() resolves on the element that uses it, which
+     is the whole point of a token that flips per mode. */
+  .text-highlight { color: var(--highlight); }
+  .text-on-action { color: var(--on-action); }
+  .bg-action      { background-color: var(--action); }
+  .bg-ground      { background-color: var(--ground); }
+  .hover\:text-highlight:hover { color: var(--highlight); }
 
   /* A white card re-enters shared mode wherever it sits, so everything
      inside it follows the paper rules. */
