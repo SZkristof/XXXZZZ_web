@@ -215,12 +215,13 @@ indexelésből), vagy tedd vissza a domaint a régi WordPress csomagra — azt
 
 ## 6. Élesítés után
 
-- [ ] `https://www.brandmuhely.hu` betölt
-- [ ] `http://brandmuhely.hu` → átirányít `https://www.brandmuhely.hu`-ra
-- [ ] `https://www.brandmuhely.hu/robots.txt` — **már nem** `Disallow: /`
+- [ ] `https://brandmuhely.hu` betölt
+- [ ] `http://brandmuhely.hu` → átirányít `https://brandmuhely.hu`-ra
+- [ ] `https://www.brandmuhely.hu` → átirányít a www nélküli címre
+- [ ] `https://brandmuhely.hu/robots.txt` — **már nem** `Disallow: /`
 - [ ] A forrásban **nincs** `noindex` (böngészőben: jobb klikk → forrás)
 - [ ] Google Search Console: add hozzá a tulajdont, küldd be a sitemapet
-      (`https://www.brandmuhely.hu/sitemap-index.xml`)
+      (`https://brandmuhely.hu/sitemap-index.xml`)
 
 ### A régi WordPress
 

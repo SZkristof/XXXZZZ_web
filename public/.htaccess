@@ -10,13 +10,11 @@
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-  # Canonical host — DISABLED until it is confirmed that the hosting package
-  # actually serves the www hostname. The package is registered as the bare
-  # domain; if www is not an alias there, this redirect would take the entire
-  # site down rather than degrade. Re-enable only after visiting
-  # https://www.brandmuhely.hu and confirming it loads.
-  # RewriteCond %{HTTP_HOST} ^brandmuhely\.hu$ [NC]
-  # RewriteRule ^(.*)$ https://www.brandmuhely.hu/$1 [R=301,L]
+  # Canonical host: the BARE domain. www already resolves here and the server
+  # redirects it, so this rule is belt-and-braces — it keeps the canonical
+  # direction correct even if that server-side behaviour ever changes.
+  RewriteCond %{HTTP_HOST} ^www\.brandmuhely\.hu$ [NC]
+  RewriteRule ^(.*)$ https://brandmuhely.hu/$1 [R=301,L]
 
   # Serve /about as /about/index.html without exposing the filename.
   RewriteCond %{REQUEST_FILENAME} !-f

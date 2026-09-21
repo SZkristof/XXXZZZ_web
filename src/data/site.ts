@@ -6,8 +6,8 @@
 export const site = {
   name: 'Brandműhely',
   legalName: 'Szabó Kristóf E.V.',
-  domain: 'www.brandmuhely.hu',
-  url: 'https://www.brandmuhely.hu',
+  domain: 'brandmuhely.hu',
+  url: 'https://brandmuhely.hu',
   locale: 'hu-HU',
   lang: 'hu',
   description:
