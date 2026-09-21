@@ -267,7 +267,18 @@ const expectations = [
     config: { layout: 'month_view', theme: 'light', useSlotsViewOnSmallScreen: true },
     calLink,
   });
-  Cal.ns[ns]('ui', { hideEventTypeDetails: false, layout: 'month_view' });
+  Cal.ns[ns]('ui', {
+    hideEventTypeDetails: false,
+    layout: 'month_view',
+    // Cal renders WHITE text on cal-brand (the Confirm button, the selected
+    // slot). terracotta-500 carries white at only 3.34:1, so the brand accent
+    // here is terracotta-800 — which the brand book defines as "the deep
+    // terracotta fill, carrying white at 7.28:1", i.e. made for this.
+    cssVarsPerTheme: {
+      light: { 'cal-brand': '#a12c14' },
+      dark: { 'cal-brand': '#fbf0ec' },
+    },
+  });
 
   // Hide the skeleton once Cal renders, and report the booking as a conversion.
   Cal.ns[ns]('on', {
