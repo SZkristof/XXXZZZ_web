@@ -83,6 +83,19 @@ jobs:
       - name: Verify contact form handler
         run: npm run verify:form
 
+      # The homepage copy, derived from the page that is about to ship, so
+      # Kristóf can always download the current text from the run that
+      # deployed it rather than wondering which saved copy is the live one.
+      - name: Generate the homepage copy document
+        run: npm run copy:doc
+
+      - name: Attach the copy document to this run
+        uses: actions/upload-artifact@v4
+        with:
+          name: fooldal-szoveg
+          path: docs/fooldal-szoveg.md
+          retention-days: 90
+
       # --- Deploy. Rackhost may offer SFTP or FTPS only; set the repository
       # variable DEPLOY_PROTOCOL to "sftp" or "ftps" to pick one. -------------
       # SFTP is the default: the Tárhely Mini package exposes SSH, so the

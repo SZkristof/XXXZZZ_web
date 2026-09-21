@@ -51,6 +51,35 @@ Ezek nélkül **nem szabad** élesíteni:
 
 ---
 
+## A főoldal szövege
+
+A `docs/fooldal-szoveg.md` a főoldal teljes szövege, szekciónként, a megjelenés
+sorrendjében — átnézésre, a kódon kívül. **Generált fájl, ne szerkeszd:**
+
+```bash
+npm run build && npm run copy:doc
+```
+
+A `scripts/copy-doc.mjs` a *lefordított* oldalt olvassa be egy böngészővel, nem
+az `.astro` forrásokat. Két okból: a szöveg három helyen él (`src/data/site.ts`,
+`src/data/proof.ts` és a komponensek), a számolt értékek pedig — az alkalmankénti
+ár, a megtakarítás, a „4+1" jelölés — csak renderelés után léteznek. Ami a DOM-ban
+van, azt kapja a látogató.
+
+A rejtett szöveg szándékosan benne van: a szolgáltatás-csempéken két megírt
+leírás van, egy telefonra és egy szélesebb képernyőre, és mindkettőt át kell
+tudni nézni.
+
+A deploy minden futása legenerálja és feltölti artifactként `fooldal-szoveg`
+néven, tehát a friss szöveg mindig letölthető abból a futásból, amelyik
+kitelepítette.
+
+> Ha új szekció kerül a főoldalra, a `SECTION_SOURCES` listát frissíteni kell a
+> `scripts/copy-doc.mjs` fájlban. Ha elmarad, a generált fájl a tetején
+> figyelmeztet, hogy a címek elcsúsztak — nem csendben rossz.
+
+---
+
 ## Arculat
 
 Az oldal a **Brandműhely arculati kézikönyv Round 6** kiadása alapján készült,
