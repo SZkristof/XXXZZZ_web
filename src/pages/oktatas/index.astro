@@ -1,12 +1,13 @@
 ---
 import Base from '@/layouts/Base.astro';
 import PageHero from '@/components/PageHero.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
 import Platforms from '@/components/Platforms.astro';
 import HowItWorks from '@/components/HowItWorks.astro';
 import Pricing from '@/components/Pricing.astro';
 import Faq from '@/components/Faq.astro';
 import Button from '@/components/Button.astro';
-import { tracks, packages, site } from '@/data/site';
+import { tracks, packages, site, courses } from '@/data/site';
 
 const schema = tracks.map((t) => ({
   '@type': 'Course',
@@ -24,16 +25,62 @@ const schema = tracks.map((t) => ({
 ---
 
 <Base
-  title="Programok"
+  title="Oktatás"
   description="Három út, attól függően hol tartasz: kezdőként nulláról, futó kampányok rendbetétele, vagy vezetőként a számok megértése."
   schema={schema}
 >
   <PageHero
     mode="coaching"
-    eyebrow="PROGRAMOK"
+    eyebrow="EGYÉNI OKTATÁS"
     title="Három út. Válaszd azt, ahol most vagy."
     lead="Nem ugyanazt tanítom annak, aki még el sem indult, és annak, aki már két ügynökségen van túl. Az első, ingyenes beszélgetésen közösen eldöntjük, melyik a tiéd."
   />
+
+  <!-- Platform choice first. This page is what the Oktatás menu item opens,
+       and whoever opened it is picking a platform — the three buyer
+       situations below are the second question, not the first.
+
+       All five live here and in the submenu only. The homepage deliberately
+       stays on Meta / Google / LinkedIn: TikTok and GA4 are offered, but
+       Kristóf does not want them fronted to someone who has not already
+       come looking for training. -->
+  <section class="section" data-theme="shared" id="platformok-oktatas">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="VÁLASSZ PLATFORMOT"
+        title="Melyik felületet tanulnád meg?"
+        lead="Mindegyik ugyanúgy működik: 60 perces alkalmak a saját fiókodban, a saját termékeiden. Csak a tananyag más."
+      />
+      <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {courses.map((c) => (
+          <li class="contents">
+            <a
+              href={`/oktatas/${c.slug}`}
+              data-track={`oktatas-${c.slug}`}
+              class="group card flex h-full flex-col p-7 transition-all duration-300 ease-out
+                     hover:-translate-y-1 hover:shadow-shade-lift focus-visible:-translate-y-1"
+            >
+              <span class="t-label t-eyebrow">{c.platform.toUpperCase()}</span>
+              <h3 class="mt-4 font-title text-xl font-bold leading-snug tracking-tight text-black">
+                {c.navLabel}
+              </h3>
+              <p class="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-black/72">
+                {c.summary}
+              </p>
+              <span class="mt-6 inline-flex items-center gap-2 font-title text-[0.9375rem] font-bold text-highlight">
+                Részletek
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+                  class="transition-transform duration-300 ease-out group-hover:translate-x-1.5">
+                  <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
 
   <section class="section" data-theme="shared">
     <div class="container-x space-y-6">

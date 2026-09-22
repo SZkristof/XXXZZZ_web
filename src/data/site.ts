@@ -649,11 +649,13 @@ export const agencyOffer = {
 /* egyéni oktatás", not "hirdetési képzés" — so the page that ranks has to be */
 /* the one whose whole subject is that platform.                              */
 /*                                                                            */
-/* ⚠️ TIKTOK ÉS GOOGLE ANALYTICS: ez a két oldal ÚJ szolgáltatást állít.      */
-/* Eddig a site végig Meta / Google / LinkedIn hármasról beszélt (lásd a      */
-/* `platforms` tömböt és a csomagok "egy platform" sorát). Kristóffal         */
-/* megerősítendő, hogy ezeket is oktatja — ha nem, a két bejegyzés törlendő,  */
-/* és semmi más nem függ tőlük.                                              */
+/* TIKTOK ÉS GOOGLE ANALYTICS — SZÁNDÉKOSAN NEM SZEREPEL A FŐOLDALON.        */
+/* Kristóf mindkettőt oktatja, de csak annak akarja megmutatni, aki már az    */
+/* Oktatás menüre kattintott. Ezért ez az öt kurzus KIZÁRÓLAG két helyen      */
+/* jelenik meg: a fejléc Oktatás almenüjében és az /oktatas oldalon.          */
+/* A `platforms` tömb (főoldali Platformok szekció) marad hármas — ne told    */
+/* bele ezt a kettőt, és a főoldal egyetlen szekciója se olvassa a            */
+/* `courses` tömböt.                                                          */
 /* ------------------------------------------------------------------------ */
 
 export type Course = {
