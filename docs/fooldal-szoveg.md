@@ -6,7 +6,7 @@
 > változtatni, jelöld meg itt és szólj, vagy írd át a „forrás" alatt
 > megnevezett fájlban.
 
-Generálva: 2026-09-21
+Generálva: 2026-09-22
 
 A rövid és a hosszú változat is szerepel ott, ahol két szöveg van:
 a szolgáltatás-csempéken telefonon az egysoros jelenik meg, tablettől
@@ -151,7 +151,7 @@ Szólj, ha indul
 
   nem szükséges
 
-**Gomb:** `Az oktatásról bővebben` → /kepzes
+**Gomb:** `Az oktatásról bővebben` → /oktatas
 
 Eleged van abból, hogy nem mennek a hirdetéseid és csak égeted a pénzt? Ha nem tudod, hogyan kezdj hozzá, akkor az oktatásom pont Neked szól.
 

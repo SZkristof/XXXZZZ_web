@@ -306,7 +306,7 @@ export const halves = [
   {
     id: 'kepzes',
     name: 'Képzés',
-    href: '/kepzes',
+    href: '/oktatas',
     tone: 'terracotta',
     tagline: 'Te csinálod, én vezetlek.',
     summary:
@@ -425,7 +425,7 @@ export const services: Service[] = [
       'Saját tempóban sajátíthatod el az otthonod kényelméből a hirdetéskezelés fortélyait. Megtanítalak rendszerben gondolkodni, miközben igazi kampányokat hozunk létre a vállalkozásod számára — az eredményeket pedig együtt vizsgáljuk meg utána.',
     short:
       'Együtt építjük meg a kampányaidat, a te fiókodban.',
-    href: '/kepzes',
+    href: '/oktatas',
     cta: 'Az oktatásról',
     tone: 'terracotta',
   },
@@ -486,14 +486,6 @@ export const services: Service[] = [
   },
 ];
 
-export const nav = [
-  { href: '/kepzes', label: 'Egyéni Oktatás' },
-  { href: '/ugynokseg', label: 'Hirdetéskezelés' },
-  { href: '/arak', label: 'Árak' },
-  { href: '/rolam', label: 'Rólam' },
-  { href: '/eredmenyek', label: 'Eredmények' },
-  { href: '/blog', label: 'Blog' },
-] as const;
 
 /* ------------------------------------------------------------------------ */
 /* The agency offer — one retainer, published in full                        */
@@ -648,3 +640,295 @@ export const agencyOffer = {
     'Csak annyit szeretnél, hogy valaki egyszer beállítsa',
   ],
 } as const;
+
+/* ------------------------------------------------------------------------ */
+/* Per-platform training pages                                                */
+/*                                                                            */
+/* One page per platform, each a self-contained sales page rather than a      */
+/* chapter of /oktatas. The reason is search: people type "facebook hirdetés  */
+/* egyéni oktatás", not "hirdetési képzés" — so the page that ranks has to be */
+/* the one whose whole subject is that platform.                              */
+/*                                                                            */
+/* ⚠️ TIKTOK ÉS GOOGLE ANALYTICS: ez a két oldal ÚJ szolgáltatást állít.      */
+/* Eddig a site végig Meta / Google / LinkedIn hármasról beszélt (lásd a      */
+/* `platforms` tömböt és a csomagok "egy platform" sorát). Kristóffal         */
+/* megerősítendő, hogy ezeket is oktatja — ha nem, a két bejegyzés törlendő,  */
+/* és semmi más nem függ tőlük.                                              */
+/* ------------------------------------------------------------------------ */
+
+export type Course = {
+  slug: string;
+  /** Short label for the nav submenu. */
+  navLabel: string;
+  /** Full page title and H1 subject. */
+  name: string;
+  /** The platform as it is called in the product, for chips and schema. */
+  platform: string;
+  /** Half a sentence for the submenu and card grids. */
+  summary: string;
+  eyebrow: string;
+  headline: string;
+  lead: string;
+  /** "Ismerős?" — the visitor recognises the symptom before the service. */
+  symptoms: string[];
+  /** What we actually go through together, in order. */
+  curriculum: { title: string; body: string }[];
+  /** What they can do on their own afterwards. */
+  outcomes: string[];
+  /** Platform-specific questions. The shared ones live in `faqs`. */
+  faqs: { q: string; a: string }[];
+};
+
+export const courses: Course[] = [
+  {
+    slug: 'facebook-hirdetes-egyeni-oktatas',
+    navLabel: 'Facebook (Meta) hirdetés',
+    name: 'Facebook és Instagram hirdetés egyéni oktatás',
+    platform: 'Meta Ads',
+    summary: 'Facebook és Instagram kampányok a saját fiókodban, egyéni tempóban.',
+    eyebrow: 'META ADS · EGYÉNI OKTATÁS',
+    headline: 'Facebook hirdetés egyéni oktatás — a saját fiókodban',
+    lead:
+      'Nem videókat nézel egy tananyagban. Megosztod a képernyőd, és együtt építjük fel a Meta hirdetéseidet a saját vállalkozásodra: célzás, kreatív, költségkeret, mérés.',
+    symptoms: [
+      'Nyomtál már „Kiemelés" gombot, és nem tudod, mi lett belőle.',
+      'Fut a hirdetésed, de fogalmad sincs, honnan jön az eredmény.',
+      'Nem érted, mikor melyik kampánycélt kell választani.',
+      'A Hirdetéskezelő felülete elsőre átláthatatlan.',
+      'Nem tudod, mennyi pénzt érdemes betenni és mikor kell hozzányúlni.',
+    ],
+    curriculum: [
+      { title: 'Fiók és jogosultságok rendbe téve', body: 'Business Manager, hirdetési fiók, oldalak és hozzáférések — úgy, hogy a fiók a tiéd maradjon és bárkit be tudj venni vagy ki tudj venni.' },
+      { title: 'Mérés: pixel és konverziók', body: 'Meta pixel, konverziós események és a Conversions API alapjai. Enélkül a rendszer vakon optimalizál, és te is vakon döntesz.' },
+      { title: 'Kampánycélok, amik valóban számítanak', body: 'Melyik célt mikor válaszd, és miért nem a „Kiemelés" a válasz. Forgalom, lead, vásárlás — melyik mit optimalizál valójában.' },
+      { title: 'Célzás a gyakorlatban', body: 'Érdeklődési körök, Advantage+, egyedi és hasonmás közönségek. Mikor engedd a rendszerre, és mikor fogd vissza.' },
+      { title: 'Kreatívok és szövegek', body: 'Mi működik ma kép és videó oldalon, hogyan állíts össze egy tesztelhető kreatívcsomagot, és mit írj a hirdetésbe.' },
+      { title: 'Költségkeret és skálázás', body: 'Mennyivel indulj, mikor emelj, és hogyan ne öld meg a tanulófázist egy elhamarkodott módosítással.' },
+      { title: 'Riport és döntés', body: 'Melyik három számot nézd hetente, mikor hagyd békén a kampányt, és mikor kell beavatkozni.' },
+    ],
+    outcomes: [
+      'Önállóan indítasz kampányt, a megfelelő céllal',
+      'Érted, mire megy el minden forint',
+      'Tudsz kreatívot tesztelni, és tudod, mit mér a teszt',
+      'Felismered, mikor kell hozzányúlni a kampányhoz és mikor nem',
+    ],
+    faqs: [
+      { q: 'Kell hozzá Business Manager fiók?', a: 'Ha van, azzal dolgozunk. Ha nincs, az első alkalmon együtt hozzuk létre és állítjuk be — ez a teljes órából nagyjából húsz perc.' },
+      { q: 'Instagram is benne van?', a: 'Igen. A Meta felületén ugyanaz a rendszer kezeli a Facebookot és az Instagramot, így a kettő együtt megy.' },
+      { q: 'Mennyi hirdetési kerettel érdemes gyakorolni?', a: 'Napi 2–3 ezer forint már elég ahhoz, hogy éles adatot lássunk. Nem a keret nagysága számít a tanuláshoz, hanem hogy éles kampányon nézzük.' },
+    ],
+  },
+  {
+    slug: 'google-ads-egyeni-oktatas',
+    navLabel: 'Google Ads',
+    name: 'Google Ads egyéni oktatás',
+    platform: 'Google Ads',
+    summary: 'Keresési, Shopping és PMax kampányok a saját fiókodban.',
+    eyebrow: 'GOOGLE ADS · EGYÉNI OKTATÁS',
+    headline: 'Google Ads egyéni oktatás — arra, akik már keresnek rád',
+    lead:
+      'A Google-on nem kell felkelteni az érdeklődést: már keresik, amit árulsz. Az oktatáson azt építjük fel, hogyan találjanak meg téged, és ne a versenytársat — a saját fiókodban, a saját termékeiden.',
+    symptoms: [
+      'Elindítottál egy kampányt, és elvitte a keretet két nap alatt.',
+      'Nem tudod, mely kulcsszavakra megy el valójában a pénz.',
+      'A Performance Max fekete doboz, és nem mered kikapcsolni.',
+      'Jönnek a kattintások, de nem lesz belőlük érdeklődő.',
+      'Nem tudod, jól mér-e a konverziókövetésed.',
+    ],
+    curriculum: [
+      { title: 'Fiókstruktúra, ami nem esik szét', body: 'Kampány, hirdetéscsoport, kulcsszó — hogyan épüljön, hogy fél év múlva is értsd, és lehessen benne optimalizálni.' },
+      { title: 'Konverziómérés rendesen', body: 'Google Tag, konverziós műveletek, ezek nélkül a Google rossz dolgokra optimalizál. Itt dől el a kampány sorsa, nem a hirdetésszövegen.' },
+      { title: 'Kulcsszavak és egyezési típusok', body: 'Pontos, kifejezés, széles — mit jelentenek ma, és hogyan ne engedd el a keretet kizáró kulcsszavak nélkül.' },
+      { title: 'Hirdetésszövegek és eszközök', body: 'Reszponzív keresési hirdetés felépítése, címsorok, leírások, bővítmények — mit tesztelj és mit hagyj a rendszerre.' },
+      { title: 'Performance Max józan ésszel', body: 'Mikor éri meg, mit kell etetni vele, és hogyan derítsd ki, mi történik benne valójában.' },
+      { title: 'Licit és költségkeret', body: 'Manuális vagy automatikus licit, mikor melyik, és mennyi adat kell egy okos licitstratégiához.' },
+      { title: 'Riport és optimalizálás', body: 'Keresési kifejezések átnézése, kizárás, és mit jelent, ha drágul a kattintás.' },
+    ],
+    outcomes: [
+      'Felépítesz egy átlátható fiókstruktúrát',
+      'Helyesen mérsz, és látod, mi hoz valódi konverziót',
+      'Kizáró kulcsszavakkal megvéded a keretet',
+      'Eldöntöd, hol éri meg PMax és hol nem',
+    ],
+    faqs: [
+      { q: 'Webshopnak és szolgáltatásnak is jó?', a: 'Igen, de más felépítéssel. Webshopnál a Shopping és a feed kerül előtérbe, szolgáltatásnál a keresési kampány és az űrlapos konverzió — az első alkalmon eldöntjük, melyik a tiéd.' },
+      { q: 'Kell hozzá Google Analytics?', a: 'Nem kötelező, de sokat segít. Ha nincs beállítva, jelezd — külön oktatáson át tudjuk nézni a mérést is.' },
+      { q: 'Mennyi idő, mire eredményt látok?', a: 'A Google-nél is kell adat a tanuláshoz. Reálisan 2–4 hét, mire látszik az irány — az oktatás célja, hogy addig ne rontsd el türelmetlenségből.' },
+    ],
+  },
+  {
+    slug: 'linkedin-hirdetes-egyeni-oktatas',
+    navLabel: 'LinkedIn hirdetés',
+    name: 'LinkedIn hirdetés egyéni oktatás',
+    platform: 'LinkedIn Ads',
+    summary: 'B2B célzás pozíció, cégméret és iparág szerint.',
+    eyebrow: 'LINKEDIN ADS · EGYÉNI OKTATÁS',
+    headline: 'LinkedIn hirdetés egyéni oktatás — ha B2B-ben hirdetsz',
+    lead:
+      'A LinkedIn drága kattintásokat ad és cserébe olyan célzást, amit máshol nem kapsz meg: pozíció, cégméret, iparág. Az oktatáson azt nézzük meg, mikor éri meg ez a csere — és hogyan hozd ki belőle a maximumot.',
+    symptoms: [
+      'B2B-ben hirdetsz, és a Facebook nem hozza a megfelelő embereket.',
+      'Megijedtél a LinkedIn kattintási áraitól.',
+      'Nem tudod, hogyan célozz döntéshozóra.',
+      'Elindítottál egy kampányt, és drágán hozott rossz leadeket.',
+      'Nem tudod, mennyi kerettel van ennek egyáltalán értelme.',
+    ],
+    curriculum: [
+      { title: 'Mikor éri meg LinkedIn — és mikor nem', body: 'Őszintén: sok vállalkozásnak nem éri meg. Először azt nézzük meg, a tiédnek megéri-e, mielőtt bármit beállítanánk.' },
+      { title: 'Campaign Manager és a fiók beállítása', body: 'Hirdetési fiók, céloldal, Insight Tag, konverziókövetés.' },
+      { title: 'Célzás, ami a LinkedIn igazi értéke', body: 'Pozíció, beosztási szint, cégméret, iparág, készségek — és hogyan ne szűkítsd annyira, hogy ne fusson a kampány.' },
+      { title: 'Hirdetésformátumok', body: 'Egyképes, karusszel, videó, üzenethirdetés és lead gen űrlap — melyik mire való.' },
+      { title: 'Lead gen űrlap vagy landing oldal?', body: 'Melyik hoz olcsóbb és melyik jobb minőségű leadet, és mitől függ a választás.' },
+      { title: 'Költségkeret és licit', body: 'Mennyi a reális belépő, és hogyan ne égesd el az első hétben.' },
+    ],
+    outcomes: [
+      'Eldöntöd, megéri-e neked a LinkedIn',
+      'Döntéshozói célzást állítasz be',
+      'Tudod, melyik formátum mire való',
+      'Reális elvárásaid vannak a kattintási árról',
+    ],
+    faqs: [
+      { q: 'Mennyi kerettel van értelme LinkedIn-en hirdetni?', a: 'A kattintás jellemzően sokszorosa a Meta-énak, így napi néhány ezer forint kevés. Az első beszélgetésen őszintén megmondom, ha a te keretedből több eredményt hozna a Meta vagy a Google.' },
+      { q: 'Kell hozzá céges LinkedIn oldal?', a: 'Igen, hirdetni csak céges oldalról lehet. Ha nincs, az első alkalmon létrehozzuk.' },
+    ],
+  },
+  {
+    slug: 'tiktok-hirdetes-egyeni-oktatas',
+    navLabel: 'TikTok hirdetés',
+    name: 'TikTok hirdetés egyéni oktatás',
+    platform: 'TikTok Ads',
+    summary: 'Rövid videós kampányok, kreatív-központú megközelítéssel.',
+    eyebrow: 'TIKTOK ADS · EGYÉNI OKTATÁS',
+    headline: 'TikTok hirdetés egyéni oktatás — ahol a kreatív a célzás',
+    lead:
+      'A TikTokon nem a célzás dönt, hanem az első másodperc. Az oktatáson azt nézzük meg, hogyan készül olyan hirdetés, ami megállítja a görgetést — és hogyan mérd, hogy tényleg hozott-e.',
+    symptoms: [
+      'Látod, hogy mindenki TikTokozik, de nem tudod, neked megéri-e.',
+      'Nincs kedved táncolni, és azt hiszed, enélkül nem megy.',
+      'Feltöltöttél egy Facebook-videót, és nem működött.',
+      'Nem tudod, hogyan mérd, mi jött a TikTokról.',
+      'Nem tudod, mennyi kerettel érdemes kipróbálni.',
+    ],
+    curriculum: [
+      { title: 'Megéri-e neked egyáltalán', body: 'Kinek való a TikTok és kinek nem. Ezzel kezdünk, mert a rossz platform a legdrágább hiba.' },
+      { title: 'Fiók, pixel, mérés', body: 'TikTok Ads Manager, pixel, események — hogy ne csak megérzés legyen, mi működik.' },
+      { title: 'A kreatív mint stratégia', body: 'Az első másodperc, a natív hangvétel, a felirat és a hang szerepe. Miért bukik el egy átemelt Facebook-videó.' },
+      { title: 'Kampánytípusok és célzás', body: 'Mit válassz, és miért ad itt gyakran jobb eredményt a széles célzás.' },
+      { title: 'Tesztelés rendszerben', body: 'Hány kreatívval indulj, meddig hagyd futni, és mi alapján dönts.' },
+      { title: 'Költségkeret és skálázás', body: 'Reális belépő keret, és mikor érdemes emelni.' },
+    ],
+    outcomes: [
+      'Eldöntöd, való-e neked a platform',
+      'Felépítesz egy mérhető TikTok kampányt',
+      'Tudod, mitől jó egy TikTok kreatív',
+      'Nem Facebook-videókat töltesz fel',
+    ],
+    faqs: [
+      { q: 'Kell hozzá, hogy én szerepeljek a videókban?', a: 'Nem. Sok jól teljesítő hirdetés terméket, folyamatot vagy képernyőfelvételt mutat. Azt nézzük meg, mi illik hozzád és a vállalkozásodhoz.' },
+      { q: 'Csak fiataloknak hirdető cégeknek jó?', a: 'Ez már nem igaz, a korosztályi összetétel évek óta tolódik. Az első beszélgetésen megnézzük, a te vevőd fent van-e.' },
+    ],
+  },
+  {
+    slug: 'google-analytics-egyeni-oktatas',
+    navLabel: 'Google Analytics (GA4)',
+    name: 'Google Analytics 4 egyéni oktatás',
+    platform: 'Google Analytics 4',
+    summary: 'Mérés, konverziók és riportok — hogy tudd, mi történik valójában.',
+    eyebrow: 'GOOGLE ANALYTICS 4 · EGYÉNI OKTATÁS',
+    headline: 'Google Analytics egyéni oktatás — hogy ne találgass',
+    lead:
+      'Ez az egyetlen oktatás, ami nem hirdetésről szól — hanem arról, ami minden hirdetés alatt van. Ha rosszul mérsz, minden döntésed rossz adaton alapul, akármilyen jó a kampányod.',
+    symptoms: [
+      'Megnyitod a GA4-et, és fogalmad sincs, mit nézel.',
+      'Nem egyezik a Google Ads és az Analytics száma.',
+      'Nem tudod, hány érdeklődő jött valójában a hirdetésből.',
+      'Valaki beállította, de nem tudod, jól van-e.',
+      'Nem tudod, mit kellene hetente megnézned.',
+    ],
+    curriculum: [
+      { title: 'Hogyan gondolkodik a GA4', body: 'Eseményalapú mérés a régi munkamenet-logika helyett. Ha ezt érted, a többi már csak felület.' },
+      { title: 'Beállítás és ellenőrzés', body: 'Adatfolyam, Google Tag, Tag Manager alapok — és hogyan ellenőrizd, hogy tényleg mér.' },
+      { title: 'Konverziók, amiket tényleg mérni akarsz', body: 'Űrlapküldés, hívás, vásárlás. Mit jelölj kulcseseménynek, és mit ne.' },
+      { title: 'Forgalmi források és attribúció', body: 'Miért nem egyezik soha a Meta, a Google és a GA4 száma — és melyiknek mikor higgy.' },
+      { title: 'UTM-paraméterek', body: 'Hogyan címkézd a kampányaidat, hogy fél év múlva is tudd, mi honnan jött.' },
+      { title: 'Riportok, amiket tényleg használni fogsz', body: 'Három-négy riport, amit hetente megnézel — a többi zaj.' },
+    ],
+    outcomes: [
+      'Érted, mit mér a GA4 és mit nem',
+      'Ellenőrizni tudod a saját mérésed',
+      'Helyesen címkézed a kampányaidat',
+      'Tudod, melyik számnak mikor higgy',
+    ],
+    faqs: [
+      { q: 'Ez hirdetési oktatás?', a: 'Nem, ez a mérésről szól. De minden hirdetési döntés ezen áll vagy bukik, ezért sokan ezzel kezdik.' },
+      { q: 'Kell hozzá Google Tag Manager?', a: 'Nem kötelező, de az alapjait átvesszük, mert a legtöbb mérési feladat ezen keresztül a legegyszerűbb.' },
+    ],
+  },
+];
+
+export type NavItem = {
+  href: string;
+  label: string;
+  /** A submenu. The parent stays a real link — a dropdown whose trigger goes
+   *  nowhere strands anyone on a keyboard or a touch device. */
+  children?: { href: string; label: string }[];
+};
+
+export const nav: NavItem[] = [
+  {
+    href: '/oktatas',
+    label: 'Oktatás',
+    children: courses.map((c) => ({ href: `/oktatas/${c.slug}`, label: c.navLabel })),
+  },
+  { href: '/ugynokseg', label: 'Hirdetéskezelés' },
+  { href: '/arak', label: 'Árak' },
+  { href: '/rolam', label: 'Rólam' },
+  { href: '/eredmenyek', label: 'Eredmények' },
+  { href: '/blog', label: 'Blog' },
+];
+
+/* ------------------------------------------------------------------------ */
+/* Arguments shared by every course page                                      */
+/*                                                                            */
+/* These do not change per platform, so they live here once rather than being */
+/* repeated five times in `courses`.                                          */
+/* ------------------------------------------------------------------------ */
+
+export const whyOneToOne = [
+  {
+    t: 'A te fiókod, a te termékeid',
+    b: 'Nem demó-fiókban kattintgatunk. A saját hirdetési fiókodban dolgozunk, a saját termékeiden — ami az óra végén ott marad élesben.',
+  },
+  {
+    t: 'Csak rád megy az idő',
+    b: 'Nincs húsz ember, akinek a kérdéseit végig kell hallgatnod. Ahol már otthon vagy, átugorjuk; ahol elakadsz, ott maradunk.',
+  },
+  {
+    t: 'Azonnal kérdezhetsz',
+    b: 'Nem egy fórumon kapsz választ három nap múlva. Ha valami nem világos, ott helyben tisztázzuk.',
+  },
+  {
+    t: 'Naprakész, nem felvett tananyag',
+    b: 'A felületek havonta változnak. Élőben azt látod, ami MA van a képernyőn, nem azt, ami tavaly volt.',
+  },
+];
+
+/**
+ * A real filter, not a persuasion trick. Competitor pages run a "ne vedd meg,
+ * ha…" list whose every line is "…ha nem akarsz jobb eredményt" — which
+ * filters nobody and insults the reader. These four actually turn people
+ * away, which is what makes the other list believable.
+ */
+export const courseNotFor = [
+  'Azt várod, hogy én állítsam be helyetted — akkor a hirdetéskezelés való neked, nem az oktatás.',
+  'Nincs időd a két alkalom között foglalkozni a kampányokkal.',
+  'Még nincs terméked vagy szolgáltatásod, amit hirdetni lehetne.',
+  'Egy órában szeretnél mindent megtanulni, és utána magadra hagyva boldogulni.',
+];
+
+/** The three terms that most often decide a purchase, in one place. */
+export const courseTerms = [
+  { t: 'Ez a végösszeg', b: 'Alanyi adómentes szolgáltatóként számlázok, így áfa nem jön rá. Amit az árnál látsz, annyit fizetsz.' },
+  { t: 'A felvétel benne van', b: 'Minden alkalomról videófelvétel készül, és az óra után megkapod. Nem felár.' },
+  { t: `${terms.validityMonths} hónapod van`, b: `A megvásárolt alkalmakat ${terms.validityMonths} hónapon belül kell felhasználni, tehát nem kell egy hónapba besűríteni.` },
+];

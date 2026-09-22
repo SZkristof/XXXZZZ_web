@@ -3,7 +3,7 @@
 
 # ---------------------------------------------------------------- HTTPS ----
 <IfModule mod_rewrite.c>
-  RewriteEngine On
+RewriteEngine On
 
   # Force HTTPS (Rackhost provides free Let's Encrypt — enable it first).
   RewriteCond %{HTTPS} !=on
@@ -15,6 +15,15 @@
   # direction correct even if that server-side behaviour ever changes.
   RewriteCond %{HTTP_HOST} ^www\.brandmuhely\.hu$ [NC]
   RewriteRule ^(.*)$ https://brandmuhely.hu/$1 [R=301,L]
+
+  # ---- Renamed 2026-09: /kepzes -> /oktatas --------------------------------
+  # The training pages moved under a name that matches what people search for
+  # ("facebook hirdetés egyéni oktatás"), and each platform got its own page.
+  # 301, not 302: the move is permanent, and only a 301 passes on the ranking
+  # the old URL earned. Placed after the HTTPS and canonical-host rules so a
+  # visitor on the old URL is not redirected twice.
+  RewriteRule ^kepzes/?$ /oktatas [R=301,L]
+  RewriteRule ^kepzes/(.*)$ /oktatas/$1 [R=301,L]
 
   # Serve /about as /about/index.html without exposing the filename.
   RewriteCond %{REQUEST_FILENAME} !-f
