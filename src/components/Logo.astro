@@ -1,23 +1,31 @@
 ---
+import { MARK_D, WORDMARK_D, LOCKUP } from '@/lib/logo-paths';
+
 /**
- * A Vágás — the Brandműhely mark and wordmark.
+ * A Vágás and the Brandműhely wordmark.
  *
- * These are the brand book's own outlined files (Logos asset group), not a
- * reconstruction. The previous version of this component approximated both
- * from polygons and got the proportion wrong: it drew the mark square, when
- * A Vágás is 826.2 x 687 units — about 1.2 : 1 — precisely so that it stands
- * on the wordmark's cap line. Never redraw these; they are measured from
- * Archivo 700 outlines and the wordmark is tracked -3%, chosen from renders
- * at -2, -3 and -4% because at -4% the r starts touching the a.
+ * THE LOCKUP IS ONE DRAWING, NOT TWO SVGS SIDE BY SIDE. The previous version
+ * put the mark and the wordmark in a flex row aligned on their bottom edges,
+ * which is wrong: the wordmark's box runs 194 units BELOW the baseline to
+ * leave room for descenders, while the mark's box ends at its own foot. That
+ * pushed the mark 194 units — 5.4px at the header size — below the
+ * wordmark's baseline, when the brand book places it exactly ON that
+ * baseline ("mark at cap height on the baseline, two-module gap").
  *
- * The logo is ALWAYS one colour — the text colour of whatever it sits on —
- * so both fill with currentColor and need nothing else. Minimum sizes from
- * the book: mark 16px wide, wordmark and horizontal lockup 96px wide.
- * Clear space: one cap height.
+ * So the lockup now uses the book's own measured placement: the mark
+ * translated so its foot lands at y=0, and the wordmark shifted right by
+ * exactly two modules. Never eyeball this relationship again — it is the
+ * kind of error that looks like nothing and reads as amateurish.
+ *
+ * The logo is ALWAYS one colour, the text colour of whatever it sits on, so
+ * everything fills with currentColor. Minimum sizes from the book: mark 16px
+ * wide, wordmark and horizontal lockup 96px wide. Clear space: one cap
+ * height.
  */
 interface Props {
   variant?: 'mark' | 'wordmark' | 'lockup';
-  /** Cap height in px — the mark's height, and the wordmark's cap line. */
+  /** Cap height in px. Cap height is 687 units in every file, so this one
+   *  number scales all three variants consistently. */
   size?: number;
   class?: string;
   /** Rendered as a link when set. */
@@ -30,56 +38,39 @@ const {
   size = 40,
   class: className = '',
   href,
-  label = 'Brandm\u0171hely',
+  label = 'Brandműhely',
 } = Astro.props;
 
-/* Measured from the source files. The mark is 826.2 x 687; the wordmark's
-   viewBox runs 83 -725 6722 919, so its cap height is 687 units like the
-   mark's, and both scale off the same number. */
-const MARK_RATIO = 826.2 / 687;
-const WORDMARK_RATIO = 6722 / 687;
-
-const markW = Math.round(size * MARK_RATIO);
-const wordW = Math.round(size * WORDMARK_RATIO);
+const CAP = 687;
+const BOX = {
+  mark: { viewBox: '0 0 826.2 687', w: 826.2, h: CAP },
+  wordmark: { viewBox: '83 -725 6722 919', w: 6722, h: 919 },
+  lockup: { viewBox: LOCKUP.viewBox, w: 7879, h: 919 },
+}[variant];
 
 const Tag = href ? 'a' : 'div';
-const showMark = variant !== 'wordmark';
-const showWord = variant !== 'mark';
 ---
 
 <Tag
-  class:list={['inline-flex items-baseline', showMark && showWord && 'gap-[0.28em]', className]}
-  style={`font-size:${size}px`}
+  class:list={['inline-block', className]}
   {...href ? { href, 'aria-label': label } : {}}
 >
-  {showMark && (
-    <svg
-      viewBox="0 0 826.2 687"
-      width={markW}
-      height={size}
-      fill="currentColor"
-      role={showWord ? undefined : 'img'}
-      aria-label={showWord ? undefined : label}
-      aria-hidden={showWord ? 'true' : undefined}
-      style="display:block"
-    >
-      <path d="M0.0 0.0 L244.5 0.0 L85.9 687.0 L0.0 687.0 Z M409.8 0.0 L575.0 0.0 L416.4 687.0 L251.2 687.0 Z M740.2 0.0 L826.2 0.0 L826.2 687.0 L581.6 687.0 Z" />
-    </svg>
-  )}
-
-  {showWord && (
-    <svg
-      viewBox="83 -725 6722 919"
-      width={wordW}
-      height={Math.round(size * (919 / 687))}
-      fill="currentColor"
-      role={showMark ? 'img' : 'img'}
-      aria-label={label}
-      style="display:block"
-    >
-      <path d="M83 0V-687H549Q604 -687 647.5 -665.5Q691 -644 716.5 -606.0Q742 -568 742 -517Q742 -476 726.5 -444.0Q711 -412 685.5 -391.0Q660 -370 628 -360V-356Q665 -348 695.5 -326.0Q726 -304 743.0 -269.5Q760 -235 760 -188Q760 -126 732.0 -84.0Q704 -42 656.5 -21.0Q609 0 550 0ZM244 -128H513Q549 -128 572.5 -147.5Q596 -167 596 -209Q596 -233 586.0 -251.0Q576 -269 556.5 -279.0Q537 -289 507 -289H244ZM244 -411H496Q522 -411 540.0 -420.5Q558 -430 568.0 -447.0Q578 -464 578 -486Q578 -523 556.5 -542.0Q535 -561 501 -561H244Z M845 0V-527H966L977 -440H984Q996 -468 1015.0 -490.5Q1034 -513 1061.5 -526.0Q1089 -539 1124 -539Q1142 -539 1157.5 -536.0Q1173 -533 1184 -529V-400H1125Q1091 -400 1065.5 -389.5Q1040 -379 1024.0 -359.5Q1008 -340 1000.5 -314.0Q993 -288 993 -256V0Z M1388 12Q1352 12 1316.5 5.5Q1281 -1 1252.5 -17.5Q1224 -34 1207.5 -64.0Q1191 -94 1191 -140Q1191 -199 1220.0 -235.0Q1249 -271 1302.5 -289.5Q1356 -308 1429.5 -314.0Q1503 -320 1591 -320V-350Q1591 -378 1579.0 -396.0Q1567 -414 1542.0 -423.0Q1517 -432 1475 -432Q1439 -432 1413.0 -425.0Q1387 -418 1373.0 -406.5Q1359 -395 1359 -378V-367H1214Q1213 -371 1212.5 -375.5Q1212 -380 1212 -385Q1212 -432 1243.5 -466.5Q1275 -501 1335.0 -520.0Q1395 -539 1480 -539Q1563 -539 1620.5 -520.5Q1678 -502 1708.0 -464.5Q1738 -427 1738 -366V-136Q1738 -118 1747.0 -108.5Q1756 -99 1772 -99H1814V-5Q1803 -1 1778.5 5.5Q1754 12 1723 12Q1685 12 1660.5 2.5Q1636 -7 1622.5 -24.0Q1609 -41 1604 -63H1596Q1574 -41 1543.0 -23.5Q1512 -6 1473.0 3.0Q1434 12 1388 12ZM1432 -96Q1460 -96 1488.0 -103.5Q1516 -111 1539.5 -124.5Q1563 -138 1577.0 -158.0Q1591 -178 1591 -204V-232Q1510 -232 1454.0 -224.5Q1398 -217 1368.5 -199.0Q1339 -181 1339 -150Q1339 -130 1351.5 -118.5Q1364 -107 1385.5 -101.5Q1407 -96 1432 -96Z M1853 0V-527H1974L1985 -446H1993Q2016 -478 2047.0 -498.5Q2078 -519 2114.5 -529.0Q2151 -539 2190 -539Q2253 -539 2297.5 -517.5Q2342 -496 2365.0 -452.0Q2388 -408 2388 -338V0H2241V-315Q2241 -343 2233.5 -363.0Q2226 -383 2212.0 -395.0Q2198 -407 2178.5 -413.0Q2159 -419 2134 -419Q2097 -419 2067.0 -403.0Q2037 -387 2019.0 -358.5Q2001 -330 2001 -293V0Z M2705 12Q2632 12 2577.5 -17.5Q2523 -47 2493.0 -108.5Q2463 -170 2463 -264Q2463 -358 2493.0 -419.0Q2523 -480 2576.0 -509.5Q2629 -539 2698 -539Q2735 -539 2768.0 -531.0Q2801 -523 2828.0 -506.5Q2855 -490 2874 -465H2880V-724H3028V0H2908L2896 -77H2888Q2857 -30 2809.0 -9.0Q2761 12 2705 12ZM2748 -107Q2792 -107 2821.5 -125.0Q2851 -143 2866.0 -176.5Q2881 -210 2881 -256V-269Q2881 -304 2872.5 -332.0Q2864 -360 2847.0 -379.5Q2830 -399 2805.0 -409.5Q2780 -420 2747 -420Q2702 -420 2672.5 -403.0Q2643 -386 2628.5 -353.0Q2614 -320 2614 -273V-253Q2614 -206 2628.5 -173.5Q2643 -141 2672.5 -124.0Q2702 -107 2748 -107Z M3130 0V-527H3251L3262 -447H3270Q3292 -478 3321.0 -498.5Q3350 -519 3385.0 -529.0Q3420 -539 3456 -539Q3518 -539 3560.5 -516.5Q3603 -494 3625 -447H3633Q3655 -478 3685.0 -498.5Q3715 -519 3750.5 -529.0Q3786 -539 3823 -539Q3883 -539 3925.5 -518.0Q3968 -497 3990.5 -453.0Q4013 -409 4013 -341V0H3865V-316Q3865 -344 3858.0 -363.5Q3851 -383 3838.5 -395.0Q3826 -407 3808.0 -413.0Q3790 -419 3768 -419Q3735 -419 3706.5 -403.0Q3678 -387 3661.5 -358.5Q3645 -330 3645 -293V0H3498V-316Q3498 -344 3491.0 -363.5Q3484 -383 3471.5 -395.0Q3459 -407 3441.0 -413.0Q3423 -419 3401 -419Q3367 -419 3339.0 -403.0Q3311 -387 3294.5 -358.5Q3278 -330 3278 -293V0Z M4307 12Q4211 12 4159.5 -36.5Q4108 -85 4108 -189V-527H4255V-212Q4255 -184 4262.5 -164.0Q4270 -144 4283.5 -131.5Q4297 -119 4317.0 -113.5Q4337 -108 4362 -108Q4399 -108 4429.0 -124.0Q4459 -140 4477.0 -168.5Q4495 -197 4495 -234V-527H4643V0H4522L4512 -80H4504Q4481 -49 4450.0 -28.5Q4419 -8 4382.5 2.0Q4346 12 4307 12Z M4745 0V-724H4893V-462H4900Q4922 -489 4950.5 -505.5Q4979 -522 5012.5 -530.5Q5046 -539 5082 -539Q5145 -539 5189.5 -517.5Q5234 -496 5257.0 -452.0Q5280 -408 5280 -338V0H5133V-315Q5133 -343 5125.5 -363.0Q5118 -383 5104.0 -395.0Q5090 -407 5070.5 -413.0Q5051 -419 5026 -419Q4989 -419 4959.0 -403.0Q4929 -387 4911.0 -358.5Q4893 -330 4893 -293V0Z M5656 12Q5561 12 5494.0 -17.5Q5427 -47 5391.0 -108.0Q5355 -169 5355 -263Q5355 -357 5390.5 -418.0Q5426 -479 5492.5 -509.0Q5559 -539 5652 -539Q5745 -539 5809.0 -509.5Q5873 -480 5905.5 -420.5Q5938 -361 5938 -271V-230H5508Q5510 -184 5527.0 -154.0Q5544 -124 5577.0 -109.5Q5610 -95 5658 -95Q5682 -95 5705.0 -100.5Q5728 -106 5746.5 -117.0Q5765 -128 5776.5 -145.0Q5788 -162 5789 -185H5937Q5937 -139 5917.0 -102.0Q5897 -65 5860.0 -40.0Q5823 -15 5771.0 -1.5Q5719 12 5656 12ZM5509 -321H5784Q5784 -350 5774.5 -370.5Q5765 -391 5747.5 -405.0Q5730 -419 5706.5 -425.5Q5683 -432 5655 -432Q5611 -432 5580.0 -419.5Q5549 -407 5531.5 -382.0Q5514 -357 5509 -321Z M6017 0V-724H6165V0Z M6344 194Q6310 194 6285.5 189.0Q6261 184 6248 179V83H6315Q6349 83 6372.0 72.5Q6395 62 6410.5 43.0Q6426 24 6436 0L6205 -527H6363L6462 -280Q6470 -263 6479.0 -237.5Q6488 -212 6497.5 -185.5Q6507 -159 6513 -138H6520Q6523 -147 6528.0 -164.5Q6533 -182 6540.0 -203.0Q6547 -224 6554.5 -244.5Q6562 -265 6567 -281L6653 -527H6805L6608 -36Q6587 14 6564.5 56.0Q6542 98 6512.5 129.0Q6483 160 6442.0 177.0Q6401 194 6344 194Z M4193.8 -725.0 L4345.7 -725.0 L4311.1 -575.0 L4159.2 -575.0 Z M4439.9 -725.0 L4591.8 -725.0 L4557.2 -575.0 L4405.3 -575.0 Z"></path>
-    </svg>
-  )}
-
-  {showMark && showWord && <span class="sr-only">{label}</span>}
+  <svg
+    viewBox={BOX.viewBox}
+    width={Math.round((size * BOX.w) / CAP)}
+    height={Math.round((size * BOX.h) / CAP)}
+    fill="currentColor"
+    role="img"
+    aria-label={label}
+    style="display:block"
+  >
+    {variant === 'mark' && <path d={MARK_D} />}
+    {variant === 'wordmark' && <path d={WORDMARK_D} />}
+    {variant === 'lockup' && (
+      <Fragment>
+        <path d={MARK_D} transform={LOCKUP.markTransform} />
+        <path d={WORDMARK_D} transform={LOCKUP.wordmarkTransform} />
+      </Fragment>
+    )}
+  </svg>
 </Tag>
