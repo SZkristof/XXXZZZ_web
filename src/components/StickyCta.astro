@@ -4,14 +4,18 @@ import { contact } from '@/data/site';
  * Mobile-only sticky action bar. Appears once the hero scrolls away, so the
  * booking action is always one thumb-reach away — the single highest-impact
  * conversion pattern for paid traffic landing on a phone.
+ *
+ * Its hidden state is `.sticky-bar` in global.css, not a Tailwind translate
+ * utility. See the comment there: the utility's var() indirection silently
+ * stops working on browsers without @property, and this bar then covers the
+ * hero's call to action instead of hiding.
  */
 ---
 
 <div
   id="sticky-cta"
-  class="fixed inset-x-0 bottom-0 z-40 translate-y-full border-t border-black/10
-         bg-white/95 backdrop-blur-lg transition-transform duration-300
-         ease-[cubic-bezier(0.22,1,0.36,1)] sm:hidden"
+  class="sticky-bar fixed inset-x-0 bottom-0 z-40 border-t border-black/10
+         bg-white/95 backdrop-blur-lg sm:hidden"
   style="padding-bottom: env(safe-area-inset-bottom, 0px);"
 >
   <div class="flex items-center gap-2.5 p-3">
@@ -48,7 +52,7 @@ import { contact } from '@/data/site';
       const atBottom =
         y + window.innerHeight >= document.documentElement.scrollHeight - 220;
       const show = y > window.innerHeight * 0.8 && !atBottom;
-      bar.classList.toggle('translate-y-full', !show);
+      bar.classList.toggle('is-shown', show);
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
