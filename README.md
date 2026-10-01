@@ -51,6 +51,22 @@ Ezek nélkül **nem szabad** élesíteni:
 
 ---
 
+## Miért van külön ellenőrzés a koppintásokra
+
+A `npm run verify:overlays` azt nézi, hogy egy rejtett réteg sem fogja-e el az
+érintést a gombok elől. Ez egy konkrét, drága hibából származik: a mobil CTA-sáv
+`backdrop-filter`-rel és egyedül transformmal volt elrejtve, és iOS-en — ahol a
+kompozit réteg transform után is a helyén marad — **ráült a főoldal két fő
+gombjára**. Hetekig senki nem látta: a látogató csak annyit tapasztalt, hogy a
+gomb nem csinál semmit, a tulajdonos pedig a saját eszközén nem tudta előhozni.
+
+Az ellenőrzés ezért **tulajdonságot** állít, nem viselkedést: ami rejtett, annak
+`pointer-events: none`-nak kell lennie. Egy puszta találati teszt nem fogná meg,
+mert Chromium tiszteletben tartja a transformot — ott a hiba sosem jelentkezett.
+A tanulság általánosítva: **a rejtés soha ne csak transform legyen.**
+
+---
+
 ## A főoldal szövege
 
 A `docs/fooldal-szoveg.md` a főoldal teljes szövege, szekciónként, a megjelenés

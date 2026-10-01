@@ -75,6 +75,14 @@ jobs:
       - name: Verify text contrast
         run: npm run verify:contrast
 
+      # A hidden overlay that still takes touches is a silent failure: the
+      # visitor only sees a button that does nothing, and it cost real
+      # enquiries before anyone reported it. Asserts the property, not the
+      # behaviour — Chromium honours the transform and so would never have
+      # reproduced the original iOS bug by hit-testing alone.
+      - name: Verify nothing swallows taps on phones
+        run: npm run verify:overlays
+
       - name: Verify GDPR consent behaviour
         run: npm run verify:consent
 
