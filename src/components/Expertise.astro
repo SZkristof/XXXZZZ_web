@@ -1,0 +1,45 @@
+---
+import { expertiseFields } from '@/data/site';
+
+/**
+ * Szakterületek — the trust band on the agency page.
+ *
+ * It replaced the enterprise logo strip (`Brands.astro`) in that slot, on
+ * Kristóf's call: a retainer buyer is asking "dolgoztál már olyannal, mint
+ * én?", and a row of enterprise names answers a different question. The
+ * logos still carry their own weight on /rolam, where the point actually is
+ * where he learned the trade.
+ *
+ * Same layout as the strip it replaced — label left, list right, the note
+ * under a hairline — so the page keeps its rhythm. Agency mode: this sits
+ * between the results and the "miért én" argument, both of which are shared,
+ * and the blue band is what stops the middle of the page reading as one long
+ * stretch of paper.
+ */
+---
+
+<section data-theme="agency" class="relative overflow-hidden">
+  <div class="container-x section-tight">
+    <div class="grid gap-8 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-14">
+      <p class="t-label shrink-0 text-terracotta-200">SZAKTERÜLETEK</p>
+
+      <ul class="flex flex-wrap items-center gap-x-8 gap-y-3">
+        {expertiseFields.map((f) => (
+          <li class="font-title text-lg font-bold leading-snug tracking-tight text-paper lg:text-xl">
+            {f}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- The rule spans the container; the note is measured for reading. -->
+    <div class="mt-8 border-t border-paper/20 pt-6">
+      <p class="t-small max-w-[68ch] text-paper/80">
+        A Brandműhely.hu számos területet és témát lefed a mindennapokban, az oktatások és
+        a havi menedzsment oldalán egyaránt. Kisebb és nagyobb vállalkozásokkal is
+        foglalkozom, legyen szó 24 órán belül induló rapid kampányról vagy több
+        hetes-hónapos kampánytervezésről és -kezelésről.
+      </p>
+    </div>
+  </div>
+</section>

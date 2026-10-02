@@ -45,6 +45,24 @@ export const brands = [
 export const socialProofClaim =
   'Több, mint 200 magyar vállalkozás választotta már a Brandműhely oktatásait.';
 
+/**
+ * Szakterületek — a hirdetéskezelés oldal bizalmi sávja.
+ *
+ * MINDEGYIK TÉTEL MÖGÖTT VAN MÁR KÖZZÉTETT SAJÁT MUNKA: ezeket az
+ * iparágakat a `proof.ts` eredményei és véleményei nevezik meg, tehát a
+ * lista nem állít többet, mint ami az oldalon amúgy is olvasható.
+ * Bővíteni csak olyan területtel szabad, ahol tényleg volt ügyfél —
+ * különben a sáv ugyanazt a hibát követi el, mint egy kitalált referencia.
+ */
+export const expertiseFields = [
+  'Webshop és e-kereskedelem',
+  'Szépségipar',
+  'Fitness és egészség',
+  'Étrend-kiegészítő',
+  'Sport és outdoor',
+  'Oktatás és szolgáltatás',
+] as const;
+
 export const brandsReassurance =
   'Továbbá: Heaven Laser & Beauty Szépségszalon, TippTour Utazási Iroda, ' +
   'Mokambo Kávé, Prémium Kőszőnyeg, Caninashop.hu, Trend Építészet Group, ' +

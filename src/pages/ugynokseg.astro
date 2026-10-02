@@ -4,7 +4,7 @@ import Button from '@/components/Button.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Slabs from '@/components/Slabs.astro';
 import Results from '@/components/Results.astro';
-import Brands from '@/components/Brands.astro';
+import Expertise from '@/components/Expertise.astro';
 import Faq from '@/components/Faq.astro';
 import { agencyOffer, site, contact, expert } from '@/data/site';
 import { agencyFaqs } from '@/data/proof';
@@ -357,14 +357,12 @@ const why = [
     stats={false}
   />
 
-  <!-- 7b · The enterprise logos, in place of the credibility figures.
-       On the coaching side these risk reading as "too expensive for me";
-       here the buyer is spending a six-figure retainer and they are the
-       signal that lands. Same list, opposite job. -->
-  <Brands
-    mode="agency"
-    note="A Brandműhely.hu számos területet és témát lefed a mindennapokban, az oktatások és a havi menedzsment oldalán egyaránt. Kisebb és nagyobb vállalkozásokkal is foglalkozom, legyen szó 24 órán belül induló rapid kampányról vagy több hetes-hónapos kampánytervezésről és -kezelésről."
-  />
+  <!-- 7b · Szakterületek, in place of the credibility figures. The enterprise
+       logo strip stood here until Kristóf asked for the fields instead: a
+       retainer buyer is asking whether he has worked with a business like
+       theirs, and Deutsche Telekom does not answer that. The logos keep their
+       job on /rolam. -->
+  <Expertise />
 
   <!-- 8 · Differentiators that are not "we are professionals". -->
   <section class="section" data-theme="shared">

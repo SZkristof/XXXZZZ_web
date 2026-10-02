@@ -90,7 +90,7 @@ const PAGES = [
       ['Mi van benne, mi nincs', 'src/data/site.ts → agencyOffer.includes / excludes'],
       ['Hogyan dolgozunk', 'src/data/site.ts → agencyOffer.process'],
       ['Eredmények', 'src/components/Results.astro + src/data/proof.ts → results (half: ugynokseg)'],
-      ['Akikkel már dolgoztam', 'src/components/Brands.astro + src/data/site.ts → brands'],
+      ['Szakterületek', 'src/components/Expertise.astro + src/data/site.ts → expertiseFields'],
       ['Miért én', 'src/pages/ugynokseg.astro → why'],
       ['Ár', 'src/data/site.ts → agencyOffer.price / pricePerChannel'],
       ['Milyen ügyfeleket keresek', 'src/data/site.ts → agencyOffer.fitFor / notFitFor'],

@@ -274,18 +274,18 @@ Az ügyfelem mellékállásban vállalkozik, és 12 hónapos terve az volt, hogy
 
 ---
 
-## 8. Akikkel már dolgoztam
+## 8. Szakterületek
 
-*Forrás: src/components/Brands.astro + src/data/site.ts → brands* · *Mód: ügynökség (kék)*
+*Forrás: src/components/Expertise.astro + src/data/site.ts → expertiseFields* · *Mód: ügynökség (kék)*
 
-**Címke:** `AKIKKEL MÁR DOLGOZTAM`
+**Címke:** `SZAKTERÜLETEK`
 
-- Mizo
-- Deutsche Telekom
-- Rossmann
-- Epson
-- Sportfactory
-- Football Factor
+- Webshop és e-kereskedelem
+- Szépségipar
+- Fitness és egészség
+- Étrend-kiegészítő
+- Sport és outdoor
+- Oktatás és szolgáltatás
 
 A Brandműhely.hu számos területet és témát lefed a mindennapokban, az oktatások és a havi menedzsment oldalán egyaránt. Kisebb és nagyobb vállalkozásokkal is foglalkozom, legyen szó 24 órán belül induló rapid kampányról vagy több hetes-hónapos kampánytervezésről és -kezelésről.
 
