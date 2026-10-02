@@ -6,11 +6,10 @@
 > változtatni, jelöld meg itt és szólj, vagy írd át a „forrás" alatt
 > megnevezett fájlban.
 
-Generálva: 2026-09-22
+Generálva: 2026-10-02
 
-A rövid és a hosszú változat is szerepel ott, ahol két szöveg van:
-a szolgáltatás-csempéken telefonon az egysoros jelenik meg, tablettől
-felfelé a teljes leírás. Mindkettőt valakinek át kell tudnia nézni.
+Ahol két szöveg van ugyanarra a helyre — telefonra egy rövid, nagyobb
+képernyőre a teljes —, ott mindkettő szerepel: mindkettőt látja valaki.
 
 ---
 
@@ -333,16 +332,16 @@ napi 700 Ft keretből
 Kecskeméti ügyfelemnek napi 700 forintból kellett hírlevél-feliratkozókat szereznünk egy „csali" e-mail kampányhoz.
 
 - **képzett vállalkozás**
-  200+ képzett vállalkozás
+  200+ — képzett vállalkozás
 
 - **szakmai tapasztalat**
-  11 év szakmai tapasztalat
+  11 év — szakmai tapasztalat
 
 - **platform: Meta, Google, LinkedIn**
-  3 platform: Meta, Google, LinkedIn
+  3 — platform: Meta, Google, LinkedIn
 
 - **elégedettség**
-  100% elégedettség
+  100% — elégedettség
 
 ---
 
@@ -356,11 +355,11 @@ Kecskeméti ügyfelemnek napi 700 forintból kellett hírlevél-feliratkozókat 
 
 Azzal kerestem meg őket, hogy segítsenek végre átlátni, hogy a jelenlegi hirdetéseink valóban jól működnek-e. Kristóf nagyon részletesen végigment a marketingünkön — és ami számomra különösen hasznos volt: nemcsak elmondta, mit kellene másképp csinálnunk, hanem együtt át is szerkesztettük és optimalizáltuk a kampányokat. Nem általános marketingelmélet volt, hanem kifejezetten a saját vállalkozásunkra szabott, gyakorlatias segítség.
 
-DB Demeter B. tulajdonos · Szépségipar EGYÉNI OKTATÁS
+DB — Demeter B. tulajdonos · Szépségipar — EGYÉNI OKTATÁS
 
 Korábban az volt a problémám, hogy szerettem volna több új vendéget szerezni, de nem voltam biztos benne, hogyan érdemes Facebookon hirdetnem. 15 nap után 19 ember töltötte ki az űrlapot, közülük 12-vel már beszéltem, és 10-en azóta a vendégeim lettek. Most egy kicsit le is kellett állítanom a hirdetést, mert annyi új jelentkező érkezett, hogy nem győztem őket fogadni.
 
-NT Németh T. tulajdonos · Fitness EGYÉNI OKTATÁS
+NT — Németh T. tulajdonos · Fitness — EGYÉNI OKTATÁS
 
 ---
 
@@ -480,7 +479,7 @@ Van, akinek egyszerűen nincs rá kapacitása — vagy elmúlt a bizalom a jelen
 
 Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélések. Nálam a marketing nem csak a kivitelezésről szól.
 
-250 000 Ft / hó · a hirdetési költés ezen felül
+250 000 Ft — / hó · a hirdetési költés ezen felül
 
 **Gomb:** `Hirdetéskezelésről bővebben` → /ugynokseg
 
@@ -510,8 +509,8 @@ Google Analytics, Google Tag Manager, konverziómérés, shopping feedek. Ha sej
 
 ## Amit ez a fájl nem mutat
 
-- Az aloldalak szövegét (`/kepzes`, `/ugynokseg`, `/arak`, `/rolam`,
-  `/eredmenyek`, `/kapcsolat`, `/blog`, jogi oldalak).
+- A többi oldal szövegét. Amelyikre van generált fájl, azt a
+  `docs/` mappában találod; a többihez szólj, és felveszem a listára.
 - A fejléc és a lábléc szövegét — ezek minden oldalon azonosak.
 - Az oldalcímeket és meta-leírásokat, amiket a Google talál meg.
 

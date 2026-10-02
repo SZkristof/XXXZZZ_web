@@ -1,6 +1,8 @@
 /**
- * Generates docs/fooldal-szoveg.md — the homepage copy, in page order, for
- * review outside the codebase.
+ * Generates one Markdown file per listed page — the copy, in page order, for
+ * review outside the codebase. Add a page to PAGES below and it is covered;
+ * do not write a second script, or the two will drift and nobody will know
+ * which is current, which is the exact problem this exists to prevent.
  *
  * This exists because a hand-written copy document is stale the moment
  * anyone touches a string, and a stale copy document is worse than none: two
@@ -23,7 +25,6 @@ import { extname, join, dirname } from 'node:path';
 import { launchChromium } from './browser.mjs';
 
 const PORT = 4457;
-const OUT = 'docs/fooldal-szoveg.md';
 
 const TYPES = {
   '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',
@@ -49,25 +50,55 @@ const server = createServer(async (req, res) => {
 });
 
 /**
- * The section order on the homepage comes from the page itself, so the
- * labels in the document cannot drift from what is rendered. If someone adds
- * or removes a section without updating this list, the counts stop matching
- * and the document says so rather than silently mislabelling everything
- * after the change.
+ * One entry per page. `sections` labels each <section> in document order and
+ * says which file its copy lives in, so a reader can go straight there.
+ *
+ * The labels come from this list, the sections come from the rendered page.
+ * If someone adds or removes a section without updating the list, the counts
+ * stop matching and the generated file says so at the top rather than
+ * silently mislabelling everything after the change.
  */
-const SECTION_SOURCES = [
-  ['Hero — nyitóblokk', 'src/components/Hero.astro'],
-  ['Bizalmi sáv', 'src/components/SocialProof.astro + src/data/site.ts'],
-  ['Szolgáltatások', 'src/data/site.ts → services'],
-  ['Hirdetéskezelés egyéni oktatás', 'src/components/CourseIntro.astro'],
-  ['Három lehetőség + összehasonlítás', 'src/components/Comparison.astro'],
-  ['Hogyan működik?', 'src/components/HowItWorks.astro'],
-  ['Platformok', 'src/components/Platforms.astro + src/data/site.ts → platforms'],
-  ['Eredmények', 'src/components/Results.astro + src/data/proof.ts → results'],
-  ['Vélemények', 'src/components/Testimonials.astro + src/data/proof.ts → testimonials'],
-  ['Árak', 'src/components/Pricing.astro + src/data/site.ts → packages'],
-  ['Gyakori kérdések', 'src/data/proof.ts → faqs'],
-  ['A másik fele — Ügynökség', 'src/components/AgencyHalf.astro + src/data/site.ts → agencyServices'],
+const PAGES = [
+  {
+    path: '/',
+    out: 'docs/fooldal-szoveg.md',
+    title: 'Brandműhely — a főoldal teljes szövege',
+    sections: [
+      ['Hero — nyitóblokk', 'src/components/Hero.astro'],
+      ['Bizalmi sáv', 'src/components/SocialProof.astro + src/data/site.ts'],
+      ['Szolgáltatások', 'src/data/site.ts → services'],
+      ['Hirdetéskezelés egyéni oktatás', 'src/components/CourseIntro.astro'],
+      ['Három lehetőség + összehasonlítás', 'src/components/Comparison.astro'],
+      ['Hogyan működik?', 'src/components/HowItWorks.astro'],
+      ['Platformok', 'src/components/Platforms.astro + src/data/site.ts → platforms'],
+      ['Eredmények', 'src/components/Results.astro + src/data/proof.ts → results'],
+      ['Vélemények', 'src/components/Testimonials.astro + src/data/proof.ts → testimonials'],
+      ['Árak', 'src/components/Pricing.astro + src/data/site.ts → packages'],
+      ['Gyakori kérdések', 'src/data/proof.ts → faqs'],
+      ['A másik fele — Ügynökség', 'src/components/AgencyHalf.astro + src/data/site.ts → agencyServices'],
+    ],
+  },
+  {
+    path: '/ugynokseg',
+    out: 'docs/ugynokseg-szoveg.md',
+    title: 'Brandműhely — a Hirdetéskezelés oldal teljes szövege',
+    sections: [
+      ['Nyitóblokk + ár', 'src/pages/ugynokseg.astro'],
+      ['Ismerős?', 'src/data/site.ts → agencyOffer.symptoms'],
+      ['A probléma', 'src/pages/ugynokseg.astro + site.ts → agencyOffer.hardParts'],
+      ['Mit kapsz — hat blokk', 'src/data/site.ts → agencyOffer.blocks'],
+      ['Mi van benne, mi nincs', 'src/data/site.ts → agencyOffer.includes / excludes'],
+      ['Hogyan dolgozunk', 'src/data/site.ts → agencyOffer.process'],
+      ['Eredmények', 'src/components/Results.astro + src/data/proof.ts → results (half: ugynokseg)'],
+      ['Akikkel már dolgoztam', 'src/components/Brands.astro + src/data/site.ts → brands'],
+      ['Miért én', 'src/pages/ugynokseg.astro → why'],
+      ['Ár', 'src/data/site.ts → agencyOffer.price'],
+      ['Kinek való, kinek nem', 'src/data/site.ts → agencyOffer.fitFor / notFitFor'],
+      ['Gyakori kérdések', 'src/data/proof.ts → agencyFaqs'],
+      ['Záró CTA', 'src/pages/ugynokseg.astro'],
+      ['A másik fele — oktatás', 'src/pages/ugynokseg.astro'],
+    ],
+  },
 ];
 
 /** Runs in the page. Walks each section and returns a flat block list. */
@@ -143,7 +174,26 @@ function extract() {
         if (carriesText(el)) continue;
       }
 
-      const text = clean(el);
+      /* A list item often holds a thing and a note about it as two sibling
+         spans, usually one wrapper down past an icon. textContent runs them
+         together ("A hirdetési költés Közvetlenül a Google..."), so descend
+         through single-child wrappers and, when a level's children account
+         for ALL of the text, join them with a dash. The equality guard is
+         what keeps a paragraph with inline <strong> in running prose from
+         being chopped up the same way. */
+      const labelled = (node) => {
+        const squash = (t) => t.replace(/\s+/g, '');
+        for (let depth = 0; depth < 6; depth++) {
+          const kids = [...node.children].filter((c) => clean(c));
+          if (kids.length === 1) { node = kids[0]; continue; }
+          if (kids.length > 1 && squash(kids.map(clean).join('')) === squash(clean(node))) {
+            return kids.map(clean).join(' — ');
+          }
+          return null;
+        }
+        return null;
+      };
+      const text = labelled(el) ?? clean(el);
       if (!text || seenText.has(text)) continue;
       seenText.add(text);
       el.querySelectorAll('*').forEach((n) => seenNodes.add(n));
@@ -167,9 +217,9 @@ function extract() {
   });
 }
 
-function render(sections, when, commit) {
+function render(cfg, sections, when, commit) {
   const L = [];
-  L.push('# Brandműhely — a főoldal teljes szövege');
+  L.push(`# ${cfg.title}`);
   L.push('');
   L.push('> **Ez a fájl generált.** A `npm run copy:doc` állítja elő a lefordított');
   L.push('> oldalból, tehát mindig azt mutatja, ami tényleg kint van. Ne szerkeszd');
@@ -179,23 +229,22 @@ function render(sections, when, commit) {
   L.push('');
   L.push(`Generálva: ${when}${commit ? ` · \`${commit}\`` : ''}`);
   L.push('');
-  L.push('A rövid és a hosszú változat is szerepel ott, ahol két szöveg van:');
-  L.push('a szolgáltatás-csempéken telefonon az egysoros jelenik meg, tablettől');
-  L.push('felfelé a teljes leírás. Mindkettőt valakinek át kell tudnia nézni.');
+  L.push('Ahol két szöveg van ugyanarra a helyre — telefonra egy rövid, nagyobb');
+  L.push('képernyőre a teljes —, ott mindkettő szerepel: mindkettőt látja valaki.');
   L.push('');
 
-  if (sections.length !== SECTION_SOURCES.length) {
+  if (sections.length !== cfg.sections.length) {
     L.push('---');
     L.push('');
     L.push(`> ⚠️ **A szekciók száma megváltozott** (${sections.length} az oldalon,`);
-    L.push(`> ${SECTION_SOURCES.length} a generátorban). A lenti címek és forrásmegjelölések`);
+    L.push(`> ${cfg.sections.length} a generátorban). A lenti címek és forrásmegjelölések`);
     L.push('> ettől a ponttól elcsúszhatnak — a `SECTION_SOURCES` listát frissíteni kell');
     L.push('> a `scripts/copy-doc.mjs` fájlban.');
     L.push('');
   }
 
   sections.forEach((sec, i) => {
-    const [title, source] = SECTION_SOURCES[i] ?? [`${i + 1}. szekció`, 'ismeretlen'];
+    const [title, source] = cfg.sections[i] ?? [`${i + 1}. szekció`, 'ismeretlen'];
     L.push('---');
     L.push('');
     L.push(`## ${i + 1}. ${title}`);
@@ -247,8 +296,8 @@ function render(sections, when, commit) {
   L.push('');
   L.push('## Amit ez a fájl nem mutat');
   L.push('');
-  L.push('- Az aloldalak szövegét (`/kepzes`, `/ugynokseg`, `/arak`, `/rolam`,');
-  L.push('  `/eredmenyek`, `/kapcsolat`, `/blog`, jogi oldalak).');
+  L.push('- A többi oldal szövegét. Amelyikre van generált fájl, azt a');
+  L.push('  `docs/` mappában találod; a többihez szólj, és felveszem a listára.');
   L.push('- A fejléc és a lábléc szövegét — ezek minden oldalon azonosak.');
   L.push('- Az oldalcímeket és meta-leírásokat, amiket a Google talál meg.');
   L.push('');
@@ -256,26 +305,33 @@ function render(sections, when, commit) {
 }
 
 const commit = process.env.GITHUB_SHA?.slice(0, 7) ?? '';
+const when = new Date().toISOString().slice(0, 10);
+
 await new Promise((r) => server.listen(PORT, r));
 const browser = await launchChromium();
+let drifted = 0;
 try {
-  const page = await browser.newPage();
-  await page.goto(`http://localhost:${PORT}/`, { waitUntil: 'networkidle' });
-  // The consent banner is chrome, not page copy.
-  await page.evaluate(() => document.getElementById('consent')?.remove());
-  const sections = await page.evaluate(extract);
-  const when = new Date().toISOString().slice(0, 10);
-  await mkdir(dirname(OUT), { recursive: true });
-  await writeFile(OUT, render(sections, when, commit), 'utf8');
-  const words = sections.flatMap((s) => s.blocks).length;
-  console.log(`✓ ${OUT} — ${sections.length} szekció, ${words} szövegblokk`);
-  if (sections.length !== SECTION_SOURCES.length) {
-    console.warn(
-      `⚠ A szekciók száma ${sections.length}, a generátor ${SECTION_SOURCES.length}-t vár. ` +
-      'Frissítsd a SECTION_SOURCES listát a scripts/copy-doc.mjs fájlban.',
-    );
+  for (const cfg of PAGES) {
+    const page = await browser.newPage();
+    await page.goto(`http://localhost:${PORT}${cfg.path}`, { waitUntil: 'networkidle' });
+    // The consent banner is chrome, not page copy.
+    await page.evaluate(() => document.getElementById('consent')?.remove());
+    const sections = await page.evaluate(extract);
+    await mkdir(dirname(cfg.out), { recursive: true });
+    await writeFile(cfg.out, render(cfg, sections, when, commit), 'utf8');
+    const blocks = sections.flatMap((s) => s.blocks).length;
+    console.log(`✓ ${cfg.out} — ${sections.length} szekció, ${blocks} szövegblokk`);
+    if (sections.length !== cfg.sections.length) {
+      drifted++;
+      console.warn(
+        `  ⚠ ${cfg.path}: ${sections.length} szekció van, a generátor ${cfg.sections.length}-t vár. ` +
+        'Frissítsd a PAGES listát a scripts/copy-doc.mjs fájlban.',
+      );
+    }
+    await page.close();
   }
 } finally {
   await browser.close();
   server.close();
 }
+if (drifted) process.exitCode = 0; // a figyelmeztetés elég, a fájl így is használható
