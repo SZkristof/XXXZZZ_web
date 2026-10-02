@@ -309,18 +309,6 @@ Költség/vásárlás
 
 Az Advantage+ kikapcsolásával és konkrét célzási stratégiákkal sikerült javítani a vásárlásonkénti költséget.
 
-Webshop · Sport
-
-Facebook és Google hirdetéskezelés
-
-Black Friday bevétel
-
-18 millió Ft
-
-1 nap alatt
-
-Black Friday és karácsonyi akciók kampánykezelésére kértek fel, ahol 1 nap alatt értük el a közel teljes évi bevételt.
-
 Oktatás
 
 Költség / lead
@@ -479,7 +467,7 @@ Van, akinek egyszerűen nincs rá kapacitása — vagy elmúlt a bizalom a jelen
 
 Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélések. Nálam a marketing nem csak a kivitelezésről szól.
 
-250 000 Ft — / hó · a hirdetési költés ezen felül
+125 000 Ft — / hó / csatorna · a hirdetési költés ezen felül
 
 **Gomb:** `Hirdetéskezelésről bővebben` → /ugynokseg
 

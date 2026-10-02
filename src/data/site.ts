@@ -492,9 +492,14 @@ export const services: Service[] = [
 /*                                                                            */
 /* The agency page used to argue that it could not publish a price, because   */
 /* the work differs between a 50 000 Ft and a 2 000 000 Ft monthly budget.    */
-/* Kristóf has since decided on one flat retainer, which makes that argument  */
-/* obsolete — a published price is a stronger filter than any "kérjen         */
-/* ajánlatot" button, and it does the qualifying before the call.             */
+/* Kristóf has since decided on a flat per-channel retainer, which makes that */
+/* argument obsolete — a published price is a stronger filter than any        */
+/* "kérjen ajánlatot" button, and it does the qualifying before the call.     */
+/*                                                                            */
+/* PRICED PER CHANNEL. 125 000 Ft / hó buys Google OR Meta; the two together  */
+/* are 250 000 Ft / hó. Both numbers are on the page, so they live in one     */
+/* place here: `pricePerChannel` is the entry price and the hero's figure,    */
+/* `price` is the full offer and the one the price section carries.           */
 /*                                                                            */
 /* NO VAT LINE. The ÁSZF states he is alanyi adómentes and charges no VAT, so  */
 /* "+ ÁFA" would contradict a contractual document on the same site. If that   */
@@ -503,7 +508,11 @@ export const services: Service[] = [
 /* ------------------------------------------------------------------------ */
 
 export const agencyOffer = {
+  /** Both platforms managed together. */
   price: 250_000,
+  /** One channel on its own — Google OR Meta. Half the combined fee, because
+   *  the retainer is priced per channel managed, not per client. */
+  pricePerChannel: 125_000,
   period: 'hó',
   /** What the retainer buys, as the six things actually delivered. */
   blocks: [
@@ -511,9 +520,9 @@ export const agencyOffer = {
       id: 'strategia',
       name: 'Stratégia',
       points: [
-        'Üzleti célok átbeszélése',
-        'Célcsoportok és ajánlatok elemzése',
-        'Google + Meta stratégia egyben',
+        'Megismerem az üzleti célokat',
+        'Átbeszéljük és elemezzük a célcsoportokat',
+        'Google + Meta stratégia létrehozása',
         'Kampánystruktúra megtervezése',
         'Költségkeret elosztása a csatornák között',
       ],
@@ -523,9 +532,9 @@ export const agencyOffer = {
       name: 'Google Ads',
       points: [
         'Search kampányok',
-        'Performance Max',
-        'Remarketing',
-        'Kulcsszókezelés',
+        'Performance Max kampányok',
+        'Shopping hirdetések',
+        'Kulcsszókezelés + negatív kulcsszólista',
         'Hirdetésszövegek',
       ],
     },
@@ -533,18 +542,17 @@ export const agencyOffer = {
       id: 'meta',
       name: 'Meta Ads',
       points: [
-        'Facebook és Instagram',
+        'Facebook és Instagram hirdetések',
         'Új közönségek elérése',
-        'Remarketing',
-        'Kreatívtesztelés',
-        'Célcsoport-tesztelés',
+        'Kreatívtesztelés és javaslatok',
+        'Célcsoport-tesztelés, új ötletek',
       ],
     },
     {
       id: 'optimalizalas',
       name: 'Folyamatos optimalizálás',
-      body: 'Nem egyszer beállítom és otthagyom.',
-      points: ['Figyelem', 'Elemzem', 'Tesztelem', 'Optimalizálom'],
+      body: 'Folyamatos kontroll alatt tartom a fiókod.',
+      points: ['Adatgyűjtés', 'Elemzés', 'Tesztelés', 'Optimalizálás'],
     },
     {
       id: 'meres',
@@ -553,7 +561,7 @@ export const agencyOffer = {
         'Konverziókövetés beállítása',
         'Kampányeredmények',
         'CPA / CPL / ROAS',
-        'Havi riport, magyarul',
+        'Havi riport, magyarul és közérthetően',
         'Konkrét következő lépések',
       ],
     },
@@ -573,71 +581,58 @@ export const agencyOffer = {
   /* Saying what is NOT in the price raises trust rather than lowering it: a
      retainer with no stated edges reads as one that will grow an invoice. */
   includes: [
-    'Google Ads kezelés',
-    'Meta Ads kezelés',
+    'Google Ads vagy Meta Ads kezelés (a kettő együtt 250 000 Ft / hó)',
     'Stratégia és kampányépítés',
     'Folyamatos optimalizálás',
     'Remarketing',
     'Konverziómérés és riportolás',
-    'Havi konzultáció',
+    'Heti vagy havi konzultáció',
     'Folyamatos szakmai javaslatok',
   ],
   excludes: [
     { what: 'A hirdetési költés', note: 'Közvetlenül a Google és a Meta felé fizeted, a saját fiókodból.' },
-    { what: 'Landing oldal készítése', note: 'Külön megrendelhető.' },
-    { what: 'Videógyártás', note: 'Külön megrendelhető.' },
-    { what: 'Komolyabb kreatívgyártás', note: 'Külön megrendelhető.' },
+    { what: 'Landing oldal készítése', note: 'Ha kell benne segítség, írj és megbeszéljük külön.' },
+    { what: 'Videógyártás', note: 'Független külsős partnert tudok ajánlani, jutalékot nem kapok belőle.' },
+    { what: 'Komolyabb kreatívgyártás', note: 'Független külsős partnert tudok ajánlani, jutalékot nem kapok belőle.' },
     { what: 'Webfejlesztés', note: 'Külön megrendelhető.' },
-    { what: 'Egyedi tracking-fejlesztés', note: 'A szokásos mérési beállítás benne van.' },
+    { what: 'Egyedi tracking-fejlesztés', note: 'A szokásos mérési beállítás benne van az árban.' },
   ],
 
   /** The symptoms a visitor recognises before they know what to buy. */
   symptoms: [
-    'Már hirdetsz, de nem tudod pontosan, hogy jó helyre megy-e a pénz.',
-    'A kampányaid működnek, de nincs időd folyamatosan optimalizálni őket.',
-    'Van marketingesed, de nincs valódi hirdetési szakembered.',
-    'Több érdeklődőt vagy vásárlást szeretnél ugyanabból a keretből.',
+    'Már hirdetsz, de nem tudod pontosan, hogy jó helyre megy-e a pénzed.',
+    'A kampányaid működnek, de olyan, mintha senki nem foglalkozna vele.',
+    'Van marketingesed, de nincs valódi hirdetési szakembered. Nincs bizalom.',
+    'Több érdeklődőt vagy vásárlást szeretnél ugyanabból a keretösszegből.',
     'Két külön emberrel kell egyeztetned a Google és a Meta miatt.',
-    'Egyszerűen le szeretnéd venni a hirdetéskezelést a válladról.',
-  ],
-
-  /** The hard part, spelled out. Starting a campaign is not the hard part. */
-  hardParts: [
-    'mit hirdessünk',
-    'kinek',
-    'milyen ajánlattal',
-    'melyik csatornán',
-    'milyen kampánystruktúrával',
-    'milyen kreatívval',
-    'milyen landing oldalra',
-    'mennyiért',
-    'és mit kezdjünk az adatokkal, amikor megérkeznek',
+    'Nem éred el a jelenlegi marketingesed. Napokat, néha heteket kell rá várni.',
+    'Csak hirdetést kezel, nem gondolkodik a vállalkozásoddal együtt. Neked kell mindig valami újat kitalálnod.',
   ],
 
   process: [
-    { title: 'Megismerem az üzleted', body: 'Célok, ajánlat, célcsoport, jelenlegi eredmények.' },
-    { title: 'Átnézem, amid már van', body: 'Google Ads, Meta, mérés, landing oldal, kreatívok.' },
-    { title: 'Elkészítem a stratégiát', body: 'Melyik csatornán, milyen kampányokkal és milyen üzenettel dolgozunk.' },
-    { title: 'Elindítom vagy újratervezem', body: 'Kampányok, célzások, kreatívok, mérés.' },
-    { title: 'Optimalizálok', body: 'Nem havonta egyszer nézek rá. Az adatok alapján folyamatosan döntök.' },
-    { title: 'Megmutatom, mi történt', body: 'Havi riport, eredmények és a következő tesztek.' },
+    { title: 'Díjmentes felmérés', body: 'Célok, ajánlat, célcsoport, jelenlegi kihívások.' },
+    { title: 'Elemzés', body: 'Google Ads, Meta, mérés, landing oldal, kreatívok átnézése.' },
+    { title: 'Elkészítem a stratégiát', body: 'Melyik csatornán, milyen kampányokkal és milyen üzenettel dolgozzunk.' },
+    { title: 'Újratervezés, kampányindítás', body: 'Kampányok, célzások, kreatívok, mérés aktiválása.' },
+    { title: 'Optimalizálok', body: 'Az adatok alapján folyamatos a fiókmenedzsment, nem havi egyszeri ránézés.' },
+    { title: 'Megmutatom, mi történt', body: 'Havi riport, eredmények és javaslatok, amikről közösen döntünk.' },
   ],
 
   /** A filter that works in both directions. Saying who this is not for is
    *  what makes the "igen" half believable. */
   fitFor: [
     'Már van működő terméked vagy szolgáltatásod',
-    'Van értelmezhető hirdetési kereted',
-    'Rendszeresen szeretnél hirdetni, nem kampányszerűen',
-    'Hajlandó vagy adat alapján dönteni',
+    'Van minimum 100 000 Ft hirdetési kereted havonta',
+    'Rendszeresen szeretnél hirdetni, vagy kampányszerűen',
+    'Hajlandó vagy adat alapján dönteni és csapattársként együtt dolgozni',
     'Van kapacitásod a beérkező érdeklődők kezelésére',
-    'Hosszú távon szeretnéd építeni a rendszert',
+    'Hosszú távon szeretnéd építeni a vállalkozásod',
   ],
   notFitFor: [
-    'Még nincs kipróbált, működő ajánlatod',
-    'Azt várod, hogy havi 50 000 Ft költésből milliókat csináljunk',
+    'Még nincs meglévő terméked vagy szolgáltatásod',
+    'Azt várod, hogy havi 50 000 Ft költésből tízmilliókat csináljunk',
     'Nem tudsz vagy nem akarsz időt fordítani az együttműködésre',
-    'Csak annyit szeretnél, hogy valaki egyszer beállítsa',
+    'Csak annyit szeretnél, hogy valaki „csinálja" a marketinged',
   ],
 } as const;
 
