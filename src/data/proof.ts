@@ -89,12 +89,30 @@ export const results: Result[] = [
   },
   {
     half: 'ugynokseg',
-    industry: 'Webshop · Sport',
+    industry: 'Webshop · Sportszer',
     platform: 'Facebook és Google hirdetéskezelés',
     metric: 'Black Friday bevétel',
     to: '18 millió Ft',
     timeframe: '1 nap',
-    note: 'Black Friday és karácsonyi akciók kampánykezelésére kértek fel, ahol 1 nap alatt értük el a közel teljes évi bevételt.',
+    note: 'Black Friday és karácsonyi akciók kampánykezelésére kértek fel, ahol 1 nap alatt értük el a teljes éves bevételt.',
+  },
+  {
+    half: 'ugynokseg',
+    industry: 'Szolgáltatás · Szépségipar',
+    platform: 'Facebook és Google hirdetéskezelés',
+    metric: 'Foglalások száma',
+    to: 'napi +10',
+    timeframe: '1 hónap',
+    note: 'Budapesti szépségipari vállalkozás Facebook és Google hirdetéseit kezelem, ahol a célzási beállítások kijavításával már egy hónap alatt javultak az eredmények — átlagosan 1 800 Ft egy foglalás.',
+  },
+  {
+    half: 'ugynokseg',
+    industry: 'Webshop · Étrend-kiegészítő',
+    platform: 'Facebook hirdetéskezelés',
+    metric: 'Napi vásárlások',
+    to: 'napi 2 vásárlás',
+    timeframe: '3 hónap',
+    note: 'Az ügyfelem mellékállásban vállalkozik, és 12 hónapos terve az volt, hogy napi 2 vásárlása legyen Facebookból. Ezt 3 hónap alatt elértük — előtte egy évig próbálkozott más ügynökséggel.',
   },
   {
     half: 'kepzes',
@@ -147,11 +165,12 @@ export const faqs: Faq[] = [
 ];
 
 /**
- * FIGYELEM: jelenleg EGYETLEN ügynökségi (hirdetéskezelési) eredmény van,
- * a többi négyből három képzés. Az ügynökségi oldal ezért egyetlen
- * esettanulmányt tud mutatni. Kristóftól kellene még 2–3 dokumentált,
- * hirdetéskezelési eredmény — enélkül az oldal legerősebb szekciója marad
- * a leggyengébb. Kitalált szám nem kerülhet ide (Fttv. / GVH).
+ * MINDEN SZÁM KRISTÓF SAJÁT, DOKUMENTÁLT ÜGYFÉLMUNKÁJÁBÓL VAN. Kitalált
+ * vagy felkerekített szám nem kerülhet ide (Fttv. / GVH), és egy ügyfél
+ * eredménye egyszer szerepelhet — vagy a képzés, vagy a hirdetéskezelés
+ * oldalán, mert ugyanazt a munkát kétszer beszámítani félrevezető.
+ * A szépségipari eredmény ezért külön ügyfél, mint a `kepzes` felén álló
+ * szépségipari eset; ha ez megváltozik, az egyiket törölni kell.
  */
 export const agencyResults = results.filter((r) => r.half === 'ugynokseg');
 export const coachingResults = results.filter((r) => r.half === 'kepzes');
@@ -168,30 +187,30 @@ export const agencyFaqs: Faq[] = [
   },
   {
     q: 'Mennyi hirdetési költséggel érdemes indulni?',
-    a: 'Havi 300 000 Ft körül kezd értelmessé válni két platformon, mert ennél kevesebből nem gyűlik elég adat ahhoz, hogy optimalizálni lehessen. Ha ennél kisebb kerettel indulnál, az első beszélgetésen őszintén megmondom, hogy érdemes-e — lehet, hogy egy platform vagy az egyéni oktatás jobban megéri neked.',
+    a: 'Havi 100 000 Ft kerettől tudok dolgozni, de igazán havi 150 000–300 000 Ft között kezd megtérülni, mert ennél kevesebből nem gyűlik elég adat ahhoz, hogy optimalizálni lehessen és kitermeld a hirdetéskezelés díját. Ha ennél kisebb kerettel indulnál, az első beszélgetésen őszintén megmondom, hogy érdemes-e — lehet, hogy egy platform vagy az egyéni oktatásom jobban megéri neked. Hívj és mondd el őszintén a terveid, akkor tudok a legjobban segíteni.',
   },
   {
     q: 'Mennyi idő alatt lesz eredmény?',
-    a: 'Nem ígérek garantált érdeklődő- vagy bevételszámot, mert ilyet senki nem tud tartani. Az első 4–6 hét arról szól, hogy felépüljenek az alapok, összegyűljön az adat, és kiderüljön, melyik irány működik. Onnantól az optimalizálás hoz javulást, nem a szerencse.',
+    a: 'Nem ígérek garantált érdeklődő- vagy bevételszámot, mert ilyet senki nem tud tartani. Az első 4–6 hét arról szól, hogy felépüljenek az alapok, összegyűljön az adat, és kiderüljön, melyik irány működik. Onnantól az optimalizálás hoz javulást, nem a szerencse. Ettől függetlenül szolgáltatóknál már az első napokban várható több érdeklődő, webshopoknál pedig az első 1,5–2 hónap lesz igazán kritikus.',
   },
   {
     q: 'Van szerződéses hűségidő?',
-    a: 'Nincs. Havi díjas együttműködés, egy hónapos felmondási idővel. Ha nem vagy elégedett, nem tart bent semmilyen szerződés.',
+    a: 'Nincs. Havi díjas együttműködés, két hónapos felmondási idővel. Ha nem vagy elégedett, nem tart bent semmilyen szerződés.',
   },
   {
     q: 'Mi történik, ha már van hirdetési fiókom?',
-    a: 'Átnézem, auditálom, és ahol szükséges, újrastrukturálom. Nem indítunk nulláról, ha van mire építeni — a korábbi adat érték, nem teher.',
+    a: 'Átnézem, auditálom, és ahol szükséges, újrastrukturálom. Nem indítunk mindent nulláról, ha van mire építeni — a korábbi adat érték, nem teher.',
   },
   {
     q: 'Kié marad a hirdetési fiók?',
-    a: 'A tiéd, végig. A saját fiókodban dolgozom, hozzáféréssel. Ha véget ér az együttműködés, minden ott marad nálad: a fiók, az adat, a kampányok.',
+    a: 'A tiéd, végig. A te fiókodban dolgozom, hozzáféréssel. Ha véget ér az együttműködés, minden ott marad nálad: a fiók, az adat, a kampányok.',
   },
   {
     q: 'Csak Google vagy csak Meta hirdetést szeretnék. Lehet?',
-    a: 'A havi díj a két platform együttes kezelésére szól, mert a kettő együtt működik igazán jól — ugyanaz a költségkeret, ugyanaz a mérés, egy stratégia. Ha csak az egyikre van szükséged, szólj: megbeszéljük, mi a reális.',
+    a: 'Lehet. Egy csatorna — akár a Google, akár a Meta — 125 000 Ft / hó; a kettő együtt 250 000 Ft / hó. Az első beszélgetésen átbeszéljük, hogy a te esetedben melyikkel érdemes kezdeni.',
   },
   {
     q: 'Miben más ez, mint egy nagy ügynökség?',
-    a: 'Egy nagy ügynökségnél jellemzően egy junior account manager ül a fiókodon, a senior pedig az értékesítésen volt. Itt végig én dolgozom a kampányaidon, tizenegy év tapasztalattal — és ugyanaz az ember válaszol, akivel az első beszélgetést folytattad.',
+    a: 'Egy nagy ügynökségnél jellemzően egy junior account manager ül a fiókodon, a senior pedig az értékesítésen egyszerre 10–15 ügyféllel foglalkozik. Itt végig én dolgozom a kampányaidon, tizenegy év tapasztalattal — és ugyanaz az ember válaszol, akivel az első beszélgetést folytattad.',
   },
 ];

@@ -35,8 +35,10 @@ import { huf } from '@/lib/format';
         </p>
 
         <p class="t-body mt-6 text-paper">
-          <strong class="font-title text-2xl font-bold">{huf(agencyOffer.price)}</strong>
-          <span class="text-paper/80"> / {agencyOffer.period} · a hirdetési költés ezen felül</span>
+          <strong class="font-title text-2xl font-bold">{huf(agencyOffer.pricePerChannel)}</strong>
+          <span class="text-paper/80">
+            {' '}/ {agencyOffer.period} / csatorna · a hirdetési költés ezen felül
+          </span>
         </p>
 
         <div class="mt-8 flex flex-col gap-3 sm:flex-row">

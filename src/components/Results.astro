@@ -14,6 +14,8 @@ interface Props {
   /** The credibility figures belong to the business as a whole, so they are
    *  off by default on a page scoped to one half. */
   stats?: boolean;
+  /** Anchor. Two results sections on one page would otherwise collide. */
+  id?: string;
 }
 const {
   half,
@@ -21,6 +23,7 @@ const {
   title = 'Mások már megtanulták, te készen állsz?',
   lead = 'Szeretnék megosztani Veled pár eredményt korábbi ügyfeleimtől, hogy lásd, mire számíthatsz.',
   stats = true,
+  id = 'eredmenyek',
 } = Astro.props;
 
 const shown = half ? results.filter((r) => r.half === half) : results;
@@ -36,7 +39,7 @@ const resultCols =
   : 'mx-auto max-w-md';
 ---
 
-<section class="section" data-theme="shared" id="eredmenyek">
+<section class="section" data-theme="shared" id={id}>
   <div class="container-x">
     <SectionHeading
       eyebrow={eyebrow}

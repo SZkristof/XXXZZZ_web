@@ -4,7 +4,7 @@ import Button from '@/components/Button.astro';
 import SectionHeading from '@/components/SectionHeading.astro';
 import Slabs from '@/components/Slabs.astro';
 import Results from '@/components/Results.astro';
-import Brands from '@/components/Brands.astro';
+import Expertise from '@/components/Expertise.astro';
 import Faq from '@/components/Faq.astro';
 import { agencyOffer, site, contact, expert } from '@/data/site';
 import { agencyFaqs } from '@/data/proof';
@@ -18,6 +18,11 @@ import { huf } from '@/lib/format';
  * and spends its length earning that price — because a published number
  * qualifies harder than any "kérjen ajánlatot" button, and it does the
  * qualifying before the call rather than on it.
+ *
+ * TWO NUMBERS, ONE OFFER. The hero leads with the per-channel price because
+ * that is the entry point, and the price section carries the combined fee
+ * because both channels together are the offer being sold. Every figure on
+ * the page comes from `agencyOffer`, so the two can never drift apart.
  *
  * THE PRICE CARRIES NO VAT LINE. The ÁSZF states Kristóf is alanyi adómentes
  * and charges no VAT; "+ ÁFA" here would contradict a contractual document
@@ -42,23 +47,43 @@ const schema = [
     serviceType: 'PPC hirdetéskezelés',
     provider: { '@id': `${site.url}/#business` },
     areaServed: { '@type': 'Country', name: 'Hungary' },
-    offers: {
-      '@type': 'Offer',
-      name: 'Teljes körű Google + Meta hirdetéskezelés',
-      price: agencyOffer.price,
-      priceCurrency: 'HUF',
-      url: `${site.url}/ugynokseg#ar`,
-      availability: 'https://schema.org/InStock',
-      priceSpecification: {
-        '@type': 'UnitPriceSpecification',
+    /* Two offers, because the page publishes two prices. Folding them into
+       one average would put a number on the page that nobody can actually
+       buy, and a rich result quoting it would be wrong. */
+    offers: [
+      {
+        '@type': 'Offer',
+        name: 'Google Ads vagy Meta Ads hirdetéskezelés — egy csatorna',
+        price: agencyOffer.pricePerChannel,
+        priceCurrency: 'HUF',
+        url: `${site.url}/ugynokseg#ar`,
+        availability: 'https://schema.org/InStock',
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: agencyOffer.pricePerChannel,
+          priceCurrency: 'HUF',
+          /* valueAddedTaxIncluded: true is correct for a VAT-exempt trader —
+             the buyer pays exactly this, with no tax added on top. */
+          valueAddedTaxIncluded: true,
+          unitText: 'hó',
+        },
+      },
+      {
+        '@type': 'Offer',
+        name: 'Teljes körű Google + Meta hirdetéskezelés',
         price: agencyOffer.price,
         priceCurrency: 'HUF',
-        /* valueAddedTaxIncluded: true is correct for a VAT-exempt trader —
-           the buyer pays exactly this, with no tax added on top. */
-        valueAddedTaxIncluded: true,
-        unitText: 'hó',
+        url: `${site.url}/ugynokseg#ar`,
+        availability: 'https://schema.org/InStock',
+        priceSpecification: {
+          '@type': 'UnitPriceSpecification',
+          price: agencyOffer.price,
+          priceCurrency: 'HUF',
+          valueAddedTaxIncluded: true,
+          unitText: 'hó',
+        },
       },
-    },
+    ],
   },
   {
     '@type': 'FAQPage',
@@ -71,31 +96,34 @@ const schema = [
   },
 ];
 
-const chips = ['Google Ads', 'Meta Ads', 'Kampánystratégia', 'Optimalizálás', 'Remarketing', 'Riportolás'];
+const chips = [
+  'Google Ads', 'Meta Ads', 'Kampánystratégia',
+  'Optimalizálás', 'Remarketing', 'Dinamikus riportolás',
+];
 
 const why = [
   {
-    t: 'Google és Meta egy rendszerben',
-    b: 'Nem két külön ember, két külön stratégia és két külön riport. Egy költségkeret, egy mérés, egy döntés.',
+    t: 'Google és Meta egy kézben',
+    b: 'Nem kell több külön embert alkalmaznod: egyszerre leszek a hirdetéskezelő szakembered, a projektmenedzsered és a stratégád — akivel átbeszélheted a digitális megvalósítás minden apró részletét.',
   },
   {
     t: 'Nem egy junior ül a fiókodon',
-    b: `Egy nagy ügynökségnél a senior az értékesítésen volt. Itt végig én dolgozom a kampányaidon, ${expert.yearsExperience} év tapasztalattal.`,
+    b: `A legtöbb marketinges cégnél a senior az értékesítésen van, és leadja a munkát a kezdőknek. Itt végig én dolgozom a kampányaidon, ${expert.yearsExperience} év digitális marketing tapasztalattal.`,
   },
   {
     t: 'Üzleti szemlélet',
-    b: 'Nem a kattintás és a CTR a végcél. A kampánynak az üzleted eredményét kell vinnie, különben szép számokat gyártunk a semmiért.',
+    b: 'Nem a kattintás, a CPC vagy a CTR a végcél. A kampánynak az üzleted eredményét kell támogatnia, különben egy szép átkattintási arány mit sem ér. Azt figyelem, mi hoz a végén bevételt, és mennyiért.',
   },
   {
     t: 'Átlátható havi díj',
-    b: `${huf(agencyOffer.price)} / ${agencyOffer.period}. Nincs százféle csomag, nincs sávos árazás, ami mindig éppen fölötted kezdődik.`,
+    b: `${huf(agencyOffer.pricePerChannel)} / ${agencyOffer.period} / csatorna. Nincs százféle csomag, nincs sávos árazás, nincsenek külön díjak. Meta és Google hirdetéskezelés együtt ${huf(agencyOffer.price)} / ${agencyOffer.period}.`,
   },
 ];
 ---
 
 <Base
   title="Google és Meta hirdetéskezelés"
-  description={`Teljes körű Google és Meta hirdetéskezelés vállalkozásoknak: stratégia, kampányépítés, optimalizálás és riportolás. Fix ${huf(agencyOffer.price)} / hó, a hirdetési költés ezen felül. A fiók végig a tiéd marad.`}
+  description={`Teljes körű Google és Meta hirdetéskezelés vállalkozásoknak: stratégia, kampányépítés, optimalizálás és riportolás. Fix ${huf(agencyOffer.pricePerChannel)} / hó / csatorna, a két platform együtt ${huf(agencyOffer.price)} / hó. A hirdetési költés ezen felül, a fiók végig a tiéd marad.`}
   schema={schema}
 >
   <!-- 1 · Opening. Agency mode: the page's identity. -->
@@ -103,25 +131,28 @@ const why = [
     <Slabs group="triplet" color="var(--color-terracotta-500)" opacity={0.14} height="420px" />
     <div class="container-x relative z-10 py-16 lg:py-24">
       <div class="max-w-[54rem]">
-        <p class="t-label text-terracotta-200">GOOGLE + META HIRDETÉSKEZELÉS</p>
-        <h1 class="t-display mt-5 max-w-[20ch] text-paper">
-          A hirdetéseid ne csak költsenek. <span class="text-highlight">Hozzanak is.</span>
+        <p class="t-label text-terracotta-200">HAVI HIRDETÉSKEZELÉS VÁLLALKOZÁSOKNAK</p>
+        <h1 class="t-display mt-5 max-w-[22ch] text-paper">
+          Teljes körű hirdetéskezelés.
+          <span class="text-highlight">Vállalkozásodra szabva.</span>
         </h1>
         <p class="t-lead mt-6 max-w-[54ch] text-paper/85">
-          Teljes körű Google és Meta hirdetéskezelés vállalkozásoknak, akik ki szeretnék
-          szervezni a hirdetéseik működtetését — stratégiai tervezéstől az optimalizálásig,
-          fix havi díjért.
+          Havi szintű, összehangolt Google és Meta hirdetéskezelés vállalkozásoknak, akik
+          ki szeretnék hozni a maximumot a hirdetéseikből — stratégiai tervezéstől az
+          optimalizálásig, fix havi díjért.
         </p>
 
         <p class="t-body mt-6 text-paper">
-          <strong class="font-title text-2xl font-bold">{huf(agencyOffer.price)}</strong>
-          <span class="text-paper/80"> / {agencyOffer.period} · a hirdetési költés ezen felül</span>
+          <strong class="font-title text-2xl font-bold">{huf(agencyOffer.pricePerChannel)}</strong>
+          <span class="text-paper/80">
+            {' '}/ {agencyOffer.period} / csatorna · rejtett költségek nélkül
+          </span>
         </p>
 
         <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <Button href="/kapcsolat" size="lg" track="agency-hero">Kérek egy konzultációt</Button>
+          <Button href="/kapcsolat" size="lg" track="agency-hero">Ingyenes konzultáció</Button>
           <span class="t-small text-paper/70">
-            20–30 perces, kötelezettségmentes beszélgetés
+            20–30 perces, kötelezettségmentes egyeztetés
           </span>
         </div>
 
@@ -146,7 +177,8 @@ const why = [
     <div class="container-x">
       <SectionHeading
         eyebrow="ISMERŐS?"
-        title="Ha ezek közül akár egy igaz rád, érdemes beszélnünk."
+        title="Ha ezek közül akár egy is igaz rád, érdemes beszélnünk."
+        lead="Itt az ideje profi kézben tudni a kampányaidat?"
       />
       <ul class="mt-10 grid gap-x-10 gap-y-4 md:grid-cols-2">
         {agencyOffer.symptoms.map((s) => (
@@ -160,8 +192,9 @@ const why = [
           </li>
         ))}
       </ul>
-      <p class="t-lead mt-10 max-w-[46ch] font-medium">
-        Nem kell még egy embert felvenned. A hirdetéskezelést egészében is ki tudod szervezni.
+      <p class="t-lead mt-10 max-w-[48ch] font-medium">
+        Nem kell még egy embert felvenned. A digitális marketinged egészében is ki tudod
+        szervezni. Végre jó kezekben leszel.
       </p>
     </div>
   </section>
@@ -172,22 +205,26 @@ const why = [
       <div class="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
         <div>
           <p class="t-label t-eyebrow">A PROBLÉMA</p>
-          <h2 class="t-title mt-4">A hirdetés elindítása nem a nehéz rész.</h2>
+          <h2 class="t-title mt-4">
+            A versenytársaid hirdetései folyamatosan ott vannak mindenhol. Te mire vársz?
+          </h2>
           <p class="t-body mt-6 text-black/80">
-            Egy kampányt bárki el tud indítani — a felület végigvezet rajta. A nehéz rész
-            utána kezdődik, és ott dől el, hogy a keret elfogy vagy megtérül.
+            Ha nem tudod, hogy váltanál-e, akkor valószínűleg nem jó szakemberre bíztad a
+            munkát.
           </p>
         </div>
         <div class="card p-8">
-          <p class="t-small font-semibold">A nehéz rész az, hogy:</p>
-          <ul class="mt-5 grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
-            {agencyOffer.hardParts.map((h) => (
-              <li class="flex items-start gap-2.5">
-                <span class="mt-2.5 block h-1.5 w-1.5 shrink-0 bg-terracotta-500" aria-hidden="true"></span>
-                <span class="t-small text-black/80">{h}</span>
-              </li>
-            ))}
-          </ul>
+          <p class="t-body text-black/80">
+            Velem fogsz dolgozni. {expert.yearsExperience} éve foglalkozom profi
+            hirdetéskezeléssel, és eredményorientált gondolkodásmóddal segítem a
+            vállalkozásod. Együtt ötletelünk és oldjuk meg a problémáid: a havi díjért nem
+            csak hirdetéskezelést kapsz, hanem egy kollégát, akire számíthatsz.
+          </p>
+          <p class="t-body mt-5 text-black/80">
+            Ha úgy érzed, hogy a jelenlegi marketingesed nem dolgozik megfelelően és
+            elszórja a pénzed, vagy egyszerűen nem elég jók az eredmények, akkor jó
+            kezekben leszel.
+          </p>
         </div>
       </div>
     </div>
@@ -198,8 +235,8 @@ const why = [
     <div class="container-x">
       <SectionHeading
         eyebrow="MIT KAPSZ"
-        title="Nem hirdetéskezelést kapsz. A teljes hirdetési működésed kiszervezed."
-        lead="Hat dolog, amit havonta elvégzek — egyetlen díjért, két platformon."
+        title="Nem hirdetéskezelést kapsz. A teljes digitális marketinged átveszem."
+        lead="Mit szólnál, ha a marketingesed hívna fel, hogy van egy újabb ötlete, és megvalósíthatja-e? Megkérdezném, veled mikor történt ilyen utoljára, de attól félek, soha."
       />
       <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {agencyOffer.blocks.map((b, i) => (
@@ -235,14 +272,14 @@ const why = [
   <section class="section" data-theme="shared">
     <div class="container-x">
       <SectionHeading
-        eyebrow="TISZTA KERETEK"
-        title="Mi van benne, és mi nincs"
-        lead="Egy havi díj, aminek nincs kimondott határa, az egy havi díj, ami nőni fog. Itt megvan."
+        eyebrow="DÍJAZÁS ÉS EGYÜTTMŰKÖDÉS"
+        title="FIX árak, extra költségek nélkül"
+        lead="Fix költséggel számolhatsz. Nem kérek a bevétel után jutalékot, és a hirdetési költés után sem számolok fel százalékos díjat — az elvégzett munkát fizeted meg. A hirdetési költséget a Google és a Meta felé te fizeted, a saját fiókodból."
       />
       <div class="mt-12 grid gap-5 lg:grid-cols-2">
         <div class="card p-8">
           <p class="t-subtitle">
-            A {huf(agencyOffer.price)} / {agencyOffer.period} tartalmazza
+            A {huf(agencyOffer.pricePerChannel)} / {agencyOffer.period} tartalmazza
           </p>
           <ul class="mt-6 space-y-3">
             {agencyOffer.includes.map((x) => (
@@ -285,8 +322,8 @@ const why = [
     <div class="container-x">
       <SectionHeading
         eyebrow="HOGYAN DOLGOZUNK"
-        title="Így lesz a hirdetésből rendszer"
-        lead="Nem havonta egyszer nézek rá a fiókra, és nem riportot küldök dashboard-link helyett."
+        title="Így lesz a hirdetésekből eredmény"
+        lead="Nem havonta egyszer nézek rá a fiókra, és nem egy átláthatatlan angol elemzést küldök hó végén."
       />
       <ol class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {agencyOffer.process.map((s, i) => (
@@ -316,22 +353,23 @@ const why = [
     half="ugynokseg"
     eyebrow="EREDMÉNYEK"
     title="Valódi számok, valódi vállalkozásoktól"
-    lead="Az iparágat megjelölöm, a nevet nem — az eredmény az ügyfélé, és az is marad."
+    lead="Akikkel már együtt dolgoztam, nem bánták meg. Az iparágat megjelölöm, a nevet nem — az eredmény az ügyfélé, és az is marad."
     stats={false}
   />
 
-  <!-- 7b · The enterprise logos, in place of the credibility figures.
-       On the coaching side these risk reading as "too expensive for me";
-       here the buyer is spending a six-figure retainer and they are the
-       signal that lands. Same list, opposite job. -->
-  <Brands mode="agency" />
+  <!-- 7b · Szakterületek, in place of the credibility figures. The enterprise
+       logo strip stood here until Kristóf asked for the fields instead: a
+       retainer buyer is asking whether he has worked with a business like
+       theirs, and Deutsche Telekom does not answer that. The logos keep their
+       job on /rolam. -->
+  <Expertise />
 
   <!-- 8 · Differentiators that are not "we are professionals". -->
   <section class="section" data-theme="shared">
     <div class="container-x">
       <SectionHeading
-        eyebrow="MIÉRT ÉN"
-        title="Nem egy freelancer a sok közül. Nem is egy ügynökségi labirintus."
+        eyebrow="MIÉRT A BRANDMŰHELY.HU?"
+        title="Nem egy ügynökség vagyok a sok közül. Nem is egy elérhetetlen freelancer."
         align="center"
       />
       <div class="mt-12 grid gap-5 md:grid-cols-2">
@@ -349,7 +387,7 @@ const why = [
   <section class="section" data-theme="agency" id="ar">
     <div class="container-x">
       <div class="mx-auto max-w-3xl text-center">
-        <p class="t-label text-terracotta-200">ÁRAK</p>
+        <p class="t-label text-terracotta-200">DÍJAZÁS</p>
         <h2 class="t-title mt-4 text-paper">Teljes körű Google + Meta hirdetéskezelés</h2>
 
         <p class="mt-8 font-title text-[clamp(44px,3rem+3vw,72px)] font-bold leading-none tracking-tight text-paper">
@@ -358,7 +396,8 @@ const why = [
         </p>
 
         <p class="t-body mt-6 text-paper/85">
-          Egyetlen havi díj. Két hirdetési platform. Teljes körű kezelés.
+          Egyetlen havi díj. Két hirdetési platform. Teljes körű tervezés és kezelés.
+          Egy csatorna önmagában {huf(agencyOffer.pricePerChannel)} / {agencyOffer.period}.
           A hirdetési költést közvetlenül a Google és a Meta felé fizeted.
         </p>
         <p class="t-small mt-3 text-paper/70">
@@ -371,8 +410,8 @@ const why = [
         </div>
 
         <p class="t-small mt-8 text-paper/75">
-          Nem tudod, hogy megéri-e neked? Az első beszélgetésen ezt nézzük meg — nem azt,
-          hogyan adjam el.
+          Nem tudod, hogy megéri-e neked? Az első beszélgetésen pont ezt fogjuk kideríteni:
+          hogy érdemes-e együtt dolgoznunk.
         </p>
       </div>
     </div>
@@ -381,7 +420,7 @@ const why = [
   <!-- 10 · The filter. The "nem neked való" half is what makes the other believable. -->
   <section class="section" data-theme="shared">
     <div class="container-x">
-      <SectionHeading eyebrow="KINEK VALÓ" title="Kinek tudok segíteni, és kinek nem" />
+      <SectionHeading eyebrow="JÓ, HA TUDOD" title="Milyen ügyfeleket keresek?" />
       <div class="mt-12 grid gap-5 lg:grid-cols-2">
         <div class="card p-8">
           <p class="t-subtitle">Akkor tudok igazán segíteni, ha…</p>
@@ -428,16 +467,17 @@ const why = [
   <section data-theme="agency" class="relative overflow-hidden">
     <div class="container-x section relative z-10">
       <div class="mx-auto max-w-3xl text-center">
-        <h2 class="t-title text-paper">Készen állsz kiszervezni a hirdetéseidet?</h2>
+        <h2 class="t-title text-paper">Készen állsz?</h2>
         <p class="t-lead mt-5 text-paper/85">
-          Beszéljük át, hogyan tudna működni a vállalkozásodnál.
+          Beszéljük át, hogyan tudom a legtöbbet kihozni belőled és a vállalkozásodból.
         </p>
         <div class="mt-9 flex justify-center">
-          <Button href="/kapcsolat" size="lg" track="agency-final">Kérek egy konzultációt</Button>
+          <Button href="/kapcsolat" size="lg" track="agency-final">Ingyenes konzultáció</Button>
         </div>
         <p class="t-small mt-6 text-paper/75">
-          Az első beszélgetés célja nem az, hogy rád adjak egy szolgáltatást.
-          Megnézzük, van-e értelme együtt dolgoznunk — és ha nincs, azt is megmondom.
+          Az első beszélgetés célja nem az, hogy eladjak egy szolgáltatást. Megnézzük,
+          egyáltalán van-e értelme együtt dolgoznunk — és ha nincs, azt is megmondom, a
+          helyedben milyen irányba mennék tovább.
         </p>
       </div>
     </div>
@@ -449,9 +489,10 @@ const why = [
   <section class="section-tight" data-theme="shared">
     <div class="container-x">
       <p class="t-small text-center text-black/72">
-        Inkább magad tanulnád meg? Akkor az
+        Inkább megtanulnád? Akkor az
         <a href="/oktatas" class="font-medium text-highlight underline underline-offset-4"
-          >egyéni oktatás</a> való neked.
+          >egyéni oktatás</a> való neked — Facebook és Google hirdetéskezelés oktatás
+        személyesen, csak neked.
       </p>
     </div>
   </section>

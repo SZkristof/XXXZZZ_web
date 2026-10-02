@@ -17,7 +17,25 @@ import AgencyHalf from '@/components/AgencyHalf.astro';
     title="Számok, nem jelzők"
     lead="Az alábbi számok valós ügyfelektől származnak, a saját szavaikkal. A cégnevet csak ott írom ki, ahol ehhez hozzájárultak — a számokat sehol nem szépítem."
   />
-  <Results />
+  <!-- Split by half rather than merged: the two kinds of result were produced
+       differently — one by the client after being taught, one by me on a
+       retainer — and a single mixed grid quietly claims the same credit for
+       both. The credibility figures belong to the business as a whole, so
+       they sit under the first block only. -->
+  <Results
+    half="kepzes"
+    eyebrow="EGYÉNI OKTATÁS"
+    title="Amit az ügyfeleim értek el, miután megtanulták"
+    lead="Ezeket a számokat ők hozták, a saját fiókjukban — én megtanítottam, hogyan."
+  />
+  <Results
+    half="ugynokseg"
+    id="eredmenyek-hirdeteskezeles"
+    eyebrow="HIRDETÉSKEZELÉS"
+    title="Amit a kezelésemben lévő fiókok hoztak"
+    lead="Itt a kampányokat én építettem és én optimalizáltam, havi díjas együttműködésben."
+    stats={false}
+  />
   <Testimonials />
   <Faq limit={4} />
   <AgencyHalf />
