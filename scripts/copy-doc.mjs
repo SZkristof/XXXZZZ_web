@@ -116,7 +116,6 @@ const PAGES = [
     out: 'docs/arak-szoveg.md',
     title: 'Brandműhely — az Árak oldal teljes szövege',
     sections: [
-      ['Nyitóblokk', 'src/pages/arak.astro + src/components/PageHero.astro'],
       ['Csomagok és árak', 'src/components/Pricing.astro + src/data/site.ts → packages'],
       ['Három lehetőség + összehasonlítás', 'src/components/Comparison.astro'],
       ['Gyakori kérdések', 'src/data/proof.ts → faqs'],

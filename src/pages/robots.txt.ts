@@ -11,13 +11,18 @@ import { site } from '@/data/site';
  */
 const NOINDEX = import.meta.env.PUBLIC_NOINDEX === '1';
 
+/*
+ * The legal pages are NOT disallowed here, deliberately. They carry
+ * `<meta name="robots" content="noindex">` through Legal.astro, and a URL
+ * blocked in robots.txt is a URL Google never crawls — so it never reads the
+ * noindex either, and the address can still surface as a bare, snippet-less
+ * result. Blocking and noindexing the same page is the one combination that
+ * achieves neither. Crawl is allowed; the meta tag does the work.
+ */
 const production = `User-agent: *
 Allow: /
 
 Disallow: /api/
-Disallow: /adatkezeles
-Disallow: /aszf
-Disallow: /cookie
 
 Sitemap: ${site.url}/sitemap-index.xml
 `;

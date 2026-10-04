@@ -25,17 +25,20 @@ import { huf } from '@/lib/format';
 interface Props {
   /** Home shows a condensed version; /arak shows the full feature lists. */
   detailed?: boolean;
+  /** 1 on /arak, where this section opens the page and carries its h1. */
+  level?: 1 | 2;
 }
-const { detailed = false } = Astro.props;
+const { detailed = false, level = 2 } = Astro.props;
 ---
 
 <section class="section" data-theme="coaching" id="arak">
   <div class="container-x">
     <SectionHeading
       eyebrow="ÁRAK"
-      title="FIX ÁRAK — REJTETT KÖLTSÉGEK NÉLKÜL"
+      title="Facebook, Google, LinkedIn hirdetés egyéni oktatás csomagajánlatok"
       lead="Nincs havidíj, nincs hűségidő, nincs rejtett felár. Ráadásul ingyen felvétel jár a teljes oktatásra."
       align="center"
+      level={level}
     />
 
     <div class="mt-14 grid gap-6 lg:grid-cols-3 lg:items-start">
@@ -72,7 +75,7 @@ const { detailed = false } = Astro.props;
                 ) : (
                   <Fragment>
                     <strong class="font-semibold text-black">{huf(p.perSession)}</strong>
-                    {' '}/ alkalom · {p.sessions} alkalom{p.id === 'five' ? ' összesen' : ''}
+                    {' '}/ alkalom · {p.sessions} alkalom
                   </Fragment>
                 )}
               </p>
@@ -125,8 +128,7 @@ const { detailed = false } = Astro.props;
     </div>
 
     <p class="mx-auto mt-10 max-w-2xl text-center text-sm leading-relaxed text-black">
-      Egy alkalom listaára {huf(BASE_SESSION_PRICE)}. A csomagoknál ehhez képest kapsz ingyen
-      alkalmakat.
+      Egy alkalom listaára {huf(BASE_SESSION_PRICE)}.
     </p>
   </div>
 </section>

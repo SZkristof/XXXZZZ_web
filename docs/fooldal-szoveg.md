@@ -181,7 +181,7 @@ Az egyéni oktatás neked szól, ha a marketingesekben már nem bízol, és a cs
 
 *(táblázat — csak nagy képernyőn)*
 
-| Szempont | Marketinges · Kiszervezed | Csoportos tanfolyam · Videókat nézel | Egyéni oktatás · Megcsinálod, vezetéssel |
+| Szempont | Marketinges · Kiszervezed | Csoportos tanfolyam · Videókat nézel | Egyéni oktatás · Megcsinálod, oktatóval közösen |
 | --- | --- | --- | --- |
 | Teljesítmény | Mástól függsz | Túl általános tudás | 100% egyénre szabva |
 | Tulajdonjog | Gyakran vitás | A tiéd | A tiéd, örökre |
@@ -443,13 +443,13 @@ NT — Németh T. tulajdonos · Fitness — EGYÉNI OKTATÁS
 
 **Címke:** `ÁRAK`
 
-### H2 — FIX ÁRAK — REJTETT KÖLTSÉGEK NÉLKÜL
+### H2 — Facebook, Google, LinkedIn hirdetés egyéni oktatás csomagajánlatok
 
 Nincs havidíj, nincs hűségidő, nincs rejtett felár. Ráadásul ingyen felvétel jár a teljes oktatásra.
 
-AUDIT, FIÓKVIZSGÁLAT
+EGY ALKALOM
 
-**Egy alkalom**
+**Gyors Audit**
 
 Konkrét probléma megoldása, kampány indítása
 
@@ -457,13 +457,13 @@ Konkrét probléma megoldása, kampány indítása
 
 1x 60 perc
 
-Kinek jó: Egy konkrét kérdés, egy elakadás, vagy egy alapos fiók-átnézés.
+Kinek jó: Pár konkrét kérdés, elakadás, vagy egy alapos fiók átnézés.
 
-**Gomb:** `Ez érdekel` → /kapcsolat
+**Gomb:** `Érdekel` → /kapcsolat
 
-START CSOMAG
+5x60 PERC
 
-**5 alkalmas csomag**
+**START CSOMAG**
 
 4+1
 
@@ -471,23 +471,23 @@ A legnépszerűbb.
 
 140 000 Ft
 
-28 000 Ft / alkalom · 5 alkalom összesen
+28 000 Ft / alkalom · 5 alkalom
 
 Megspórolsz 35 000 Ft-ot
 
-4 alkalmat fizetsz, 5-öt kapsz.
+4 alkalmat fizetsz, az 5. alkalom AJÁNDÉK.
 
-Kinek jó: Nulláról felépítjük a hirdetéseidet Facebookon vagy Google-n, rendet rakunk a meglévő, gyengén teljesítő fiókodban.
+Kinek jó: Nulláról felépítjük a hirdetéseidet Facebookon vagy Google-n, közös kampányokat indítunk.
 
-**Gomb:** `Ezt választom` → /kapcsolat
+**Gomb:** `Érdekel` → /kapcsolat
 
-TELJES CSOMAG
+10x60 PERC
 
-**10 alkalmas csomag**
+**MAX CSOMAG**
 
 7+3
 
-Két platform, a teljes út.
+Google és Facebook, a teljes út.
 
 245 000 Ft
 
@@ -495,13 +495,13 @@ Két platform, a teljes út.
 
 Megspórolsz 105 000 Ft-ot
 
-7 alkalmat fizetsz, 10-et kapsz.
+7 alkalmat fizetsz, 3 óra ajándék.
 
-Kinek jó: Érdekel a Facebook és Google hirdetéskezelés világa. Komolyan skálázni akarsz, és két csatornát futtatnál párhuzamosan.
+Kinek jó: Komolyan skálázni akarsz, és két csatornát futtatnál párhuzamosan.
 
-**Gomb:** `Ezt szeretném` → /kapcsolat
+**Gomb:** `Érdekel` → /kapcsolat
 
-Egy alkalom listaára 35 000 Ft. A csomagoknál ehhez képest kapsz ingyen alkalmakat.
+Egy alkalom listaára 35 000 Ft.
 
 ---
 
@@ -517,27 +517,27 @@ Ha nincs köztük a tiéd, írj vagy hívj — és mindent átbeszélünk.
 
 **K: Még soha nem hirdettem. Így is jelentkezhetek?**
 
-Persze. Az ügyfeleim többsége soha nem állított be hirdetést. Együtt kattintunk végig mindent, és ha valami nem világos, átbeszéljük — nincs buta kérdés. Ha már hirdettél, akkor a szintednek megfelelően haladunk a hirdetéskezelésben, és komplexebb módszereket mutatok.
+Persze. Az ügyfeleim egy része soha nem állított be hirdetést. Közösen állítunk be mindent, lépésről lépésre, és ha valami nem világos, átbeszéljük — nincs rossz kérdés. Ha már hirdettél, akkor a szintednek megfelelően haladunk a hirdetéskezelésben, és komplexebb módszereket mutatok.
 
 **K: Havi 30–50 ezer forintot tudok hirdetésre költeni. Ez elég?**
 
-Az ügyfeleim jelentős része ebben a sávban van, és pont itt számít a legtöbbet, hogy jó helyre menjen a pénz. Kis kerettel nincs mozgástér a hibázásra — ezért éri meg megtanulni jól hirdetni.
+A legtöbben ebben a sávban kezdenek hirdetni, és pont itt számít a legtöbbet, hogy jó helyre menjen a pénz. Kis kerettel nincs mozgástér a hibázásra — ezért éri meg megtanulni jól hirdetni.
 
 **K: Miben más ez, mint egy online kurzus?**
 
-Egy csoportos online kurzus általánosságban tanít meg az alapokra. Az én egyéni oktatásaimon a te hirdetési fiókodat nyitjuk meg, a te termékeidet és szolgáltatásaidat nézzük át, és a te kereteddel állítunk be hirdetéseket. Ha elakadsz, azonnal tudsz kérdezni, nem egy Facebook-csoportban kapsz választ három nap múlva.
+Egy csoportos online kurzus általánosságban tanít meg az alapokra. Az én egyéni oktatásaimon a te hirdetési fiókodat nyitjuk meg, a te termékeidet és szolgáltatásaidat nézzük át, és a te kereteddel állítunk be hirdetéseket. Ha elakadsz, azonnal segítek élőben, nem egy Facebook-csoportban kapsz választ három nap múlva.
 
-**K: Mi van, ha a végén mégis inkább kiszerveznénk?**
+**K: Mi van, ha a végén mégis inkább kiszervezném a munkát?**
 
-Akkor is jobban jársz, mintha most szerveznéd ki: tudni fogod, mit kérsz számon. És ha tényleg ez a jó döntés, szólj — természetesen ezzel is foglalkozunk.
+Akkor is jobban jársz, mintha most szerveznéd ki: tudni fogod, mit kérsz számon. És ha tényleg ezt szeretnéd, szólj — természetesen ezzel is foglalkozunk.
 
 **K: Mennyi idő alatt végzünk az 5 alkalommal?**
 
-Jellemzően 5 hét, heti egy alkalommal. Ha sietsz, heti kettővel 2–3 hét alatt is megtanulhatod a hirdetéskezelést. Ennél sűrűbben nem javaslom — a két alkalom között érdemes pihenni, mert elég intenzívek az órák.
+Jellemzően 4–5 hét, heti egy alkalommal. Ha sietsz, heti kettővel 2–3 hét alatt is megtanulhatod a hirdetéskezelést. Ennél sűrűbben nem javaslom — a két alkalom között érdemes pihenni, mert elég intenzívek az órák. Ha mégis bevállalós vagy, akár 2–3 nap alatt is tudunk végezni.
 
 **K: Kapok felvételt az alkalmakról?**
 
-Igen, mindegyikről, felár nélkül. Az alkalom végén, legkésőbb másnap kiküldöm e-mailben. Nem kell jegyzetelned, és bármikor visszanézheted.
+Igen, mindegyikről, és más cégekkel ellentétben felár nélkül. Az alkalom végén, legkésőbb másnap kiküldöm e-mailben. Nem kell jegyzetelned, és bármikor visszanézheted — minden felvétel örökre a tiéd marad.
 
 ---
 
@@ -547,13 +547,13 @@ Igen, mindegyikről, felár nélkül. Az alkalom végén, legkésőbb másnap ki
 
 **Címke:** `HIRDETÉSKEZELÉS KISZERVEZÉSE`
 
-### H2 — És ha nincs rá időm, hogy magamnak csináljam a hirdetéseim?
+### H2 — Professzionális havi hirdetéskezelés
 
-Van, akinek egyszerűen nincs rá kapacitása — vagy elmúlt a bizalom a jelenlegi marketingesével. Beszélgessünk, és nézzük meg, tudok-e segíteni és átvenni a hirdetéskezelést.
+Van, amikor egyszerűen nincs rá több kapacitás — vagy elmúlt a bizalom a jelenlegi marketingessel. Beszéljünk, és nézzük meg, tudok-e segíteni és átvenni a hirdetéskezelést.
 
 Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélések. Nálam a marketing nem csak a kivitelezésről szól.
 
-125 000 Ft — / hó / csatorna · a hirdetési költés ezen felül
+125 000 Ft — / hó / csatorna
 
 **Gomb:** `Hirdetéskezelésről bővebben` → /ugynokseg
 
@@ -561,19 +561,19 @@ Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélése
 
 **Kampánykezelés**
 
-Átveszem a Meta, Google vagy LinkedIn kampányaidat: tervezés, stratégia, felépítés, mérés, optimalizálás, heti/havi riport. A fiók végig a tiéd marad, és bármikor belenézhetsz.
+Átveszem a Meta, Google vagy LinkedIn kampányaidat: tervezés, stratégia, felépítés, mérés, optimalizálás, heti/havi riport. A fiók végig a tiéd marad.
 
 **Webfejlesztés**
 
-Gyors, mérhető weboldal vagy landing oldal, ami a hirdetéseidhez készül — nem sablonból. A sebesség közvetlenül olcsóbbá teszi a kattintásaidat.
+Gyors, mérhető weboldal vagy landing oldal, ami a hirdetéseidhez készül — nem sablonból. A sebesség közvetlenül olcsóbbá teszi a kattintásaidat. (Webfejlesztővel dolgozok, nem AI-jal.)
 
-**Egyszeri kampány- és fiókbeállítás**
+**Rapid Kampány**
 
-Rövid együttműködés: 24–48 órán belül felépítem az első kampányokat az általad megadott adatok alapján, aztán a tiéd. Nincs havidíj és nincs folytatási kötelezettség.
+Rövid együttműködés: 24–48 órán belül felépítem az első kampányokat az általad megadott adatok alapján, aztán a tiéd. Nincs rendszeres havidíj és nincs folytatási kötelezettség.
 
-**Digitális marketing audit, fiókvizsgálat**
+**Audit, fiókvizsgálat**
 
-Fiókvizsgálat, kampányelemzés és hatékonyságnövelési javaslatok. Megkapod írásban, mit érdemes átalakítani — akkor is, ha utána egyedül csinálod tovább.
+Fiókvizsgálat, kampányelemzés és hatékonyságnövelési javaslatok. Megkapod szóban és írásban, mit érdemes átalakítani — akkor is, ha utána egyedül csinálod tovább.
 
 **Technikai beállítás és mérés-audit**
 
