@@ -22,7 +22,7 @@ RewriteEngine On
   # 301, not 302: the move is permanent, and only a 301 passes on the ranking
   # the old URL earned. Placed after the HTTPS and canonical-host rules so a
   # visitor on the old URL is not redirected twice.
-  RewriteRule ^kepzes/?$ /oktatas [R=301,L]
+  RewriteRule ^kepzes/?$ /oktatas/ [R=301,L]
   RewriteRule ^kepzes/(.*)$ /oktatas/$1 [R=301,L]
 
   # ---- Renamed 2026-10: /ugynokseg -> /hirdeteskezeles ---------------------
@@ -30,7 +30,7 @@ RewriteEngine On
   # people type into Google, and it is already the word the page, the nav and
   # the H1 use. Same reasoning as /kepzes -> /oktatas above, and the same 301:
   # the move is permanent, and only a 301 carries the ranking over.
-  RewriteRule ^ugynokseg/?$ /hirdeteskezeles [R=301,L]
+  RewriteRule ^ugynokseg/?$ /hirdeteskezeles/ [R=301,L]
 
   # Serve /about as /about/index.html without exposing the filename.
   RewriteCond %{REQUEST_FILENAME} !-f
