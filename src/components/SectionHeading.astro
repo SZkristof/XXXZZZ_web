@@ -19,18 +19,25 @@ interface Props {
    *  edge for the eye to return to. Set this to 'left' to centre the title
    *  but keep the paragraph ranged left inside the same centred column. */
   leadAlign?: 'left' | 'center';
+  /**
+   * 1 when this section opens the page and there is no hero above it. A page
+   * with no h1 is a page search engines and screen readers cannot summarise,
+   * and /arak has no hero any more — its price list IS the page.
+   */
+  level?: 1 | 2;
   class?: string;
 }
 const {
-  eyebrow, title, lead, align = 'left', leadAlign, class: className = '',
+  eyebrow, title, lead, align = 'left', leadAlign, level = 2, class: className = '',
 } = Astro.props;
 const leadAlignment = leadAlign ?? align;
+const Heading = `h${level}` as 'h1' | 'h2';
 ---
 <div class:list={['max-w-[52rem]', align === 'center' && 'mx-auto text-center', className]}>
   {eyebrow && <p class="t-label t-eyebrow">{eyebrow}</p>}
-  <h2 class:list={['t-title', eyebrow && 'mt-4']}>
+  <Heading class:list={['t-title', eyebrow && 'mt-4']}>
     <Fragment set:html={title} />
-  </h2>
+  </Heading>
   {lead && (
     <p
       class:list={[

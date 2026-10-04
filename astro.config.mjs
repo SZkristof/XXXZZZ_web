@@ -13,7 +13,16 @@ export default defineConfig({
   site: 'https://brandmuhely.hu',
   trailingSlash: 'ignore',
   build: { inlineStylesheets: 'auto', format: 'directory' },
-  integrations: [sitemap({ i18n: { defaultLocale: 'hu', locales: { hu: 'hu-HU' } } })],
+  integrations: [
+    sitemap({
+      /* Only indexable URLs belong in a sitemap. The legal pages are
+         noindex via Legal.astro, and submitting them earns a "Submitted URL
+         marked noindex" error in Search Console — a self-inflicted one, since
+         nothing wanted them indexed in the first place. */
+      filter: (page) => !/\/(adatkezeles|aszf|cookie)\/?$/.test(page),
+      i18n: { defaultLocale: 'hu', locales: { hu: 'hu-HU' } },
+    }),
+  ],
   vite: { plugins: [tailwindcss()] },
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
 });

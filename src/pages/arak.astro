@@ -4,7 +4,6 @@ import Pricing from '@/components/Pricing.astro';
 import Faq from '@/components/Faq.astro';
 import Comparison from '@/components/Comparison.astro';
 import AgencyHalf from '@/components/AgencyHalf.astro';
-import PageHero from '@/components/PageHero.astro';
 import { site, packages } from '@/data/site';
 
 const schema = [
@@ -31,13 +30,10 @@ const schema = [
   description="Egy alkalom 35 000 Ft. 5 alkalom 140 000 Ft (4+1), 10 alkalom 245 000 Ft (7+3). Nincs havidíj, nincs hűségidő, nincs rejtett költség."
   schema={schema}
 >
-  <PageHero
-    mode="coaching"
-    eyebrow="ÁRAK"
-    title="Nincs mögötte semmi. Ennyi."
-    lead="Alkalmat veszel, nem előfizetést. Nincs havidíj, nincs hűségidő, és nincs olyan tétel, amiről csak a számlán értesülsz."
-  />
-  <Pricing detailed />
+  <!-- No hero: Kristóf's call, and the price list is the page. It therefore
+       carries the h1 — a page with no h1 is one neither Google nor a screen
+       reader can summarise. -->
+  <Pricing detailed level={1} />
   <Comparison />
   <Faq />
   <AgencyHalf />

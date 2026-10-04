@@ -106,6 +106,8 @@ function pkg(
   opts: {
     band: string; tagline: string; cta: string;
     bestFor: string; featured?: boolean; includes: string[];
+    /** Overrides the generated "N alkalmat fizetsz, M-öt kapsz" line. */
+    dealExplainer?: string;
   },
 ): Package {
   const free = sessions - paidSessions;
@@ -117,9 +119,10 @@ function pkg(
     perSession: Math.round(price / sessions),
     deal: free > 0 ? `${paidSessions}+${free}` : null,
     dealExplainer:
-      free > 0
+      opts.dealExplainer ??
+      (free > 0
         ? `${paidSessions} alkalmat fizetsz, ${sessions}-${sessions === 5 ? 'öt' : 'et'} kapsz.`
-        : null,
+        : null),
     savings: sessions * BASE_SESSION_PRICE - price,
     featured: opts.featured ?? false,
     band: opts.band,
@@ -130,40 +133,70 @@ function pkg(
   };
 }
 
+/* What every package contains, in the order the cards list it. Each card
+   adds its own first line (the session count) and its own closing gift line,
+   so this is the middle of the list rather than its start. */
 const COMMON_INCLUDES = [
-  '60 perces, egyéni alkalom — online vagy személyesen Budapesten',
-  'Minden alkalomról videófelvétel, ingyen',
   'A saját hirdetési fiókodban dolgozunk',
-  'Konkrét feladatok két alkalom között',
+  'Konkrét feladatot, problémát oldunk meg',
+  'Közös hirdetéskészítés',
+  'Naprakész tudás',
+  'Rugalmas időbeosztás (késő délután, akár hétvégén is)',
+  'Bármennyit kérdezhetsz',
+];
+
+/* The two multi-session packages share these on top of the common list. */
+const PACKAGE_INCLUDES = [
+  'Személyre szabott tematika',
+  'Pontos határidők',
+  'Rejtett költségek nélkül',
 ];
 
 export const packages: Package[] = [
-  pkg('single', 'Egy alkalom', 1, 35_000, 1, {
-    band: 'AUDIT, FIÓKVIZSGÁLAT',
+  pkg('single', 'Gyors Audit', 1, 35_000, 1, {
+    band: 'EGY ALKALOM',
     tagline: 'Konkrét probléma megoldása, kampány indítása',
-    cta: 'Ez érdekel',
-    bestFor: 'Egy konkrét kérdés, egy elakadás, vagy egy alapos fiók-átnézés.',
-    includes: COMMON_INCLUDES,
-  }),
-  pkg('five', '5 alkalmas csomag', 5, 140_000, 4, {
-    band: 'START CSOMAG',
-    tagline: 'A legnépszerűbb.',
-    cta: 'Ezt választom',
-    bestFor:
-      'Nulláról felépítjük a hirdetéseidet Facebookon vagy Google-n, rendet rakunk a meglévő, gyengén teljesítő fiókodban.',
-    featured: true,
-    includes: [...COMMON_INCLUDES, 'Egy platform: Meta, Google vagy LinkedIn'],
-  }),
-  pkg('ten', '10 alkalmas csomag', 10, 245_000, 7, {
-    band: 'TELJES CSOMAG',
-    tagline: 'Két platform, a teljes út.',
-    cta: 'Ezt szeretném',
-    bestFor:
-      'Érdekel a Facebook és Google hirdetéskezelés világa. Komolyan skálázni akarsz, és két csatornát futtatnál párhuzamosan.',
+    cta: 'Érdekel',
+    bestFor: 'Pár konkrét kérdés, elakadás, vagy egy alapos fiók átnézés.',
     includes: [
+      '1x60 perc, egyéni alkalom — online vagy személyesen Budapesten',
       ...COMMON_INCLUDES,
-      'Két platform párhuzamosan (pl. Meta + Google)',
-      'Skálázási és mérési stratégia',
+      'AJÁNDÉK: ingyenes videófelvétel',
+    ],
+  }),
+  pkg('five', 'START CSOMAG', 5, 140_000, 4, {
+    band: '5x60 PERC',
+    tagline: 'A legnépszerűbb.',
+    cta: 'Érdekel',
+    dealExplainer: '4 alkalmat fizetsz, az 5. alkalom AJÁNDÉK.',
+    bestFor:
+      'Nulláról felépítjük a hirdetéseidet Facebookon vagy Google-n, közös kampányokat indítunk.',
+    featured: true,
+    includes: [
+      '5x60 perc, egyéni alkalom — online vagy személyesen Budapesten',
+      'Az 5. alkalom AJÁNDÉK',
+      ...COMMON_INCLUDES,
+      ...PACKAGE_INCLUDES,
+      'AJÁNDÉK: ingyenes videófelvétel (5 db)',
+    ],
+  }),
+  pkg('ten', 'MAX CSOMAG', 10, 245_000, 7, {
+    band: '10x60 PERC',
+    tagline: 'Google és Facebook, a teljes út.',
+    cta: 'Érdekel',
+    dealExplainer: '7 alkalmat fizetsz, 3 óra ajándék.',
+    bestFor: 'Komolyan skálázni akarsz, és két csatornát futtatnál párhuzamosan.',
+    includes: [
+      '10x60 perc, egyéni alkalom — online vagy személyesen Budapesten',
+      'A 8., 9., 10. óra AJÁNDÉK',
+      'A saját hirdetési fiókodban dolgozunk',
+      'Konkrét feladatot, problémát oldunk meg',
+      'Közös hirdetéskészítés két platformon',
+      'Naprakész tudás',
+      'Rugalmas időbeosztás (késő délután, akár hétvégén is)',
+      'Bármennyit kérdezhetsz',
+      ...PACKAGE_INCLUDES,
+      'AJÁNDÉK: ingyenes videófelvétel (10 db)',
     ],
   }),
 ];
@@ -353,7 +386,7 @@ export const agencyServices: AgencyService[] = [
     id: 'kampanykezeles',
     name: 'Kampánykezelés',
     body:
-      'Átveszem a Meta, Google vagy LinkedIn kampányaidat: tervezés, stratégia, felépítés, mérés, optimalizálás, heti/havi riport. A fiók végig a tiéd marad, és bármikor belenézhetsz.',
+      'Átveszem a Meta, Google vagy LinkedIn kampányaidat: tervezés, stratégia, felépítés, mérés, optimalizálás, heti/havi riport. A fiók végig a tiéd marad.',
     points: [
       'A hirdetési fiók a te tulajdonodban marad',
       'Havi riport, magyarul, érthetően',
@@ -367,7 +400,7 @@ export const agencyServices: AgencyService[] = [
     id: 'webfejlesztes',
     name: 'Webfejlesztés',
     body:
-      'Gyors, mérhető weboldal vagy landing oldal, ami a hirdetéseidhez készül — nem sablonból. A sebesség közvetlenül olcsóbbá teszi a kattintásaidat.',
+      'Gyors, mérhető weboldal vagy landing oldal, ami a hirdetéseidhez készül — nem sablonból. A sebesség közvetlenül olcsóbbá teszi a kattintásaidat. (Webfejlesztővel dolgozok, nem AI-jal.)',
     points: [
       'Gyors betöltés, jó Core Web Vitals',
       'Helyesen beállított konverziómérés',
@@ -377,9 +410,9 @@ export const agencyServices: AgencyService[] = [
   },
   {
     id: 'egyszeri-beallitas',
-    name: 'Egyszeri kampány- és fiókbeállítás',
+    name: 'Rapid Kampány',
     body:
-      'Rövid együttműködés: 24–48 órán belül felépítem az első kampányokat az általad megadott adatok alapján, aztán a tiéd. Nincs havidíj és nincs folytatási kötelezettség.',
+      'Rövid együttműködés: 24–48 órán belül felépítem az első kampányokat az általad megadott adatok alapján, aztán a tiéd. Nincs rendszeres havidíj és nincs folytatási kötelezettség.',
     points: [
       'Fiókstruktúra és mérés beállítása',
       'Az első kampányok felépítése, indításra készen',
@@ -389,9 +422,9 @@ export const agencyServices: AgencyService[] = [
   },
   {
     id: 'audit',
-    name: 'Digitális marketing audit, fiókvizsgálat',
+    name: 'Audit, fiókvizsgálat',
     body:
-      'Fiókvizsgálat, kampányelemzés és hatékonyságnövelési javaslatok. Megkapod írásban, mit érdemes átalakítani — akkor is, ha utána egyedül csinálod tovább.',
+      'Fiókvizsgálat, kampányelemzés és hatékonyságnövelési javaslatok. Megkapod szóban és írásban, mit érdemes átalakítani — akkor is, ha utána egyedül csinálod tovább.',
     points: [
       'Tételes fiók- és kampányátvizsgálás',
       'Hol folyik el a költés, és miért',
@@ -454,7 +487,7 @@ export const services: Service[] = [
       'Ha kiszerveznéd a marketinged, vagy megbízható partnert keresel, aki nem csak hirdetést kezel, hanem stratégiailag gondolkodik együtt a cégeddel — akkor valószínűleg egymást keressük.',
     short:
       'Ha megbízható stratégiai partnert keresel.',
-    href: '/ugynokseg#kampanykezeles',
+    href: '/ugynokseg#mit-kapsz',
     cta: 'Kampánykezelés',
     tone: 'blue',
   },
@@ -465,7 +498,7 @@ export const services: Service[] = [
       'Rövid együttműködési lehetőség, ahol egyszeri fiók- és kampánybeállítást végzünk el a legjobb tudásunk szerint, az általad megadott adatok alapján.',
     short:
       'Gyors hirdetésindítás, akár 24 órán belül.',
-    href: '/ugynokseg#egyszeri-beallitas',
+    href: '/ugynokseg',
     cta: 'Részletek',
     tone: 'blue',
   },
@@ -476,7 +509,7 @@ export const services: Service[] = [
       'Fiókvizsgálat, kampányelemzés, hatékonyságnövelési lehetőségek felkutatása és javaslattétel a jobb eredmények elérése érdekében.',
     short:
       'Átvizsgálom a fiókod, és megmondom, hol égeted el a pénzt.',
-    href: '/ugynokseg#audit',
+    href: '/ugynokseg',
     cta: 'Kérek auditot',
     tone: 'blue',
   },
@@ -487,7 +520,7 @@ export const services: Service[] = [
       'Google Analytics, Google Tag Manager, shopping feedek. Sejted, hogy rossz a mérésed, de nem tudod, mit csinálj pontosan? Hívj nyugodtan: ingyenes hibafeltárás után kapsz árajánlatot a javításra.',
     short:
       'GA4, GTM, mérés, feedek. Ingyenes hibafeltárással indulunk.',
-    href: '/ugynokseg#technikai',
+    href: '/ugynokseg',
     cta: 'Hibafeltárás',
     tone: 'blue',
   },

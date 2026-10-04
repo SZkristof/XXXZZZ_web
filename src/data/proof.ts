@@ -132,35 +132,35 @@ export const faqs: Faq[] = [
     q: 'Még soha nem hirdettem. Így is jelentkezhetek?',
     // A kérdés átfogalmazásakor a válasz nyitó "Nem."-je az ellenkezőjét
     // kezdte jelenteni ("nem jelentkezhetsz"), ezért igenlőre fordítva.
-    a: 'Persze. Az ügyfeleim többsége soha nem állított be hirdetést. Együtt kattintunk végig mindent, és ha valami nem világos, átbeszéljük — nincs buta kérdés. Ha már hirdettél, akkor a szintednek megfelelően haladunk a hirdetéskezelésben, és komplexebb módszereket mutatok.',
+    a: 'Persze. Az ügyfeleim egy része soha nem állított be hirdetést. Közösen állítunk be mindent, lépésről lépésre, és ha valami nem világos, átbeszéljük — nincs rossz kérdés. Ha már hirdettél, akkor a szintednek megfelelően haladunk a hirdetéskezelésben, és komplexebb módszereket mutatok.',
   },
   {
     q: 'Havi 30–50 ezer forintot tudok hirdetésre költeni. Ez elég?',
-    a: 'Az ügyfeleim jelentős része ebben a sávban van, és pont itt számít a legtöbbet, hogy jó helyre menjen a pénz. Kis kerettel nincs mozgástér a hibázásra — ezért éri meg megtanulni jól hirdetni.',
+    a: 'A legtöbben ebben a sávban kezdenek hirdetni, és pont itt számít a legtöbbet, hogy jó helyre menjen a pénz. Kis kerettel nincs mozgástér a hibázásra — ezért éri meg megtanulni jól hirdetni.',
   },
   {
     q: 'Miben más ez, mint egy online kurzus?',
-    a: 'Egy csoportos online kurzus általánosságban tanít meg az alapokra. Az én egyéni oktatásaimon a te hirdetési fiókodat nyitjuk meg, a te termékeidet és szolgáltatásaidat nézzük át, és a te kereteddel állítunk be hirdetéseket. Ha elakadsz, azonnal tudsz kérdezni, nem egy Facebook-csoportban kapsz választ három nap múlva.',
+    a: 'Egy csoportos online kurzus általánosságban tanít meg az alapokra. Az én egyéni oktatásaimon a te hirdetési fiókodat nyitjuk meg, a te termékeidet és szolgáltatásaidat nézzük át, és a te kereteddel állítunk be hirdetéseket. Ha elakadsz, azonnal segítek élőben, nem egy Facebook-csoportban kapsz választ három nap múlva.',
   },
   {
-    q: 'Mi van, ha a végén mégis inkább kiszerveznénk?',
-    a: 'Akkor is jobban jársz, mintha most szerveznéd ki: tudni fogod, mit kérsz számon. És ha tényleg ez a jó döntés, szólj — természetesen ezzel is foglalkozunk.',
+    q: 'Mi van, ha a végén mégis inkább kiszervezném a munkát?',
+    a: 'Akkor is jobban jársz, mintha most szerveznéd ki: tudni fogod, mit kérsz számon. És ha tényleg ezt szeretnéd, szólj — természetesen ezzel is foglalkozunk.',
   },
   {
     q: 'Mennyi idő alatt végzünk az 5 alkalommal?',
-    a: 'Jellemzően 5 hét, heti egy alkalommal. Ha sietsz, heti kettővel 2–3 hét alatt is megtanulhatod a hirdetéskezelést. Ennél sűrűbben nem javaslom — a két alkalom között érdemes pihenni, mert elég intenzívek az órák.',
+    a: 'Jellemzően 4–5 hét, heti egy alkalommal. Ha sietsz, heti kettővel 2–3 hét alatt is megtanulhatod a hirdetéskezelést. Ennél sűrűbben nem javaslom — a két alkalom között érdemes pihenni, mert elég intenzívek az órák. Ha mégis bevállalós vagy, akár 2–3 nap alatt is tudunk végezni.',
   },
   {
     q: 'Kapok felvételt az alkalmakról?',
-    a: 'Igen, mindegyikről, felár nélkül. Az alkalom végén, legkésőbb másnap kiküldöm e-mailben. Nem kell jegyzetelned, és bármikor visszanézheted.',
+    a: 'Igen, mindegyikről, és más cégekkel ellentétben felár nélkül. Az alkalom végén, legkésőbb másnap kiküldöm e-mailben. Nem kell jegyzetelned, és bármikor visszanézheted — minden felvétel örökre a tiéd marad.',
   },
   {
     q: 'Egyszerre több platformot is tanulhatok?',
-    a: 'Igen. Az 5 alkalmas csomag egy platformra épül, a 10 alkalmasba kettő fér bele — a leggyakoribb páros a Meta és a Google.',
+    a: 'Igen. Az 5 alkalmas csomag egy platformra épül, a 10 alkalmasba kettő fér bele — a leggyakoribb párosítás a Meta és a Google hirdetéskezelés tanulása.',
   },
   {
     q: 'Mi történik az ingyenes konzultáción?',
-    a: '30 perc, Google Meeten. Elmondod, mivel foglalkozol és hol tartasz, én pedig megmondom, tudok-e segíteni. Ha úgy látom, hogy nem, azt is megmondom — nem adok el neked olyat, aminek nincs értelme.',
+    a: '30 perces telefonhívás vagy Google Meet. Elmondod, mivel foglalkozol és hol tartasz, én pedig megmondom, tudok-e segíteni. Ha úgy látom, hogy nem, azt is megmondom — és segítek, milyen irányba indulj el inkább.',
   },
 ];
 
