@@ -25,7 +25,23 @@ const {
   schema = [],
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', Astro.site).href;
+/*
+ * The canonical URL must be the one the server actually serves, and the one
+ * the sitemap submits. It was neither.
+ *
+ * `build.format: 'directory'` makes every page a directory, so Apache's
+ * DirectorySlash 301s /arak to /arak/ — while this tag declared /arak, the
+ * sitemap declared /arak/, and the canonical therefore pointed at a URL that
+ * immediately redirects. Google resolves it, but it earns "Page with
+ * redirect" and "Alternate page with proper canonical tag" noise in Search
+ * Console for pages that are perfectly fine. Same class of mistake as a
+ * canonical pointing at a redirecting host, which astro.config.mjs already
+ * warns about — just on the slash instead.
+ *
+ * The root stays "/", everything else keeps its trailing slash.
+ */
+const canonicalPath = Astro.url.pathname.replace(/\/+$/, '');
+const canonical = new URL(canonicalPath ? `${canonicalPath}/` : '/', Astro.site).href;
 
 // Any deploy that is not the real domain must not be indexed. One env var
 // covers every page, so it cannot be forgotten on an individual template.
