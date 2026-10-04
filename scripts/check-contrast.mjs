@@ -10,6 +10,20 @@
  *
  * Thresholds are WCAG AA: 4.5:1 for body text, 3:1 for large text
  * (>=24px, or >=18.66px when bold).
+ *
+ * COLOURS ARE READ THROUGH A CANVAS, NOT A REGEX. This used to match
+ * `rgb()`/`rgba()` and skip anything else — and under Tailwind v4 the opacity
+ * modifier (`text-black/80`) compiles to `color-mix(in oklab, ...)`, which
+ * computes to `oklab(0.2196 0.0025 0.0028 / 0.8)`. So every single element
+ * carrying an alpha-modified colour — which is most of the body text on the
+ * site — parsed as null and was silently skipped, and the checker reported a
+ * clean run while measuring almost nothing. Painting the colour onto a 1x1
+ * canvas and reading the pixel back handles every colour space the browser
+ * can parse, now and later.
+ *
+ * A colour that still cannot be read is REPORTED, never skipped. A test that
+ * quietly measures less than it claims is worse than no test: it is a test
+ * that lies in the direction of "everything is fine".
  */
 import { launchChromium } from './browser.mjs';
 import { createServer } from 'node:http';
@@ -46,9 +60,39 @@ const browser = await launchChromium();
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
 
 const AUDIT = () => {
+  const canvas = document.createElement('canvas');
+  canvas.width = canvas.height = 1;
+  const ctx = canvas.getContext('2d', { willReadFrequently: true });
+  const SENTINEL = '#ff00ff';
+  const cache = new Map();
+
+  /** [r, g, b, a] in sRGB, for any colour the browser can parse. */
   const parse = (c) => {
-    const m = c.match(/rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\)/);
-    return m ? [.../* rgb */ [+m[1], +m[2], +m[3]], m[4] === undefined ? 1 : +m[4]] : null;
+    if (!c) return null;
+    if (cache.has(c)) return cache.get(c);
+
+    let v = null;
+    const m = c.match(/^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:\s*[,/]\s*([\d.]+%?))?\s*\)$/);
+    if (m) {
+      const raw = m[4];
+      const a = raw === undefined ? 1
+        : raw.endsWith('%') ? parseFloat(raw) / 100
+        : +raw;
+      v = [+m[1], +m[2], +m[3], a];
+    } else {
+      /* fillStyle keeps its previous value when handed something it cannot
+         parse, so the sentinel is what tells the two cases apart. */
+      ctx.fillStyle = SENTINEL;
+      ctx.fillStyle = c;
+      if (ctx.fillStyle !== SENTINEL || /^(#f0f|#ff00ff|magenta)$/i.test(c.trim())) {
+        ctx.clearRect(0, 0, 1, 1);
+        ctx.fillRect(0, 0, 1, 1);
+        const d = ctx.getImageData(0, 0, 1, 1).data;
+        v = [d[0], d[1], d[2], d[3] / 255];
+      }
+    }
+    cache.set(c, v);
+    return v;
   };
   const over = (fg, bg) => fg.slice(0, 3).map((c, i) => c * fg[3] + bg[i] * (1 - fg[3]));
   const lum = (rgb) => {
@@ -97,6 +141,12 @@ const AUDIT = () => {
       .trim();
     if (!own) continue;
 
+    /* Decorative text hidden from assistive technology is exempt — WCAG
+       1.4.3 covers text that conveys meaning, and axe takes the same view.
+       The one instance here is a 192px watermark "B" at 4% white behind a
+       photograph on /rolam, which is a texture, not a word anyone reads. */
+    if (el.closest('[aria-hidden="true"]')) continue;
+
     const s = getComputedStyle(el);
     if (s.visibility === 'hidden' || s.display === 'none') continue;
     const op = parseFloat(s.opacity);
@@ -105,7 +155,14 @@ const AUDIT = () => {
     if (r.width < 2 || r.height < 2) continue;
 
     const fg = parse(s.color);
-    if (!fg) continue;
+    if (!fg) {
+      // Unreadable rather than passing. See the note at the top of the file.
+      out.push({
+        text: own.slice(0, 48), unreadable: s.color,
+        cls: (el.getAttribute('class') || '').slice(0, 60), tag: el.tagName.toLowerCase(),
+      });
+      continue;
+    }
     const bg = bgOf(el);
     // Element opacity multiplies the text alpha against its own background.
     const eff = over([fg[0], fg[1], fg[2], fg[3] * op], bg);
@@ -142,7 +199,11 @@ for (const route of routes.sort()) {
     failures += bad.length;
     console.error(`\n✗ ${route}`);
     for (const b of bad) {
-      console.error(`   ${b.cr}:1 (needs ${b.need}) ${b.size}px <${b.tag}> "${b.text}"`);
+      if (b.unreadable) {
+        console.error(`   ?:1 UNREADABLE COLOUR ${b.unreadable} <${b.tag}> "${b.text}"`);
+      } else {
+        console.error(`   ${b.cr}:1 (needs ${b.need}) ${b.size}px <${b.tag}> "${b.text}"`);
+      }
       if (b.cls) console.error(`      class: ${b.cls}`);
     }
   } else {
