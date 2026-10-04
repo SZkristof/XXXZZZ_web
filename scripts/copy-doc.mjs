@@ -15,9 +15,12 @@
  * values (per-session prices, savings, the "4+1" labels) only exist once
  * rendered. What the DOM holds is what a visitor gets.
  *
- * Hidden text is deliberately INCLUDED. The service tiles carry two
- * authored descriptions, one for phones and one for wider screens, and both
- * are copy someone has to be able to review.
+ * Hidden text is deliberately INCLUDED, and LABELLED. The service tiles
+ * carry two authored descriptions, one for phones and one for wider screens,
+ * and both are copy someone has to be able to review — but a reviewer who
+ * cannot tell which is which will "fix" a contradiction that does not exist,
+ * or edit the line nobody sees. So each page is measured at both widths and
+ * anything that shows at only one of them says so.
  */
 import { createServer } from 'node:http';
 import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
@@ -25,6 +28,15 @@ import { extname, join, dirname } from 'node:path';
 import { launchChromium } from './browser.mjs';
 
 const PORT = 4457;
+
+/* The two widths the copy is written for. The phone one is an iPhone 16 Pro's
+   CSS width, the desktop one is wide enough to clear every `lg:` breakpoint in
+   the stylesheet — between them they decide which of a pair of authored
+   strings a given reader actually gets. */
+const VIEWPORTS = {
+  desktop: { width: 1440, height: 1000 },
+  phone: { width: 390, height: 844 },
+};
 
 const TYPES = {
   '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',
@@ -99,7 +111,35 @@ const PAGES = [
       ['A másik fele — oktatás', 'src/pages/ugynokseg.astro'],
     ],
   },
+  {
+    path: '/arak',
+    out: 'docs/arak-szoveg.md',
+    title: 'Brandműhely — az Árak oldal teljes szövege',
+    sections: [
+      ['Nyitóblokk', 'src/pages/arak.astro + src/components/PageHero.astro'],
+      ['Csomagok és árak', 'src/components/Pricing.astro + src/data/site.ts → packages'],
+      ['Három lehetőség + összehasonlítás', 'src/components/Comparison.astro'],
+      ['Gyakori kérdések', 'src/data/proof.ts → faqs'],
+      ['A másik fele — Hirdetéskezelés', 'src/components/AgencyHalf.astro + src/data/site.ts → agencyServices'],
+    ],
+  },
 ];
+
+/** Tags every element with a stable index, so the same node can be looked up
+ *  again after the viewport changes under it. */
+function tagNodes() {
+  let i = 0;
+  for (const el of document.querySelectorAll('*')) el.setAttribute('data-cdi', String(i++));
+}
+
+/** Which tagged nodes are actually rendered at the current width. */
+function visibleIds() {
+  const out = [];
+  for (const el of document.querySelectorAll('[data-cdi]')) {
+    if (el.checkVisibility()) out.push(el.getAttribute('data-cdi'));
+  }
+  return out;
+}
 
 /** Runs in the page. Walks each section and returns a flat block list. */
 function extract() {
@@ -111,6 +151,20 @@ function extract() {
     const blocks = [];
     const seenNodes = new Set();
 
+    /* Repeated copy is deduped PER CARD, not per section. The three package
+       cards share most of their feature list word for word, and a
+       section-wide dedupe quietly emptied the second and third one — which
+       is exactly the list someone rewriting the pricing page needs to see.
+       A card, a table row or a <details> is its own scope; anything outside
+       one falls back to the section. */
+    const SCOPE = '.card, article, figure, details, tr, dl > div';
+    const scopes = new Map();
+    const scopeFor = (el) => {
+      const key = el.closest(SCOPE) ?? sec;
+      if (!scopes.has(key)) scopes.set(key, new Map());
+      return scopes.get(key);
+    };
+
     /* Every distinct string is listed once per section. Two things in the
        page render the same copy twice on purpose: the comparison table has a
        stacked card version for phones, and a couple of buttons are repeated
@@ -120,7 +174,6 @@ function extract() {
        This is text equality, not element identity, which matters: the
        service tiles ALSO have a mobile and a desktop version, but those are
        two different authored strings, so both survive. */
-    const seenText = new Set();
 
     /* Not every piece of copy lives in a block-level text element. The
        headline price on a package card and the figure on a result card are
@@ -147,16 +200,13 @@ function extract() {
         const rows = [...el.querySelectorAll('tr')].map((tr) =>
           [...tr.querySelectorAll('th, td')].map(cellText),
         );
-        blocks.push({ kind: 'table', rows });
+        blocks.push({ kind: 'table', rows, idxs: [el.getAttribute('data-cdi')] });
         el.querySelectorAll('*').forEach((n) => seenNodes.add(n));
-        /* Seed the dedupe with each cell AND its parts, so the phone layout's
-           stacked cards — which repeat the column names on their own — do not
-           come through as orphaned bullets after the table. */
-        for (const cell of el.querySelectorAll('th, td')) {
-          seenText.add(cellText(cell));
-          seenText.add(clean(cell));
-          [...cell.children].map(clean).forEach((t) => t && seenText.add(t));
-        }
+        /* The phone layout repeats this table as stacked cards. They are NOT
+           suppressed: they carry their own column labels ("Marketinges" on
+           its own, against "Marketinges · Kiszervezed" in the header), those
+           are separately authored strings, and the width markers say which
+           reader gets which. */
         continue;
       }
 
@@ -194,8 +244,18 @@ function extract() {
         return null;
       };
       const text = labelled(el) ?? clean(el);
-      if (!text || seenText.has(text)) continue;
-      seenText.add(text);
+      if (!text) continue;
+      /* The same string rendered twice — a button repeated for the mobile
+         layout — is one block, but it is one block that BOTH widths show.
+         Folding the duplicate's id into the block it repeats is what stops
+         it being reported as phone-only. */
+      const seenText = scopeFor(el);
+      const already = seenText.get(text);
+      if (already) {
+        already.idxs.push(el.getAttribute('data-cdi'));
+        el.querySelectorAll('*').forEach((n) => seenNodes.add(n));
+        continue;
+      }
       el.querySelectorAll('*').forEach((n) => seenNodes.add(n));
 
       const tag = el.tagName.toLowerCase();
@@ -210,14 +270,41 @@ function extract() {
       else if (el.classList.contains('sr-only')) kind = 'sr';
 
       const href = el.matches('.bm-btn > span') ? el.parentElement.getAttribute('href') : null;
-      blocks.push({ kind, text, href });
+      const block = { kind, text, href, idxs: [el.getAttribute('data-cdi')] };
+      seenText.set(text, block);
+      blocks.push(block);
     }
 
     return { id: sec.id || null, mode: MODE[sec.getAttribute('data-theme')] ?? null, blocks };
   });
 }
 
-function render(cfg, sections, when, commit) {
+/** Which widths show a block: 'phone', 'desktop', or '' for both (which is
+ *  almost everything). */
+function widthOf(block, seen) {
+  const on = (w) => block.idxs?.some((i) => seen[w].has(i));
+  const d = on('desktop');
+  const p = on('phone');
+  if (d && !p) return 'desktop';
+  if (p && !d) return 'phone';
+  return '';
+}
+
+const WIDTH_SUFFIX = {
+  phone: ' *(csak telefonon)*',
+  desktop: ' *(csak nagy képernyőn)*',
+};
+
+/* A banner for a RUN of single-width blocks. The phone version of the
+   comparison table is twenty-four lines long; tagging every one of them
+   turns the marker into wallpaper, and a reader stops seeing it. */
+const WIDTH_BANNER = {
+  phone: '**▸ Az alábbiak csak telefonon látszanak.**',
+  desktop: '**▸ Az alábbiak csak nagy képernyőn látszanak.**',
+  '': '**▸ Innentől újra mindkettőn.**',
+};
+
+function render(cfg, sections, when, commit, seen) {
   const L = [];
   L.push(`# ${cfg.title}`);
   L.push('');
@@ -229,8 +316,17 @@ function render(cfg, sections, when, commit) {
   L.push('');
   L.push(`Generálva: ${when}${commit ? ` · \`${commit}\`` : ''}`);
   L.push('');
-  L.push('Ahol két szöveg van ugyanarra a helyre — telefonra egy rövid, nagyobb');
-  L.push('képernyőre a teljes —, ott mindkettő szerepel: mindkettőt látja valaki.');
+  L.push('**Telefon és nagy képernyő.** Az oldal néhány helyen két szöveget tart');
+  L.push('ugyanarra a pontra: telefonra egy rövidebbet, nagyobb képernyőre a');
+  L.push('teljeset. Mindkettő szerepel ebben a fájlban, és ami csak az egyiken');
+  L.push('látszik, azt megjelölöm:');
+  L.push('');
+  L.push('- *(csak telefonon)* — ezt a szöveget csak telefonról olvassák.');
+  L.push('- *(csak nagy képernyőn)* — ezt csak laptopról/asztali gépről.');
+  L.push('- jelölés nélkül: mindenki ezt látja.');
+  L.push('');
+  L.push(`Mérve ${VIEWPORTS.phone.width} px (telefon) és ${VIEWPORTS.desktop.width} px`);
+  L.push('(nagy képernyő) szélességen.');
   L.push('');
 
   if (sections.length !== cfg.sections.length) {
@@ -258,15 +354,41 @@ function render(cfg, sections, when, commit) {
     // A list item emits no trailing blank line, so consecutive items stay one
     // list — which means the block after a list has to close it, or Markdown
     // swallows the next line into the last bullet.
+    /* Runs of same-width blocks, so a long single-width stretch gets one
+       banner instead of a marker on every line. A run of one keeps the
+       inline suffix — a banner either side of a single line reads worse. */
+    const widths = sec.blocks.map((b) => widthOf(b, seen));
+    const runLength = widths.map((_, i) => {
+      let n = 1;
+      while (widths[i + n] === widths[i]) n++;
+      return n;
+    });
+    let bannerWidth = '';
+
     let inList = false;
-    for (const b of sec.blocks) {
+    sec.blocks.forEach((b, i) => {
       const isItem = b.kind === 'li' || b.kind === 'dt';
       if (inList && !isItem && b.kind !== 'dd') L.push('');
       inList = isItem;
 
+      /* A run of 2+ opens with a banner; the run before it has to be closed
+         again when the page goes back to showing everything. */
+      const banner = runLength[i] > 1 || widths[i] === '' ? widths[i] : null;
+      if (banner !== null && banner !== bannerWidth) {
+        if (inList) L.push('');
+        if (banner !== '' || bannerWidth !== '') {
+          L.push(WIDTH_BANNER[banner]);
+          L.push('');
+        }
+        bannerWidth = banner;
+        inList = false;
+      }
+      const w = widths[i] === bannerWidth ? '' : (WIDTH_SUFFIX[widths[i]] ?? '');
+
       switch (b.kind) {
         case 'table': {
           if (!b.rows.length) break;
+          if (w) { L.push(`*(táblázat —${w.replace(/[*()]/g, '').replace(/^ csak/, ' csak')})*`); L.push(''); }
           const width = Math.max(...b.rows.map((r) => r.length));
           const pad = (r) => [...r, ...Array(width - r.length).fill('')];
           L.push(`| ${pad(b.rows[0]).join(' | ')} |`);
@@ -275,21 +397,22 @@ function render(cfg, sections, when, commit) {
           L.push('');
           break;
         }
-        case 'h1': L.push(`### H1 — ${b.text}`); L.push(''); break;
-        case 'h2': L.push(`### H2 — ${b.text}`); L.push(''); break;
-        case 'h3': case 'h4': L.push(`**${b.text}**`); L.push(''); break;
-        case 'label': L.push(`**Címke:** \`${b.text}\``); L.push(''); break;
+        case 'h1': L.push(`### H1 — ${b.text}${w}`); L.push(''); break;
+        case 'h2': L.push(`### H2 — ${b.text}${w}`); L.push(''); break;
+        case 'h3': case 'h4': L.push(`**${b.text}**${w}`); L.push(''); break;
+        case 'label': L.push(`**Címke:** \`${b.text}\`${w}`); L.push(''); break;
         case 'button':
-          L.push(`**Gomb:** \`${b.text}\`${b.href ? ` → ${b.href}` : ''}`); L.push(''); break;
-        case 'q': L.push(`**K: ${b.text}**`); L.push(''); break;
-        case 'dt': L.push(`- **${b.text}**`); break;
-        case 'dd': L.push(`  ${b.text}`); L.push(''); break;
-        case 'li': L.push(`- ${b.text}`); break;
+          L.push(`**Gomb:** \`${b.text}\`${b.href ? ` → ${b.href}` : ''}${w}`); L.push(''); break;
+        case 'q': L.push(`**K: ${b.text}**${w}`); L.push(''); break;
+        case 'dt': L.push(`- **${b.text}**${w}`); break;
+        case 'dd': L.push(`  ${b.text}${w}`); L.push(''); break;
+        case 'li': L.push(`- ${b.text}${w}`); break;
         case 'sr': L.push(`*(csak képernyőolvasónak: ${b.text})*`); L.push(''); break;
-        default: L.push(b.text); L.push(''); break;
+        default: L.push(b.text + w); L.push(''); break;
       }
-    }
+    });
     if (inList) L.push('');
+    if (bannerWidth !== '') { L.push(''); L.push(WIDTH_BANNER['']); L.push(''); }
   });
 
   L.push('---');
@@ -312,13 +435,24 @@ const browser = await launchChromium();
 let drifted = 0;
 try {
   for (const cfg of PAGES) {
-    const page = await browser.newPage();
+    const page = await browser.newPage({ viewport: VIEWPORTS.desktop });
     await page.goto(`http://localhost:${PORT}${cfg.path}`, { waitUntil: 'networkidle' });
     // The consent banner is chrome, not page copy.
     await page.evaluate(() => document.getElementById('consent')?.remove());
+    await page.evaluate(tagNodes);
+
+    /* Visibility is measured at each width before anything is extracted, so
+       the two readings describe the same DOM. Desktop goes last on purpose:
+       the extraction below then runs against the layout the labels assume. */
+    const seen = {};
+    for (const [name, vp] of [['phone', VIEWPORTS.phone], ['desktop', VIEWPORTS.desktop]]) {
+      await page.setViewportSize(vp);
+      seen[name] = new Set(await page.evaluate(visibleIds));
+    }
+
     const sections = await page.evaluate(extract);
     await mkdir(dirname(cfg.out), { recursive: true });
-    await writeFile(cfg.out, render(cfg, sections, when, commit), 'utf8');
+    await writeFile(cfg.out, render(cfg, sections, when, commit, seen), 'utf8');
     const blocks = sections.flatMap((s) => s.blocks).length;
     console.log(`✓ ${cfg.out} — ${sections.length} szekció, ${blocks} szövegblokk`);
     if (sections.length !== cfg.sections.length) {

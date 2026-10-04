@@ -1,0 +1,305 @@
+# Brandműhely — az Árak oldal teljes szövege
+
+> **Ez a fájl generált.** A `npm run copy:doc` állítja elő a lefordított
+> oldalból, tehát mindig azt mutatja, ami tényleg kint van. Ne szerkeszd
+> közvetlenül — a következő futtatás felülírja. Ha szöveget akarsz
+> változtatni, jelöld meg itt és szólj, vagy írd át a „forrás" alatt
+> megnevezett fájlban.
+
+Generálva: 2026-10-04
+
+**Telefon és nagy képernyő.** Az oldal néhány helyen két szöveget tart
+ugyanarra a pontra: telefonra egy rövidebbet, nagyobb képernyőre a
+teljeset. Mindkettő szerepel ebben a fájlban, és ami csak az egyiken
+látszik, azt megjelölöm:
+
+- *(csak telefonon)* — ezt a szöveget csak telefonról olvassák.
+- *(csak nagy képernyőn)* — ezt csak laptopról/asztali gépről.
+- jelölés nélkül: mindenki ezt látja.
+
+Mérve 390 px (telefon) és 1440 px
+(nagy képernyő) szélességen.
+
+---
+
+## 1. Nyitóblokk
+
+*Forrás: src/pages/arak.astro + src/components/PageHero.astro* · *Mód: képzés (terrakotta)*
+
+**Címke:** `ÁRAK`
+
+### H1 — Nincs mögötte semmi. Ennyi.
+
+Alkalmat veszel, nem előfizetést. Nincs havidíj, nincs hűségidő, és nincs olyan tétel, amiről csak a számlán értesülsz.
+
+---
+
+## 2. Csomagok és árak
+
+*Forrás: src/components/Pricing.astro + src/data/site.ts → packages* · *Mód: képzés (terrakotta)* · *Horgony: `#arak`*
+
+**Címke:** `ÁRAK`
+
+### H2 — FIX ÁRAK — REJTETT KÖLTSÉGEK NÉLKÜL
+
+Nincs havidíj, nincs hűségidő, nincs rejtett felár. Ráadásul ingyen felvétel jár a teljes oktatásra.
+
+AUDIT, FIÓKVIZSGÁLAT
+
+**Egy alkalom**
+
+Konkrét probléma megoldása, kampány indítása
+
+35 000 Ft
+
+1x 60 perc
+
+Kinek jó: Egy konkrét kérdés, egy elakadás, vagy egy alapos fiók-átnézés.
+
+- 60 perces, egyéni alkalom — online vagy személyesen Budapesten
+- Minden alkalomról videófelvétel, ingyen
+- A saját hirdetési fiókodban dolgozunk
+- Konkrét feladatok két alkalom között
+
+**Gomb:** `Ez érdekel` → /kapcsolat
+
+START CSOMAG
+
+**5 alkalmas csomag**
+
+4+1
+
+A legnépszerűbb.
+
+140 000 Ft
+
+28 000 Ft / alkalom · 5 alkalom összesen
+
+Megspórolsz 35 000 Ft-ot
+
+4 alkalmat fizetsz, 5-öt kapsz.
+
+Kinek jó: Nulláról felépítjük a hirdetéseidet Facebookon vagy Google-n, rendet rakunk a meglévő, gyengén teljesítő fiókodban.
+
+- 60 perces, egyéni alkalom — online vagy személyesen Budapesten
+- Minden alkalomról videófelvétel, ingyen
+- A saját hirdetési fiókodban dolgozunk
+- Konkrét feladatok két alkalom között
+- Egy platform: Meta, Google vagy LinkedIn
+
+**Gomb:** `Ezt választom` → /kapcsolat
+
+TELJES CSOMAG
+
+**10 alkalmas csomag**
+
+7+3
+
+Két platform, a teljes út.
+
+245 000 Ft
+
+24 500 Ft / alkalom · 10 alkalom
+
+Megspórolsz 105 000 Ft-ot
+
+7 alkalmat fizetsz, 10-et kapsz.
+
+Kinek jó: Érdekel a Facebook és Google hirdetéskezelés világa. Komolyan skálázni akarsz, és két csatornát futtatnál párhuzamosan.
+
+- 60 perces, egyéni alkalom — online vagy személyesen Budapesten
+- Minden alkalomról videófelvétel, ingyen
+- A saját hirdetési fiókodban dolgozunk
+- Konkrét feladatok két alkalom között
+- Két platform párhuzamosan (pl. Meta + Google)
+- Skálázási és mérési stratégia
+
+**Gomb:** `Ezt szeretném` → /kapcsolat
+
+Egy alkalom listaára 35 000 Ft. A csomagoknál ehhez képest kapsz ingyen alkalmakat.
+
+---
+
+## 3. Három lehetőség + összehasonlítás
+
+*Forrás: src/components/Comparison.astro* · *Mód: semleges*
+
+### H2 — Három lehetőséged van, nem mindegy mit választasz!
+
+Az egyéni oktatás neked szól, ha a marketingesekben már nem bízol, és a csoportos tanfolyamok alatt rájöttél, hogy az nem neked való.
+
+*(táblázat — csak nagy képernyőn)*
+
+| Szempont | Marketinges · Kiszervezed | Csoportos tanfolyam · Videókat nézel | Egyéni oktatás · Megcsinálod, vezetéssel |
+| --- | --- | --- | --- |
+| Teljesítmény | Mástól függsz | Túl általános tudás | 100% egyénre szabva |
+| Tulajdonjog | Gyakran vitás | A tiéd | A tiéd, örökre |
+| Megbízhatóság | Napok, mire válaszol | Nincs kitől kérdezni | Azonnal tudsz kérdezni |
+| Te vagy a központban? | Részben, + más cégek | Nem, általános | Igen, kizárólag |
+| Havi díj | 150–400 e Ft havonta | Havi előfizetés 20–30 e Ft | Nincs havidíj. Egyszer fizetsz a tudásért |
+| Elégedettség | Változó | Változó | 200+ pozitív visszajelzés |
+
+**▸ Az alábbiak csak telefonon látszanak.**
+
+Teljesítmény
+
+- **Marketinges**
+  Mástól függsz
+
+- **Csoportos tanfolyam**
+  Túl általános tudás
+
+- **Egyéni oktatás**
+  100% egyénre szabva
+
+Tulajdonjog
+
+- **Marketinges**
+  Gyakran vitás
+
+- **Csoportos tanfolyam**
+  A tiéd
+
+- **Egyéni oktatás**
+  A tiéd, örökre
+
+Megbízhatóság
+
+- **Marketinges**
+  Napok, mire válaszol
+
+- **Csoportos tanfolyam**
+  Nincs kitől kérdezni
+
+- **Egyéni oktatás**
+  Azonnal tudsz kérdezni
+
+Te vagy a központban?
+
+- **Marketinges**
+  Részben, + más cégek
+
+- **Csoportos tanfolyam**
+  Nem, általános
+
+- **Egyéni oktatás**
+  Igen, kizárólag
+
+Havi díj
+
+- **Marketinges**
+  150–400 e Ft havonta
+
+- **Csoportos tanfolyam**
+  Havi előfizetés 20–30 e Ft
+
+- **Egyéni oktatás**
+  Nincs havidíj. Egyszer fizetsz a tudásért
+
+Elégedettség
+
+- **Marketinges**
+  Változó
+
+- **Csoportos tanfolyam**
+  Változó
+
+- **Egyéni oktatás**
+  200+ pozitív visszajelzés
+
+
+**▸ Innentől újra mindkettőn.**
+
+---
+
+## 4. Gyakori kérdések
+
+*Forrás: src/data/proof.ts → faqs* · *Mód: semleges* · *Horgony: `#gyik`*
+
+**Címke:** `GYAKORI KÉRDÉSEK`
+
+### H2 — Amit a legtöbben megkérdeznek
+
+Ha nincs köztük a tiéd, írj vagy hívj — és mindent átbeszélünk.
+
+**K: Még soha nem hirdettem. Így is jelentkezhetek?**
+
+Persze. Az ügyfeleim többsége soha nem állított be hirdetést. Együtt kattintunk végig mindent, és ha valami nem világos, átbeszéljük — nincs buta kérdés. Ha már hirdettél, akkor a szintednek megfelelően haladunk a hirdetéskezelésben, és komplexebb módszereket mutatok.
+
+**K: Havi 30–50 ezer forintot tudok hirdetésre költeni. Ez elég?**
+
+Az ügyfeleim jelentős része ebben a sávban van, és pont itt számít a legtöbbet, hogy jó helyre menjen a pénz. Kis kerettel nincs mozgástér a hibázásra — ezért éri meg megtanulni jól hirdetni.
+
+**K: Miben más ez, mint egy online kurzus?**
+
+Egy csoportos online kurzus általánosságban tanít meg az alapokra. Az én egyéni oktatásaimon a te hirdetési fiókodat nyitjuk meg, a te termékeidet és szolgáltatásaidat nézzük át, és a te kereteddel állítunk be hirdetéseket. Ha elakadsz, azonnal tudsz kérdezni, nem egy Facebook-csoportban kapsz választ három nap múlva.
+
+**K: Mi van, ha a végén mégis inkább kiszerveznénk?**
+
+Akkor is jobban jársz, mintha most szerveznéd ki: tudni fogod, mit kérsz számon. És ha tényleg ez a jó döntés, szólj — természetesen ezzel is foglalkozunk.
+
+**K: Mennyi idő alatt végzünk az 5 alkalommal?**
+
+Jellemzően 5 hét, heti egy alkalommal. Ha sietsz, heti kettővel 2–3 hét alatt is megtanulhatod a hirdetéskezelést. Ennél sűrűbben nem javaslom — a két alkalom között érdemes pihenni, mert elég intenzívek az órák.
+
+**K: Kapok felvételt az alkalmakról?**
+
+Igen, mindegyikről, felár nélkül. Az alkalom végén, legkésőbb másnap kiküldöm e-mailben. Nem kell jegyzetelned, és bármikor visszanézheted.
+
+**K: Egyszerre több platformot is tanulhatok?**
+
+Igen. Az 5 alkalmas csomag egy platformra épül, a 10 alkalmasba kettő fér bele — a leggyakoribb páros a Meta és a Google.
+
+**K: Mi történik az ingyenes konzultáción?**
+
+30 perc, Google Meeten. Elmondod, mivel foglalkozol és hol tartasz, én pedig megmondom, tudok-e segíteni. Ha úgy látom, hogy nem, azt is megmondom — nem adok el neked olyat, aminek nincs értelme.
+
+---
+
+## 5. A másik fele — Hirdetéskezelés
+
+*Forrás: src/components/AgencyHalf.astro + src/data/site.ts → agencyServices* · *Mód: ügynökség (kék)* · *Horgony: `#ugynokseg`*
+
+**Címke:** `HIRDETÉSKEZELÉS KISZERVEZÉSE`
+
+### H2 — És ha nincs rá időm, hogy magamnak csináljam a hirdetéseim?
+
+Van, akinek egyszerűen nincs rá kapacitása — vagy elmúlt a bizalom a jelenlegi marketingesével. Beszélgessünk, és nézzük meg, tudok-e segíteni és átvenni a hirdetéskezelést.
+
+Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélések. Nálam a marketing nem csak a kivitelezésről szól.
+
+125 000 Ft — / hó / csatorna · a hirdetési költés ezen felül
+
+**Gomb:** `Hirdetéskezelésről bővebben` → /ugynokseg
+
+**Gomb:** `Ajánlatot kérek` → /kapcsolat
+
+**Kampánykezelés**
+
+Átveszem a Meta, Google vagy LinkedIn kampányaidat: tervezés, stratégia, felépítés, mérés, optimalizálás, heti/havi riport. A fiók végig a tiéd marad, és bármikor belenézhetsz.
+
+**Webfejlesztés**
+
+Gyors, mérhető weboldal vagy landing oldal, ami a hirdetéseidhez készül — nem sablonból. A sebesség közvetlenül olcsóbbá teszi a kattintásaidat.
+
+**Egyszeri kampány- és fiókbeállítás**
+
+Rövid együttműködés: 24–48 órán belül felépítem az első kampányokat az általad megadott adatok alapján, aztán a tiéd. Nincs havidíj és nincs folytatási kötelezettség.
+
+**Digitális marketing audit, fiókvizsgálat**
+
+Fiókvizsgálat, kampányelemzés és hatékonyságnövelési javaslatok. Megkapod írásban, mit érdemes átalakítani — akkor is, ha utána egyedül csinálod tovább.
+
+**Technikai beállítás és mérés-audit**
+
+Google Analytics, Google Tag Manager, konverziómérés, shopping feedek. Ha sejted, hogy rossz a mérésed, de nem tudod, mit csinálj: az ingyenes hibafeltárás után kapsz árajánlatot a javításra.
+
+---
+
+## Amit ez a fájl nem mutat
+
+- A többi oldal szövegét. Amelyikre van generált fájl, azt a
+  `docs/` mappában találod; a többihez szólj, és felveszem a listára.
+- A fejléc és a lábléc szövegét — ezek minden oldalon azonosak.
+- Az oldalcímeket és meta-leírásokat, amiket a Google talál meg.
+

@@ -54,13 +54,13 @@ const legal = [
           Egyéni hirdetési képzés magyar kis- és középvállalkozásoknak. A saját kampányaidat
           építed — csak nem egyedül.
         </p>
-        <p class="mt-4 text-sm text-black/65">
+        <p class="mt-4 text-sm text-paper/70">
           {expert.name} · {expert.yearsExperience} év a szakmában
         </p>
       </div>
 
       <nav aria-labelledby="f-nav">
-        <h3 id="f-nav" class="t-label text-black/65">Oldalak</h3>
+        <h3 id="f-nav" class="t-label text-terracotta-200">Oldalak</h3>
         <ul class="mt-4 space-y-2.5">
           {nav.map((i) => (
             <li>
@@ -78,7 +78,7 @@ const legal = [
       </nav>
 
       <nav aria-labelledby="f-plat">
-        <h3 id="f-plat" class="t-label text-black/65">Platformok</h3>
+        <h3 id="f-plat" class="t-label text-terracotta-200">Platformok</h3>
         <ul class="mt-4 space-y-2.5">
           {platforms.map((p) => (
             <li>
@@ -94,7 +94,7 @@ const legal = [
       </nav>
 
       <div>
-        <h3 class="t-label text-black/65">Elérhetőség</h3>
+        <h3 class="t-label text-terracotta-200">Elérhetőség</h3>
         <ul class="mt-4 space-y-2.5">
           <li>
             <a
@@ -109,7 +109,7 @@ const legal = [
             >{contact.phone}</a>
           </li>
         </ul>
-        <h3 class="t-label mt-8 text-black/65">Jogi</h3>
+        <h3 class="t-label mt-8 text-terracotta-200">Jogi</h3>
         <ul class="mt-4 space-y-2.5">
           {legal.map((i) => (
             <li>
@@ -123,7 +123,7 @@ const legal = [
     </div>
 
     <div
-      class="flex flex-col gap-3 border-t border-white/10 py-7 text-sm text-black/65 sm:flex-row sm:items-center sm:justify-between"
+      class="flex flex-col gap-3 border-t border-white/10 py-7 text-sm text-paper/70 sm:flex-row sm:items-center sm:justify-between"
     >
       <p>© {year} {site.legalName}. Minden jog fenntartva.</p>
       <button

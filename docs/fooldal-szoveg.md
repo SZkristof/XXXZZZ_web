@@ -6,10 +6,19 @@
 > változtatni, jelöld meg itt és szólj, vagy írd át a „forrás" alatt
 > megnevezett fájlban.
 
-Generálva: 2026-10-02
+Generálva: 2026-10-04
 
-Ahol két szöveg van ugyanarra a helyre — telefonra egy rövid, nagyobb
-képernyőre a teljes —, ott mindkettő szerepel: mindkettőt látja valaki.
+**Telefon és nagy képernyő.** Az oldal néhány helyen két szöveget tart
+ugyanarra a pontra: telefonra egy rövidebbet, nagyobb képernyőre a
+teljeset. Mindkettő szerepel ebben a fájlban, és ami csak az egyiken
+látszik, azt megjelölöm:
+
+- *(csak telefonon)* — ezt a szöveget csak telefonról olvassák.
+- *(csak nagy képernyőn)* — ezt csak laptopról/asztali gépről.
+- jelölés nélkül: mindenki ezt látja.
+
+Mérve 390 px (telefon) és 1440 px
+(nagy képernyő) szélességen.
 
 ---
 
@@ -74,9 +83,9 @@ Lépésről lépésre vezetlek végig a sikeres hirdetéskészítés folyamatain
 
 **Egyéni hirdetéskezelés oktatás**
 
-Együtt építjük meg a kampányaidat, a te fiókodban.
+Együtt építjük meg a kampányaidat, a te fiókodban. *(csak telefonon)*
 
-Saját tempóban sajátíthatod el az otthonod kényelméből a hirdetéskezelés fortélyait. Megtanítalak rendszerben gondolkodni, miközben igazi kampányokat hozunk létre a vállalkozásod számára — az eredményeket pedig együtt vizsgáljuk meg utána.
+Saját tempóban sajátíthatod el az otthonod kényelméből a hirdetéskezelés fortélyait. Megtanítalak rendszerben gondolkodni, miközben igazi kampányokat hozunk létre a vállalkozásod számára — az eredményeket pedig együtt vizsgáljuk meg utána. *(csak nagy képernyőn)*
 
 Az oktatásról
 
@@ -84,9 +93,9 @@ Az oktatásról
 
 **Teljes körű hirdetéskezelés, fiókmenedzsment**
 
-Ha megbízható stratégiai partnert keresel.
+Ha megbízható stratégiai partnert keresel. *(csak telefonon)*
 
-Ha kiszerveznéd a marketinged, vagy megbízható partnert keresel, aki nem csak hirdetést kezel, hanem stratégiailag gondolkodik együtt a cégeddel — akkor valószínűleg egymást keressük.
+Ha kiszerveznéd a marketinged, vagy megbízható partnert keresel, aki nem csak hirdetést kezel, hanem stratégiailag gondolkodik együtt a cégeddel — akkor valószínűleg egymást keressük. *(csak nagy képernyőn)*
 
 Kampánykezelés
 
@@ -94,9 +103,9 @@ Kampánykezelés
 
 **Egyszeri kampány- és fiókbeállítás**
 
-Gyors hirdetésindítás, akár 24 órán belül.
+Gyors hirdetésindítás, akár 24 órán belül. *(csak telefonon)*
 
-Rövid együttműködési lehetőség, ahol egyszeri fiók- és kampánybeállítást végzünk el a legjobb tudásunk szerint, az általad megadott adatok alapján.
+Rövid együttműködési lehetőség, ahol egyszeri fiók- és kampánybeállítást végzünk el a legjobb tudásunk szerint, az általad megadott adatok alapján. *(csak nagy képernyőn)*
 
 Részletek
 
@@ -104,9 +113,9 @@ Részletek
 
 **Digitális marketing audit, fiókvizsgálat**
 
-Átvizsgálom a fiókod, és megmondom, hol égeted el a pénzt.
+Átvizsgálom a fiókod, és megmondom, hol égeted el a pénzt. *(csak telefonon)*
 
-Fiókvizsgálat, kampányelemzés, hatékonyságnövelési lehetőségek felkutatása és javaslattétel a jobb eredmények elérése érdekében.
+Fiókvizsgálat, kampányelemzés, hatékonyságnövelési lehetőségek felkutatása és javaslattétel a jobb eredmények elérése érdekében. *(csak nagy képernyőn)*
 
 Kérek auditot
 
@@ -114,9 +123,9 @@ Kérek auditot
 
 **Mérések beállítása, audit**
 
-GA4, GTM, mérés, feedek. Ingyenes hibafeltárással indulunk.
+GA4, GTM, mérés, feedek. Ingyenes hibafeltárással indulunk. *(csak telefonon)*
 
-Google Analytics, Google Tag Manager, shopping feedek. Sejted, hogy rossz a mérésed, de nem tudod, mit csinálj pontosan? Hívj nyugodtan: ingyenes hibafeltárás után kapsz árajánlatot a javításra.
+Google Analytics, Google Tag Manager, shopping feedek. Sejted, hogy rossz a mérésed, de nem tudod, mit csinálj pontosan? Hívj nyugodtan: ingyenes hibafeltárás után kapsz árajánlatot a javításra. *(csak nagy képernyőn)*
 
 Hibafeltárás
 
@@ -124,9 +133,9 @@ Hibafeltárás
 
 **Online workshopok**
 
-Élő és visszanézhető csoportos alkalmak, egy-egy témára.
+Élő és visszanézhető csoportos alkalmak, egy-egy témára. *(csak telefonon)*
 
-Gyakorlatorientált, élő és visszanézhető csoportos alkalmak, ahol egy-egy témát és újdonságot dolgozunk fel a digitális marketing területéről.
+Gyakorlatorientált, élő és visszanézhető csoportos alkalmak, ahol egy-egy témát és újdonságot dolgozunk fel a digitális marketing területéről. *(csak nagy képernyőn)*
 
 Szólj, ha indul
 
@@ -170,6 +179,8 @@ Nem tudod, mi lenne számodra a megfelelő? Hívj: +36 70 670 2600
 
 Az egyéni oktatás neked szól, ha a marketingesekben már nem bízol, és a csoportos tanfolyamok alatt rájöttél, hogy az nem neked való.
 
+*(táblázat — csak nagy képernyőn)*
+
 | Szempont | Marketinges · Kiszervezed | Csoportos tanfolyam · Videókat nézel | Egyéni oktatás · Megcsinálod, vezetéssel |
 | --- | --- | --- | --- |
 | Teljesítmény | Mástól függsz | Túl általános tudás | 100% egyénre szabva |
@@ -178,6 +189,77 @@ Az egyéni oktatás neked szól, ha a marketingesekben már nem bízol, és a cs
 | Te vagy a központban? | Részben, + más cégek | Nem, általános | Igen, kizárólag |
 | Havi díj | 150–400 e Ft havonta | Havi előfizetés 20–30 e Ft | Nincs havidíj. Egyszer fizetsz a tudásért |
 | Elégedettség | Változó | Változó | 200+ pozitív visszajelzés |
+
+**▸ Az alábbiak csak telefonon látszanak.**
+
+Teljesítmény
+
+- **Marketinges**
+  Mástól függsz
+
+- **Csoportos tanfolyam**
+  Túl általános tudás
+
+- **Egyéni oktatás**
+  100% egyénre szabva
+
+Tulajdonjog
+
+- **Marketinges**
+  Gyakran vitás
+
+- **Csoportos tanfolyam**
+  A tiéd
+
+- **Egyéni oktatás**
+  A tiéd, örökre
+
+Megbízhatóság
+
+- **Marketinges**
+  Napok, mire válaszol
+
+- **Csoportos tanfolyam**
+  Nincs kitől kérdezni
+
+- **Egyéni oktatás**
+  Azonnal tudsz kérdezni
+
+Te vagy a központban?
+
+- **Marketinges**
+  Részben, + más cégek
+
+- **Csoportos tanfolyam**
+  Nem, általános
+
+- **Egyéni oktatás**
+  Igen, kizárólag
+
+Havi díj
+
+- **Marketinges**
+  150–400 e Ft havonta
+
+- **Csoportos tanfolyam**
+  Havi előfizetés 20–30 e Ft
+
+- **Egyéni oktatás**
+  Nincs havidíj. Egyszer fizetsz a tudásért
+
+Elégedettség
+
+- **Marketinges**
+  Változó
+
+- **Csoportos tanfolyam**
+  Változó
+
+- **Egyéni oktatás**
+  200+ pozitív visszajelzés
+
+
+**▸ Innentől újra mindkettőn.**
 
 ---
 
@@ -299,6 +381,8 @@ Facebook egyéni oktatás
 
 Szolgáltatás · Szépségipar
 
+Facebook egyéni oktatás
+
 Költség/vásárlás
 
 3 500 Ft
@@ -310,6 +394,8 @@ Költség/vásárlás
 Az Advantage+ kikapcsolásával és konkrét célzási stratégiákkal sikerült javítani a vásárlásonkénti költséget.
 
 Oktatás
+
+Facebook egyéni oktatás
 
 Költség / lead
 

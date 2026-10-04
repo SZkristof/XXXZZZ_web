@@ -6,10 +6,19 @@
 > változtatni, jelöld meg itt és szólj, vagy írd át a „forrás" alatt
 > megnevezett fájlban.
 
-Generálva: 2026-10-02
+Generálva: 2026-10-04
 
-Ahol két szöveg van ugyanarra a helyre — telefonra egy rövid, nagyobb
-képernyőre a teljes —, ott mindkettő szerepel: mindkettőt látja valaki.
+**Telefon és nagy képernyő.** Az oldal néhány helyen két szöveget tart
+ugyanarra a pontra: telefonra egy rövidebbet, nagyobb képernyőre a
+teljeset. Mindkettő szerepel ebben a fájlban, és ami csak az egyiken
+látszik, azt megjelölöm:
+
+- *(csak telefonon)* — ezt a szöveget csak telefonról olvassák.
+- *(csak nagy képernyőn)* — ezt csak laptopról/asztali gépről.
+- jelölés nélkül: mindenki ezt látja.
+
+Mérve 390 px (telefon) és 1440 px
+(nagy képernyő) szélességen.
 
 ---
 
@@ -251,6 +260,8 @@ Black Friday bevétel
 Black Friday és karácsonyi akciók kampánykezelésére kértek fel, ahol 1 nap alatt értük el a teljes éves bevételt.
 
 Szolgáltatás · Szépségipar
+
+Facebook és Google hirdetéskezelés
 
 Foglalások száma
 
