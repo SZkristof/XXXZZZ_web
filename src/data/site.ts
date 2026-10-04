@@ -366,7 +366,7 @@ export const halves = [
   {
     id: 'ugynokseg',
     name: 'Ügynökség',
-    href: '/ugynokseg',
+    href: '/hirdeteskezeles',
     tone: 'blue',
     tagline: 'Nincs rá időd? Csináljuk mi.',
     summary:
@@ -487,7 +487,7 @@ export const services: Service[] = [
       'Ha kiszerveznéd a marketinged, vagy megbízható partnert keresel, aki nem csak hirdetést kezel, hanem stratégiailag gondolkodik együtt a cégeddel — akkor valószínűleg egymást keressük.',
     short:
       'Ha megbízható stratégiai partnert keresel.',
-    href: '/ugynokseg#mit-kapsz',
+    href: '/hirdeteskezeles#mit-kapsz',
     cta: 'Kampánykezelés',
     tone: 'blue',
   },
@@ -498,7 +498,7 @@ export const services: Service[] = [
       'Rövid együttműködési lehetőség, ahol egyszeri fiók- és kampánybeállítást végzünk el a legjobb tudásunk szerint, az általad megadott adatok alapján.',
     short:
       'Gyors hirdetésindítás, akár 24 órán belül.',
-    href: '/ugynokseg',
+    href: '/hirdeteskezeles',
     cta: 'Részletek',
     tone: 'blue',
   },
@@ -509,7 +509,7 @@ export const services: Service[] = [
       'Fiókvizsgálat, kampányelemzés, hatékonyságnövelési lehetőségek felkutatása és javaslattétel a jobb eredmények elérése érdekében.',
     short:
       'Átvizsgálom a fiókod, és megmondom, hol égeted el a pénzt.',
-    href: '/ugynokseg',
+    href: '/hirdeteskezeles',
     cta: 'Kérek auditot',
     tone: 'blue',
   },
@@ -520,7 +520,7 @@ export const services: Service[] = [
       'Google Analytics, Google Tag Manager, shopping feedek. Sejted, hogy rossz a mérésed, de nem tudod, mit csinálj pontosan? Hívj nyugodtan: ingyenes hibafeltárás után kapsz árajánlatot a javításra.',
     short:
       'GA4, GTM, mérés, feedek. Ingyenes hibafeltárással indulunk.',
-    href: '/ugynokseg',
+    href: '/hirdeteskezeles',
     cta: 'Hibafeltárás',
     tone: 'blue',
   },
@@ -928,7 +928,7 @@ export const nav: NavItem[] = [
     label: 'Oktatás',
     children: courses.map((c) => ({ href: `/oktatas/${c.slug}`, label: c.navLabel })),
   },
-  { href: '/ugynokseg', label: 'Hirdetéskezelés' },
+  { href: '/hirdeteskezeles', label: 'Hirdetéskezelés' },
   { href: '/arak', label: 'Árak' },
   { href: '/rolam', label: 'Rólam' },
   { href: '/eredmenyek', label: 'Eredmények' },

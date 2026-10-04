@@ -24,7 +24,7 @@ Mérve 390 px (telefon) és 1440 px
 
 ## 1. Nyitóblokk + ár
 
-*Forrás: src/pages/ugynokseg.astro* · *Mód: ügynökség (kék)*
+*Forrás: src/pages/hirdeteskezeles.astro* · *Mód: ügynökség (kék)*
 
 **Címke:** `HAVI HIRDETÉSKEZELÉS VÁLLALKOZÁSOKNAK`
 
@@ -71,7 +71,7 @@ Nem kell még egy embert felvenned. A digitális marketinged egészében is ki t
 
 ## 3. A probléma
 
-*Forrás: src/pages/ugynokseg.astro* · *Mód: semleges*
+*Forrás: src/pages/hirdeteskezeles.astro* · *Mód: semleges*
 
 **Címke:** `A PROBLÉMA`
 
@@ -304,7 +304,7 @@ A Brandműhely.hu számos területet és témát lefed a mindennapokban, az okta
 
 ## 9. Miért én
 
-*Forrás: src/pages/ugynokseg.astro → why* · *Mód: semleges*
+*Forrás: src/pages/hirdeteskezeles.astro → why* · *Mód: semleges*
 
 **Címke:** `MIÉRT A BRANDMŰHELY.HU?`
 
@@ -424,7 +424,7 @@ Egy nagy ügynökségnél jellemzően egy junior account manager ül a fiókodon
 
 ## 13. Záró CTA
 
-*Forrás: src/pages/ugynokseg.astro* · *Mód: ügynökség (kék)*
+*Forrás: src/pages/hirdeteskezeles.astro* · *Mód: ügynökség (kék)*
 
 ### H2 — Készen állsz?
 
@@ -438,7 +438,7 @@ Az első beszélgetés célja nem az, hogy eladjak egy szolgáltatást. Megnézz
 
 ## 14. A másik fele — oktatás
 
-*Forrás: src/pages/ugynokseg.astro* · *Mód: semleges*
+*Forrás: src/pages/hirdeteskezeles.astro* · *Mód: semleges*
 
 Inkább megtanulnád? Akkor az egyéni oktatás való neked — Facebook és Google hirdetéskezelés oktatás személyesen, csak neked.
 

@@ -263,7 +263,7 @@ Igen. Az 5 alkalmas csomag egy platformra épül, a 10 alkalmasba kettő fér be
 
 ## 4. A másik fele — Hirdetéskezelés
 
-*Forrás: src/components/AgencyHalf.astro + src/data/site.ts → agencyServices* · *Mód: ügynökség (kék)* · *Horgony: `#ugynokseg`*
+*Forrás: src/components/AgencyHalf.astro + src/data/site.ts → agencyServices* · *Mód: ügynökség (kék)* · *Horgony: `#hirdeteskezeles`*
 
 **Címke:** `HIRDETÉSKEZELÉS KISZERVEZÉSE`
 
@@ -275,7 +275,7 @@ Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélése
 
 125 000 Ft — / hó / csatorna
 
-**Gomb:** `Hirdetéskezelésről bővebben` → /ugynokseg
+**Gomb:** `Hirdetéskezelésről bővebben` → /hirdeteskezeles
 
 **Gomb:** `Ajánlatot kérek` → /kapcsolat
 

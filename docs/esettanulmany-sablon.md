@@ -56,7 +56,7 @@ lesz belőle 3–4. Szólj, és megépítem.
 | Hol | Mi jelenik meg | Megjegyzés |
 |---|---|---|
 | Főoldal → Eredmények | Minden eset, fél szerint szűrés nélkül | 4 esetnél kettesével áll |
-| `/ugynokseg` | **Csak** a hirdetéskezelési esetek | Most 1 db |
+| `/hirdeteskezeles` | **Csak** a hirdetéskezelési esetek | Most 1 db |
 | `/eredmenyek` | Minden eset | |
 
 Minden eset meg van jelölve, melyik félhez tartozik (`half: 'kepzes'` vagy
