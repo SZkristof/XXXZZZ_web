@@ -25,6 +25,13 @@ RewriteEngine On
   RewriteRule ^kepzes/?$ /oktatas [R=301,L]
   RewriteRule ^kepzes/(.*)$ /oktatas/$1 [R=301,L]
 
+  # ---- Renamed 2026-10: /ugynokseg -> /hirdeteskezeles ---------------------
+  # "Ügynökség" is what the business calls itself; "hirdetéskezelés" is what
+  # people type into Google, and it is already the word the page, the nav and
+  # the H1 use. Same reasoning as /kepzes -> /oktatas above, and the same 301:
+  # the move is permanent, and only a 301 carries the ranking over.
+  RewriteRule ^ugynokseg/?$ /hirdeteskezeles [R=301,L]
+
   # Serve /about as /about/index.html without exposing the filename.
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d

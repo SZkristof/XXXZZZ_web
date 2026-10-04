@@ -30,7 +30,7 @@ const PHONES = [
   [375, 667, 'iPhone SE'],
   [360, 640, 'kis Android'],
 ];
-const PAGES = ['/', '/oktatas', '/ugynokseg', '/arak', '/kapcsolat'];
+const PAGES = ['/', '/oktatas', '/hirdeteskezeles', '/arak', '/kapcsolat'];
 
 const TYPES = {
   '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript',

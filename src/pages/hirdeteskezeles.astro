@@ -42,7 +42,7 @@ import { huf } from '@/lib/format';
 const schema = [
   {
     '@type': 'Service',
-    '@id': `${site.url}/ugynokseg#service`,
+    '@id': `${site.url}/hirdeteskezeles#service`,
     name: 'Google és Meta hirdetéskezelés',
     serviceType: 'PPC hirdetéskezelés',
     provider: { '@id': `${site.url}/#business` },
@@ -56,7 +56,7 @@ const schema = [
         name: 'Google Ads vagy Meta Ads hirdetéskezelés — egy csatorna',
         price: agencyOffer.pricePerChannel,
         priceCurrency: 'HUF',
-        url: `${site.url}/ugynokseg#ar`,
+        url: `${site.url}/hirdeteskezeles#ar`,
         availability: 'https://schema.org/InStock',
         priceSpecification: {
           '@type': 'UnitPriceSpecification',
@@ -73,7 +73,7 @@ const schema = [
         name: 'Teljes körű Google + Meta hirdetéskezelés',
         price: agencyOffer.price,
         priceCurrency: 'HUF',
-        url: `${site.url}/ugynokseg#ar`,
+        url: `${site.url}/hirdeteskezeles#ar`,
         availability: 'https://schema.org/InStock',
         priceSpecification: {
           '@type': 'UnitPriceSpecification',
@@ -87,7 +87,7 @@ const schema = [
   },
   {
     '@type': 'FAQPage',
-    '@id': `${site.url}/ugynokseg#faq`,
+    '@id': `${site.url}/hirdeteskezeles#faq`,
     mainEntity: agencyFaqs.map((f) => ({
       '@type': 'Question',
       name: f.q,
