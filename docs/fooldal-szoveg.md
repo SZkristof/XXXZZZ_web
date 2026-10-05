@@ -6,7 +6,7 @@
 > változtatni, jelöld meg itt és szólj, vagy írd át a „forrás" alatt
 > megnevezett fájlban.
 
-Generálva: 2026-10-04
+Generálva: 2026-10-05
 
 **Telefon és nagy képernyő.** Az oldal néhány helyen két szöveget tart
 ugyanarra a pontra: telefonra egy rövidebbet, nagyobb képernyőre a
@@ -34,9 +34,9 @@ Szeretnéd végre önállóan, magabiztosan kezelni a hirdetéseidet? Az egyéni
 
 Kampánybeállítástól a hatékony hirdetések létrehozásáig — lépésről lépésre, közösen!
 
-**Gomb:** `Ingyenes 30 perces konzultáció` → /kapcsolat
+**Gomb:** `Ingyenes 30 perces konzultáció` → /kapcsolat/
 
-**Gomb:** `Megnézem az árakat` → /arak
+**Gomb:** `Megnézem az árakat` → /arak/
 
 FIX árak. Rejtett költségek nélkül.
 
@@ -159,7 +159,7 @@ Szólj, ha indul
 
   nem szükséges
 
-**Gomb:** `Az oktatásról bővebben` → /oktatas
+**Gomb:** `Az oktatásról bővebben` → /oktatas/
 
 Eleged van abból, hogy nem mennek a hirdetéseid és csak égeted a pénzt? Ha nem tudod, hogyan kezdj hozzá, akkor az oktatásom pont Neked szól.
 
@@ -459,7 +459,7 @@ Konkrét probléma megoldása, kampány indítása
 
 Kinek jó: Pár konkrét kérdés, elakadás, vagy egy alapos fiók átnézés.
 
-**Gomb:** `Érdekel` → /kapcsolat
+**Gomb:** `Érdekel` → /kapcsolat/
 
 5x60 PERC
 
@@ -479,7 +479,7 @@ Megspórolsz 35 000 Ft-ot
 
 Kinek jó: Nulláról felépítjük a hirdetéseidet Facebookon vagy Google-n, közös kampányokat indítunk.
 
-**Gomb:** `Érdekel` → /kapcsolat
+**Gomb:** `Érdekel` → /kapcsolat/
 
 10x60 PERC
 
@@ -499,7 +499,7 @@ Megspórolsz 105 000 Ft-ot
 
 Kinek jó: Komolyan skálázni akarsz, és két csatornát futtatnál párhuzamosan.
 
-**Gomb:** `Érdekel` → /kapcsolat
+**Gomb:** `Érdekel` → /kapcsolat/
 
 Egy alkalom listaára 35 000 Ft.
 
@@ -555,9 +555,9 @@ Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélése
 
 125 000 Ft — / hó / csatorna
 
-**Gomb:** `Hirdetéskezelésről bővebben` → /hirdeteskezeles
+**Gomb:** `Hirdetéskezelésről bővebben` → /hirdeteskezeles/
 
-**Gomb:** `Ajánlatot kérek` → /kapcsolat
+**Gomb:** `Ajánlatot kérek` → /kapcsolat/
 
 **Kampánykezelés**
 

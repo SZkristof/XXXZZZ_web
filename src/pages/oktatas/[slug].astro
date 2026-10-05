@@ -87,7 +87,7 @@ const pageFaqs = [...course.faqs, ...faqs.slice(0, 4)];
         <p class="t-lead mt-6 max-w-[54ch]">{course.lead}</p>
 
         <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <Button href="/kapcsolat" size="lg" track={`course-${course.slug}-hero`}>
+          <Button href="/kapcsolat/" size="lg" track={`course-${course.slug}-hero`}>
             Ingyenes 30 perces konzultáció
           </Button>
           <span class="t-small text-black">
@@ -196,7 +196,7 @@ const pageFaqs = [...course.faqs, ...faqs.slice(0, 4)];
             helyetted.
           </p>
           <div class="mt-8">
-            <Button href="/kapcsolat" size="lg" track={`course-${course.slug}-outcomes`}>
+            <Button href="/kapcsolat/" size="lg" track={`course-${course.slug}-outcomes`}>
               Beszéljük át
             </Button>
           </div>
@@ -281,7 +281,7 @@ const pageFaqs = [...course.faqs, ...faqs.slice(0, 4)];
           hozzá — vagy azt, hogy nálam most nem ez a legjobb választás neked.
         </p>
         <div class="mt-9 flex justify-center">
-          <Button href="/kapcsolat" size="lg" track={`course-${course.slug}-final`}>
+          <Button href="/kapcsolat/" size="lg" track={`course-${course.slug}-final`}>
             Ingyenes 30 perces konzultáció
           </Button>
         </div>
@@ -297,7 +297,7 @@ const pageFaqs = [...course.faqs, ...faqs.slice(0, 4)];
         {courses.filter((c) => c.slug !== course.slug).map((c) => (
           <li>
             <a
-              href={`/oktatas/${c.slug}`}
+              href={`/oktatas/${c.slug}/`}
               class="inline-block rounded-brand bg-white px-4 py-2.5 text-[0.9375rem]
                      font-medium text-black shadow-shade transition-transform
                      duration-200 hover:-translate-y-0.5"

@@ -55,7 +55,7 @@ const schema = tracks.map((t) => ({
         {courses.map((c) => (
           <li class="contents">
             <a
-              href={`/oktatas/${c.slug}`}
+              href={`/oktatas/${c.slug}/`}
               data-track={`oktatas-${c.slug}`}
               class="group card flex h-full flex-col p-7 transition-all duration-300 ease-out
                      hover:-translate-y-1 hover:shadow-shade-lift focus-visible:-translate-y-1"
@@ -109,10 +109,10 @@ const schema = tracks.map((t) => ({
                 <p class="mt-5 max-w-xl leading-relaxed text-black/72">{t.description}</p>
 
                 <div class="mt-9 flex flex-col gap-3 sm:flex-row">
-                  <Button href="/kapcsolat" track={`program-${t.slug}`}>
+                  <Button href="/kapcsolat/" track={`program-${t.slug}`}>
                     Ingyenes konzultáció
                   </Button>
-                  <Button href="/arak" variant="light">Árak megnézése</Button>
+                  <Button href="/arak/" variant="light">Árak megnézése</Button>
                 </div>
               </div>
 

@@ -6,7 +6,7 @@
 > változtatni, jelöld meg itt és szólj, vagy írd át a „forrás" alatt
 > megnevezett fájlban.
 
-Generálva: 2026-10-04
+Generálva: 2026-10-05
 
 **Telefon és nagy képernyő.** Az oldal néhány helyen két szöveget tart
 ugyanarra a pontra: telefonra egy rövidebbet, nagyobb képernyőre a
@@ -53,7 +53,7 @@ Kinek jó: Pár konkrét kérdés, elakadás, vagy egy alapos fiók átnézés.
 - Bármennyit kérdezhetsz
 - AJÁNDÉK: ingyenes videófelvétel
 
-**Gomb:** `Érdekel` → /kapcsolat
+**Gomb:** `Érdekel` → /kapcsolat/
 
 5x60 PERC
 
@@ -86,7 +86,7 @@ Kinek jó: Nulláról felépítjük a hirdetéseidet Facebookon vagy Google-n, k
 - Rejtett költségek nélkül
 - AJÁNDÉK: ingyenes videófelvétel (5 db)
 
-**Gomb:** `Érdekel` → /kapcsolat
+**Gomb:** `Érdekel` → /kapcsolat/
 
 10x60 PERC
 
@@ -119,7 +119,7 @@ Kinek jó: Komolyan skálázni akarsz, és két csatornát futtatnál párhuzamo
 - Rejtett költségek nélkül
 - AJÁNDÉK: ingyenes videófelvétel (10 db)
 
-**Gomb:** `Érdekel` → /kapcsolat
+**Gomb:** `Érdekel` → /kapcsolat/
 
 Egy alkalom listaára 35 000 Ft.
 
@@ -275,9 +275,9 @@ Magas színvonalú szakmai háttér, őszinteség és stratégiai megbeszélése
 
 125 000 Ft — / hó / csatorna
 
-**Gomb:** `Hirdetéskezelésről bővebben` → /hirdeteskezeles
+**Gomb:** `Hirdetéskezelésről bővebben` → /hirdeteskezeles/
 
-**Gomb:** `Ajánlatot kérek` → /kapcsolat
+**Gomb:** `Ajánlatot kérek` → /kapcsolat/
 
 **Kampánykezelés**
 

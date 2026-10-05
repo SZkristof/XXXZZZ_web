@@ -6,7 +6,7 @@
 > változtatni, jelöld meg itt és szólj, vagy írd át a „forrás" alatt
 > megnevezett fájlban.
 
-Generálva: 2026-10-04
+Generálva: 2026-10-05
 
 **Telefon és nagy képernyő.** Az oldal néhány helyen két szöveget tart
 ugyanarra a pontra: telefonra egy rövidebbet, nagyobb képernyőre a
@@ -34,7 +34,7 @@ Havi szintű, összehangolt Google és Meta hirdetéskezelés vállalkozásoknak
 
 125 000 Ft — / hó / csatorna · rejtett költségek nélkül
 
-**Gomb:** `Ingyenes konzultáció` → /kapcsolat
+**Gomb:** `Ingyenes konzultáció` → /kapcsolat/
 
 20–30 perces, kötelezettségmentes egyeztetés
 
@@ -342,7 +342,7 @@ Egyetlen havi díj. Két hirdetési platform. Teljes körű tervezés és kezel�
 
 Alanyi adómentes szolgáltatóként számlázok, így áfa nem kerül rá — ennyit fizetsz.
 
-**Gomb:** `Beszéljünk a vállalkozásodról` → /kapcsolat
+**Gomb:** `Beszéljünk a vállalkozásodról` → /kapcsolat/
 
 Vagy hívj: +36 70 670 2600
 
@@ -430,7 +430,7 @@ Egy nagy ügynökségnél jellemzően egy junior account manager ül a fiókodon
 
 Beszéljük át, hogyan tudom a legtöbbet kihozni belőled és a vállalkozásodból.
 
-**Gomb:** `Ingyenes konzultáció` → /kapcsolat
+**Gomb:** `Ingyenes konzultáció` → /kapcsolat/
 
 Az első beszélgetés célja nem az, hogy eladjak egy szolgáltatást. Megnézzük, egyáltalán van-e értelme együtt dolgoznunk — és ha nincs, azt is megmondom, a helyedben milyen irányba mennék tovább.
 
