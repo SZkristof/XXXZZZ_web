@@ -46,6 +46,14 @@ const canonical = new URL(canonicalPath ? `${canonicalPath}/` : '/', Astro.site)
 // Any deploy that is not the real domain must not be indexed. One env var
 // covers every page, so it cannot be forgotten on an individual template.
 const STAGING = import.meta.env.PUBLIC_NOINDEX === '1';
+
+/* A noindex page declares no canonical. The two contradict each other —
+   canonical says "this is the master copy of this content", noindex says
+   "do not index it" — and Google's own guidance is not to combine them.
+   On /404 it was worse than contradictory: the page is served as 404.html
+   by ErrorDocument, so the canonical it declared, /404/, is not a URL that
+   resolves at all. */
+const declaresCanonical = !(noindex || STAGING);
 const ogImage = new URL(image, Astro.site).href;
 const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
 
@@ -97,7 +105,7 @@ const graph = [
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="canonical" href={canonical} />
+    {declaresCanonical && <link rel="canonical" href={canonical} />}
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -108,7 +116,7 @@ const graph = [
     <meta property="og:locale" content="hu_HU" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {declaresCanonical && <meta property="og:url" content={canonical} />}
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />

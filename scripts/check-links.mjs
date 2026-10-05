@@ -19,6 +19,18 @@ import { join, relative, dirname, basename } from 'node:path';
 
 const DIST = 'dist';
 const html = globSync(`${DIST}/**/*.html`);
+
+/* og:image and twitter:image are ABSOLUTE by spec — a relative one is
+   ignored by every platform — so checking only paths that start with "/"
+   skips them entirely. The origin is taken from the pages' own canonical
+   rather than hardcoded, so it cannot drift from astro.config.mjs. */
+const ORIGIN = (() => {
+  for (const f of html) {
+    const m = readFileSync(f, 'utf8').match(/rel="canonical" href="(https?:\/\/[^/"]+)/);
+    if (m) return m[1];
+  }
+  return null;
+})();
 const routes = new Set();
 for (const f of html) {
   const rel = relative(DIST, f);
@@ -42,13 +54,22 @@ for (const f of html) {
   let from = basename(rel) === 'index.html' ? `/${dirname(rel)}` : `/${rel}`;
   from = from === '/.' ? '/' : from.replace(/\/$/, '');
   const body = readFileSync(f, 'utf8');
-  /* The capture stops at # or ? so an anchor link is judged on its path —
+  /* href/src AND the meta tags that name a URL. og:image was missing for
+     months — every page pointed at /img/og-default.jpg, the file did not
+     exist, and a shared link had no preview — because this only read href
+     and src. A URL is a URL wherever the attribute sits.
+
+     The capture stops at # or ? so an anchor link is judged on its path:
      /oktatas#meta redirects exactly as /oktatas does. */
-  for (const m of body.matchAll(/(?:href|src)="(\/[^"#?]*)/g)) {
+  const own = ORIGIN
+    ? new RegExp(`(?:href|src|content)="(?:${ORIGIN.replace(/[.*+?^$()|[\]\\]/g, '\\$&')})?(/[^"#?]*)`, 'g')
+    : /(?:href|src|content)="(\/[^"#?]*)/g;
+
+  for (const m of body.matchAll(own)) {
     const raw = m[1];
     const t = raw.replace(/\/$/, '') || '/';
     checked++;
-    if (raw !== '/' && !raw.endsWith('/') && !isFile(raw)) {
+    if (raw !== '/' && !raw.endsWith('/') && !isFile(raw) && !m[0].startsWith('content=')) {
       redirecting.push(`${from}  ->  ${raw}   (helyesen: ${raw}/)`);
     }
     if (routes.has(t)) continue;
