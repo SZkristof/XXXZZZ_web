@@ -19,7 +19,7 @@ const fmt = (d: Date) =>
 const schema = [
   {
     '@type': 'BlogPosting',
-    '@id': `${site.url}/blog/${post.id}#post`,
+    '@id': `${site.url}/blog/${post.id}/#post`,
     headline: post.data.title,
     description: post.data.description,
     datePublished: post.data.pubDate.toISOString(),
@@ -27,7 +27,7 @@ const schema = [
     author: { '@id': `${site.url}/#person` },
     publisher: { '@id': `${site.url}/#business` },
     inLanguage: 'hu-HU',
-    mainEntityOfPage: `${site.url}/blog/${post.id}`,
+    mainEntityOfPage: `${site.url}/blog/${post.id}/`,
   },
 ];
 ---
@@ -37,7 +37,7 @@ const schema = [
     <header class="bg-blue-800 text-white">
       <div class="container-prose py-14 sm:py-20">
         <a
-          href="/blog"
+          href="/blog/"
           class="inline-flex items-center gap-2 text-sm font-medium text-paper/75
                  transition-colors hover:text-white"
         >
@@ -94,7 +94,7 @@ const schema = [
             megmondom, hol van a legnagyobb tartalék.
           </p>
           <div class="mt-7">
-            <Button href="/kapcsolat" size="lg" track="blog-cta">
+            <Button href="/kapcsolat/" size="lg" track="blog-cta">
               Ingyenes konzultáció
             </Button>
           </div>

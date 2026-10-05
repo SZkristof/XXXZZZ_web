@@ -4,9 +4,9 @@ import Logo from '@/components/Logo.astro';
 const year = new Date().getFullYear();
 
 const legal = [
-  { href: '/adatkezeles', label: 'Adatkezelési tájékoztató' },
-  { href: '/aszf', label: 'ÁSZF' },
-  { href: '/cookie', label: 'Cookie tájékoztató' },
+  { href: '/adatkezeles/', label: 'Adatkezelési tájékoztató' },
+  { href: '/aszf/', label: 'ÁSZF' },
+  { href: '/cookie/', label: 'Cookie tájékoztató' },
 ];
 ---
 
@@ -26,7 +26,7 @@ const legal = [
         </div>
         <div class="flex flex-col gap-3 sm:flex-row lg:flex-col">
           <a
-            href="/kapcsolat"
+            href="/kapcsolat/"
             data-track="footer-cta"
             class="inline-flex flex-1 items-center justify-center rounded-brand bg-terracotta-500 px-6 py-4
                    font-title text-base font-bold text-black transition-all duration-200
@@ -70,7 +70,7 @@ const legal = [
             </li>
           ))}
           <li>
-            <a href="/kapcsolat" class="text-sm text-paper/85 transition-colors hover:text-terracotta-200">
+            <a href="/kapcsolat/" class="text-sm text-paper/85 transition-colors hover:text-terracotta-200">
               Kapcsolat
             </a>
           </li>
@@ -83,7 +83,7 @@ const legal = [
           {platforms.map((p) => (
             <li>
               <a
-                href={`/oktatas#${p.id}`}
+                href={`/oktatas/#${p.id}`}
                 class="text-sm text-paper/85 transition-colors hover:text-terracotta-200"
               >
                 {p.name}
