@@ -1,13 +1,34 @@
 ---
 import Legal from '@/layouts/Legal.astro';
-import { contact, packages, legalEntity, terms, SESSION_LENGTH_MIN } from '@/data/site';
+import {
+  contact, packages, legalEntity, terms, agencyOffer, SESSION_LENGTH_MIN,
+} from '@/data/site';
 import { huf } from '@/lib/format';
+
+/**
+ * Two services, one document.
+ *
+ * This covered the coaching half only, and said so explicitly — "a
+ * szolgáltatás oktatás és szaktanácsadás, nem hirdetéskezelés" — while
+ * /hirdeteskezeles sold a 125-250 000 Ft/hó retainer with a two-month notice
+ * period and nothing here backed it. A page promising contractual terms that
+ * no document carries is worse than one that promises nothing.
+ *
+ * Structure follows from that: the parts that differ between the two services
+ * get their own chapter (A and B), and everything true of both — withdrawal,
+ * liability, confidentiality, complaints — stays common at the end. The
+ * alternative, a parallel set of sections per service, duplicates the shared
+ * clauses and guarantees they drift apart.
+ *
+ * EVERY FIGURE COMES FROM src/data/site.ts. A contract that states a price
+ * the sales page contradicts is the specific failure this avoids.
+ */
 ---
 
 <Legal
   title="Általános Szerződési Feltételek"
-  description="A Brandműhely egyéni hirdetési képzéseire vonatkozó általános szerződési feltételek."
-  updated="2026. szeptember 18."
+  description="A Brandműhely egyéni hirdetési oktatására és havi hirdetéskezelési szolgáltatására vonatkozó általános szerződési feltételek."
+  updated="2026. október 5."
 >
   <h2>1. A szolgáltató</h2>
   <p>
@@ -21,21 +42,41 @@ import { huf } from '@/lib/format';
     <strong>Tárhelyszolgáltató:</strong> {legalEntity.hosting}
   </p>
 
-  <h2>2. A szolgáltatás tárgya</h2>
+  <h2>2. A szolgáltatások</h2>
+  <p>A szolgáltató kétféle szolgáltatást nyújt:</p>
+  <ul>
+    <li>
+      <strong>„A" Egyéni oktatás</strong> — oktatás és szaktanácsadás Meta, Google,
+      LinkedIn, TikTok hirdetési rendszerek és a Google Analytics használatáról. Ebben az
+      esetben a hirdetési fiók a megrendelő kezelésében marad, a kampányokat a megrendelő
+      indítja és felügyeli.
+    </li>
+    <li>
+      <strong>„B" Hirdetéskezelés</strong> — havi díjas kampánykezelés, amelynek keretében
+      a szolgáltató a megrendelő hirdetési fiókjában, a megrendelő megbízásából és
+      hozzáférésével végzi a hirdetések tervezését, felépítését és optimalizálását.
+    </li>
+  </ul>
   <p>
-    A szolgáltató egyéni (1 az 1-ben) oktatást nyújt Meta, Google és LinkedIn
-    hirdetési rendszerek használatáról. Egy alkalom időtartama {SESSION_LENGTH_MIN} perc.
-    A megvalósítás alapesetben Google Meet videóhívás formájában történik; előzetes
-    egyeztetés alapján személyes, budapesti alkalom is kérhető. A helyszínről a felek
-    minden alkalom előtt előre megállapodnak.
+    A <strong>3–5. pont</strong> kizárólag az „A", a <strong>6–10. pont</strong> kizárólag
+    a „B" szolgáltatásra vonatkozik. A <strong>11. ponttól</strong> kezdődő rendelkezések
+    mindkettőre érvényesek. A szerződés a megrendelés szolgáltató általi írásos
+    visszaigazolásával jön létre.
   </p>
   <p>
-    A szolgáltatás <strong>oktatás és szaktanácsadás</strong>, nem hirdetéskezelés. A
-    hirdetési fiók a megrendelő tulajdonában és kezelésében marad; a kampányokat a
-    megrendelő indítja és felügyeli.
+    A szolgáltató <strong>alanyi adómentes</strong> adózó, ezért az ÁSZF-ben és a
+    weboldalon feltüntetett árak áfát nem tartalmaznak, és a számlán áfa nem kerül
+    felszámításra — a fizetendő összeg megegyezik a feltüntetett árral.
   </p>
 
-  <h2>3. Díjak</h2>
+  <h2>„A" rész — Egyéni oktatás</h2>
+
+  <h2>3. Az oktatás tárgya és díjai</h2>
+  <p>
+    Egy alkalom időtartama {SESSION_LENGTH_MIN} perc. A megvalósítás alapesetben Google
+    Meet videóhívás formájában történik; előzetes egyeztetés alapján személyes, budapesti
+    alkalom is kérhető. A helyszínről a felek minden alkalom előtt előre megállapodnak.
+  </p>
   <table>
     <thead><tr><th>Csomag</th><th>Alkalmak</th><th>Díj</th><th>Egy alkalomra vetítve</th></tr></thead>
     <tbody>
@@ -50,10 +91,8 @@ import { huf } from '@/lib/format';
     </tbody>
   </table>
   <p>
-    A szolgáltató <strong>alanyi adómentes</strong> adózó, ezért a feltüntetett árak
-    áfát nem tartalmaznak, és a számlán áfa nem kerül felszámításra — a fizetendő
-    összeg megegyezik a feltüntetett árral. A díj a szolgáltatás megkezdése előtt,
-    számla ellenében, banki átutalással fizetendő, eltérő megállapodás hiányában.
+    A díj a szolgáltatás megkezdése előtt, számla ellenében, banki átutalással fizetendő,
+    eltérő megállapodás hiányában.
   </p>
 
   <h2>4. Időpontfoglalás, lemondás, átütemezés</h2>
@@ -85,33 +124,134 @@ import { huf } from '@/lib/format';
     célra nem hasznosítható.
   </p>
 
-  <h2>6. Elállási jog</h2>
+  <h2>„B" rész — Hirdetéskezelés</h2>
+
+  <h2>6. A megbízás tartalma</h2>
+  <p>A havi díj ellenében a szolgáltató az alábbiakat végzi el:</p>
+  <ul>
+    {agencyOffer.includes.map((x) => <li>{x}</li>)}
+  </ul>
+  <p>A havi díj kifejezetten <strong>nem</strong> tartalmazza:</p>
+  <ul>
+    {agencyOffer.excludes.map((x) => (
+      <li><strong>{x.what}</strong> — {x.note}</li>
+    ))}
+  </ul>
+  <p>
+    A felsorolásban nem szereplő feladatokról a felek külön állapodnak meg, külön díj
+    ellenében.
+  </p>
+
+  <h2>7. Havi díj és számlázás</h2>
+  <p>
+    A havi díj csatornánként <strong>{huf(agencyOffer.pricePerChannel)} / {agencyOffer.period}</strong>
+    (Google Ads vagy Meta Ads); a két csatorna együttes kezelése
+    <strong>{huf(agencyOffer.price)} / {agencyOffer.period}</strong>. A díj a szolgáltató
+    munkadíja: a szolgáltató a megrendelő bevétele után jutalékot, a hirdetési költés után
+    százalékos díjat nem számít fel.
+  </p>
+  <p>
+    A szolgáltató a tárgyhó elején állít ki számlát, <strong>8 napos fizetési
+    határidővel</strong>. A megkezdett hónap díja teljes egészében esedékes. Fizetési
+    késedelem esetén a szolgáltató — 8 napos, írásos fizetési felszólítást követően — a
+    szolgáltatás nyújtását a díj megfizetéséig felfüggesztheti; a felfüggesztés ideje alatt
+    a kampányok a megrendelő kockázatára tovább futnak.
+  </p>
+
+  <h2>8. A hirdetési költés</h2>
+  <p>
+    A hirdetési költés <strong>nem része a havi díjnak</strong>. Azt a megrendelő a saját
+    hirdetési fiókjából, közvetlenül a Google, illetve a Meta felé fizeti, a saját
+    fizetési eszközével. A hirdetési keret nagyságáról a megrendelő dönt; a szolgáltató
+    javaslatot tesz, a keretet a megrendelő jóváhagyása nélkül nem emeli meg.
+  </p>
+
+  <h2>9. A hirdetési fiók, a hozzáférések és az adatok</h2>
+  <ul>
+    <li>
+      A hirdetési fiók, a hozzá tartozó adatvagyon és a felépített kampányok
+      <strong>a megrendelő tulajdonában maradnak</strong>, az együttműködés alatt és után
+      egyaránt.
+    </li>
+    <li>
+      A szolgáltató a megrendelő által biztosított hozzáféréssel dolgozik a megrendelő
+      saját fiókjában. A megrendelő a hozzáférést bármikor visszavonhatja.
+    </li>
+    <li>
+      Az együttműködés megszűnésekor a szolgáltató a hozzáféréseit megszünteti; a fiók, az
+      adatok és a kampányok a megrendelőnél maradnak. A szolgáltató a megrendelő
+      kampányadatait a megszűnést követően nem használja fel.
+    </li>
+    <li>
+      Ha a szolgáltató a megbízás teljesítése során a megrendelő nevében személyes adatot
+      kezel (például vásárlói listák feltöltése, remarketing-közönségek kezelése), ezt a
+      megrendelő adatfeldolgozójaként teszi. Ilyen esetben a felek a GDPR 28. cikke szerinti
+      <strong>külön adatfeldolgozói megállapodást</strong> kötnek.
+    </li>
+  </ul>
+
+  <h2>10. Időtartam, felmondás</h2>
+  <ul>
+    <li>Az együttműködés határozatlan idejű, havi díjas. <strong>Hűségidő nincs.</strong></li>
+    <li>
+      Bármelyik fél felmondhatja, indokolás nélkül, írásban (e-mailben is), <strong>két
+      hónapos felmondási idővel</strong>. A felmondási idő a felmondás közlését követő hónap
+      első napján kezdődik, és a második naptári hónap utolsó napján jár le.
+    </li>
+    <li>
+      A felmondási idő alatt mindkét fél teljesít: a szolgáltató tovább kezeli a
+      kampányokat, a megrendelő megfizeti a havi díjat.
+    </li>
+    <li>
+      Súlyos szerződésszegés esetén — ideértve a 7. pont szerinti fizetési késedelmet és a
+      hirdetési platformok szabályzatába ütköző tartalom közzétételének kikényszerítését —
+      bármelyik fél azonnali hatállyal felmondhat.
+    </li>
+  </ul>
+
+  <h2>Közös rendelkezések</h2>
+
+  <h2>11. Elállási jog</h2>
   <p>
     A fogyasztónak minősülő megrendelőt a 45/2014. (II. 26.) Korm. rendelet alapján a
     szerződéskötéstől számított <strong>14 napon belül</strong> indokolás nélküli elállási
     jog illeti meg. Ha a megrendelő kifejezetten kéri a szolgáltatás 14 napon belüli
     megkezdését, és a szolgáltatás teljesítése megkezdődött, az elállási jog a már
-    teljesített alkalmak arányában nem gyakorolható.
+    teljesített alkalmak, illetve a már teljesített szolgáltatási időszak arányában nem
+    gyakorolható.
   </p>
   <p>
     A vállalkozásként (nem fogyasztóként) szerződő megrendelőt e jogszabályi elállási jog
-    nem illeti meg.
+    nem illeti meg. A hirdetéskezelési szolgáltatás jellegéből adódóan a megrendelő
+    jellemzően vállalkozásként szerződik.
   </p>
 
-  <h2>7. Felelősség</h2>
+  <h2>12. Felelősség</h2>
   <p>
-    A szolgáltató szakmai tudása legjavát nyújtva ad tanácsot, azonban a hirdetési
-    kampányok eredménye számos, a szolgáltató befolyásán kívül eső tényezőtől függ (piaci
-    környezet, termék, árazás, verseny, a hirdetési platformok saját algoritmusai és
-    szabályzatai). A szolgáltató <strong>konkrét üzleti eredményt, megtérülést vagy
-    bevételt nem garantál</strong>.
+    A szolgáltató szakmai tudása legjavát nyújtva jár el, azonban a hirdetési kampányok
+    eredménye számos, a szolgáltató befolyásán kívül eső tényezőtől függ (piaci környezet,
+    termék, árazás, verseny, a hirdetési platformok saját algoritmusai és szabályzatai).
+    A szolgáltató <strong>konkrét üzleti eredményt, megtérülést vagy bevételt nem
+    garantál</strong>.
   </p>
   <p>
-    A hirdetési fiókban végrehajtott módosításokért és az elköltött hirdetési keretért a
-    megrendelő felel, mivel a fiók az ő kezelésében marad.
+    <strong>Az „A" szolgáltatásnál</strong> a hirdetési fiókban végrehajtott módosításokért
+    és az elköltött hirdetési keretért a megrendelő felel, mivel a fiók az ő kezelésében
+    marad.
+  </p>
+  <p>
+    <strong>A „B" szolgáltatásnál</strong> a szolgáltató a megbízás keretében végzett
+    munkájáért felel. A hirdetett termék vagy szolgáltatás jogszerűségéért, a megadott
+    adatok, árak és állítások valóságtartalmáért, valamint a megrendelő által biztosított
+    kreatív anyagok felhasználási jogaiért a megrendelő felel. Ha a hirdetési platform a
+    megrendelő tartalma miatt korlátozza vagy felfüggeszti a fiókot, az ebből eredő kárért
+    a szolgáltató nem felel. A szolgáltató kártérítési felelőssége — a szándékosan okozott,
+    valamint az emberi életet, testi épséget vagy egészséget megkárosító szerződésszegés
+    esetét kivéve — a szerződésszegéssel érintett hónapra fizetett havi díj összegéig
+    terjed.
   </p>
 
-  <h2>8. Titoktartás</h2>
+  <h2>13. Titoktartás</h2>
   <p>
     A szolgáltató a megrendelő üzleti adatait, kampányadatait és minden, az együttműködés
     során tudomására jutott információt bizalmasan kezel, és azt harmadik félnek nem adja
@@ -119,7 +259,7 @@ import { huf } from '@/lib/format';
     írásos hozzájárulásával használhatók fel.
   </p>
 
-  <h2>9. Panaszkezelés</h2>
+  <h2>14. Panaszkezelés</h2>
   <p>
     Panaszt a <a href={`mailto:${contact.email}`}>{contact.email}</a> címen lehet
     bejelenteni; a szolgáltató 30 napon belül érdemben válaszol. Fogyasztói jogvita esetén
@@ -127,11 +267,14 @@ import { huf } from '@/lib/format';
     fordulhat, illetve panaszt tehet a területileg illetékes fogyasztóvédelmi hatóságnál.
   </p>
 
-  <h2>10. Egyéb rendelkezések</h2>
+  <h2>15. Egyéb rendelkezések</h2>
   <p>
     A jelen ÁSZF-ben nem szabályozott kérdésekben a Polgári Törvénykönyvről szóló 2013. évi
     V. törvény és a vonatkozó magyar jogszabályok az irányadók. A szolgáltató fenntartja a
     jogot az ÁSZF egyoldalú módosítására; a módosítás a közzétételt követően kötött
-    szerződésekre hatályos.
+    szerződésekre hatályos. A már futó, határozatlan idejű hirdetéskezelési
+    együttműködéseknél a szolgáltató a módosításról legalább 30 nappal előre írásban
+    értesíti a megrendelőt, aki a módosítás hatálybalépéséig a 10. pont szerint
+    felmondhat.
   </p>
 </Legal>

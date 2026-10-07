@@ -5,16 +5,16 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
+  # http://www went to https://www and only then to the bare domain — two
+  # hops for the one case that needs both corrections. This rule takes
+  # anything on www straight to its final address, http or https.
+  RewriteCond %{HTTP_HOST} ^www\.brandmuhely\.hu$ [NC]
+  RewriteRule ^(.*)$ https://brandmuhely.hu/$1 [R=301,L]
+
   # Force HTTPS (Rackhost provides free Let's Encrypt — enable it first).
   RewriteCond %{HTTPS} !=on
   RewriteCond %{HTTP:X-Forwarded-Proto} !https
   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
-
-  # Canonical host: the BARE domain. www already resolves here and the server
-  # redirects it, so this rule is belt-and-braces — it keeps the canonical
-  # direction correct even if that server-side behaviour ever changes.
-  RewriteCond %{HTTP_HOST} ^www\.brandmuhely\.hu$ [NC]
-  RewriteRule ^(.*)$ https://brandmuhely.hu/$1 [R=301,L]
 
   # ---- Renamed 2026-09: /kepzes -> /oktatas --------------------------------
   # The training pages moved under a name that matches what people search for
@@ -42,17 +42,45 @@ RewriteEngine On
 ErrorDocument 404 /404.html
 
 # --- Régi WordPress URL-ek --------------------------------------------------
-# Ha a régi oldal aloldalai szerepelnek a Google találatai között, ide kerülnek
-# az átirányítások, hogy ne legyenek 404-esek. Lásd DEPLOY.md 3. pont.
-# Minta:
-#   Redirect 301 /regi-oldal-url /programok
-#   Redirect 301 /szolgaltatasok /programok
+# A domain alatt korábban egy WordPress LMS-sablon futott, és annak a DEMO
+# TARTALMA van még a Google indexében: angol nyelvű cikkek egyetemi
+# felvételiről és online oktatásról, a Tutor LMS sablonoldalai
+# (tut-course-grid-03, home-coursera-tutor, 4-columns), kurzus- és
+# eseményarchívumok. Egyik sem Kristóf tartalma, és egyikhez sincs megfelelő
+# oldal az új site-on.
 #
-# A WordPress szokásos végpontjai: nincs mire mutatniuk, tiltsuk őket.
+# EZÉRT 410, NEM 301. Egy 301 akkor helyes, ha a tartalom MÁSHOVÁ KÖLTÖZÖTT.
+# Ha nincs megfelelője, és mindet a főoldalra irányítanánk, a Google azt
+# "soft 404"-ként kezeli: nem ad át értéket, viszont elfedi, hogy ezek a
+# címek valójában megszűntek. A 410 azt mondja, hogy végleg nincs többé —
+# és a Google a 410-et érezhetően gyorsabban dobja ki az indexből, mint a
+# 404-et.
+#
+# A minták szándékosan az egykori sablon útvonalaira szűkítenek. Az új oldal
+# útvonalai (/oktatas/, /hirdeteskezeles/, /arak/, /rolam/, /eredmenyek/,
+# /kapcsolat/, /blog/) egyikkel sem ütköznek.
 <IfModule mod_rewrite.c>
+  # A WordPress szokásos végpontjai.
   RewriteRule ^wp-admin(/.*)?$ - [R=410,L]
   RewriteRule ^wp-login\.php$ - [R=410,L]
   RewriteRule ^xmlrpc\.php$ - [R=410,L]
+  RewriteRule ^wp-(content|includes|json)(/.*)?$ - [R=410,L]
+
+  # A sablon tartalomtípusai és archívumai.
+  RewriteRule ^(events?|courses|course-category|course-tag|zoom-meetings|category|tag|author)(/.*)?$ - [R=410,L]
+
+  # Dátumarchívumok: /2024/, /2024/04/ és hasonlók.
+  RewriteRule ^(19|20)[0-9]{2}(/[0-9]{2})?(/[0-9]{2})?/?$ - [R=410,L]
+
+  # A sablon saját demo-oldalai.
+  RewriteRule ^(tut-|home-).*$ - [R=410,L]
+  RewriteRule ^(4-columns|dashboard-2|hello-vilag)/?$ - [R=410,L]
+
+  # A demo blogbejegyzések, amik a gyökérben ülnek.
+  RewriteRule ^(how-blockchain-can-disrupt-university-admissions|how-technology-is-transforming-modern-education|how-digital-platforms-are-shaping-business-schools|why-business-students-need-tech-skills-for-the-future|common-university-admission-mistakes-and-solutions)/?.*$ - [R=410,L]
+
+  # WordPress RSS-végpontok bárhol.
+  RewriteRule (^|/)feed/?$ - [R=410,L]
 </IfModule>
 
 # -------------------------------------------------------------- caching ----
