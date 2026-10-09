@@ -5,10 +5,26 @@
 <IfModule mod_rewrite.c>
 RewriteEngine On
 
-  # http://www went to https://www and only then to the bare domain — two
-  # hops for the one case that needs both corrections. This rule takes
-  # anything on www straight to its final address, http or https.
-  RewriteCond %{HTTP_HOST} ^www\.brandmuhely\.hu$ [NC]
+  # Canonical host: the BARE brandmuhely.hu, and everything else 301s to it,
+  # keeping its path so deep links survive.
+  #
+  #   www.brandmuhely.hu         — http://www used to take two hops, one to
+  #                                add TLS and another to drop the www; this
+  #                                rule runs first and does both at once.
+  #   xn--brandmhely-6fc.hu      — brandműhely.hu in Punycode, which is how
+  #                                the accented domain reaches the server.
+  #                                Kristóf registered it defensively; nobody
+  #                                types ű into an address bar, so it is a
+  #                                redirect and never a second site. This is
+  #                                inert until the domain is pointed at this
+  #                                hosting account — it can only fire on a
+  #                                host that actually arrives here.
+  #
+  # Deliberately NOT a catch-all "anything that is not brandmuhely.hu". A
+  # staging host would be caught by that and redirected to production, which
+  # is exactly how a preview environment silently stops working.
+  RewriteCond %{HTTP_HOST} ^www\.brandmuhely\.hu$ [NC,OR]
+  RewriteCond %{HTTP_HOST} ^(www\.)?xn--brandmhely-6fc\.hu$ [NC]
   RewriteRule ^(.*)$ https://brandmuhely.hu/$1 [R=301,L]
 
   # Force HTTPS (Rackhost provides free Let's Encrypt — enable it first).
