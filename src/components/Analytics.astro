@@ -13,17 +13,52 @@
  * calls gtag('consent','update', …). A site that sells advertising expertise
  * cannot afford to get its own tracking wrong.
  */
-const GTM_ID = import.meta.env.PUBLIC_GTM_ID ?? '';
+interface Props {
+  /**
+   * 'head' is the loader and the consent defaults; 'body' is only GTM's
+   * <noscript> iframe, which belongs immediately after <body>. A <noscript>
+   * holding an <iframe> is not valid inside <head>, and browsers relocate it
+   * — so it is rendered where it belongs instead.
+   */
+  part?: 'head' | 'body';
+}
+const { part = 'head' } = Astro.props;
+
+/* Kristóf's container. A GTM id is NOT a secret — it is in the page source
+   of every site that uses one — so it lives here rather than in a GitHub
+   variable, where it would be one more thing to set and one more thing to
+   forget. The env var still overrides it, for anyone running a second
+   container against this codebase. */
+const GTM_ID = import.meta.env.PUBLIC_GTM_ID ?? 'GTM-W9P4TKMB';
 const GA4_ID = import.meta.env.PUBLIC_GA4_ID ?? '';
 const GADS_ID = import.meta.env.PUBLIC_GOOGLE_ADS_ID ?? '';
 const META_PIXEL_ID = import.meta.env.PUBLIC_META_PIXEL_ID ?? '';
 
+/* A deploy that is not the real domain measures nothing. Otherwise a staging
+   build pollutes the same GA4 property and the same Pixel as production, and
+   the numbers Kristóf makes decisions on quietly include his own testing.
+   Same env var that governs noindex, for the same reason: one switch, so it
+   cannot be set correctly in one place and wrongly in another. */
+const STAGING = import.meta.env.PUBLIC_NOINDEX === '1';
+
 // Direct tags are a fallback only — never run alongside GTM, or every
 // conversion is counted twice.
-const useDirect = !GTM_ID;
+const gtm = STAGING ? '' : GTM_ID;
+const useDirect = !gtm && !STAGING;
 const hasDirectGoogle = useDirect && Boolean(GA4_ID || GADS_ID);
 const hasDirectMeta = useDirect && Boolean(META_PIXEL_ID);
 ---
+
+{part === 'body' && gtm && (
+  <noscript>
+    <Fragment
+      set:html={`<iframe src="https://www.googletagmanager.com/ns.html?id=${gtm}" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe>`}
+    />
+  </noscript>
+)}
+
+{part === 'head' && (
+<Fragment>
 
 <script is:inline>
   // ---- Consent Mode v2 defaults. MUST run before GTM / gtag.js. ----------
@@ -82,9 +117,9 @@ const hasDirectMeta = useDirect && Boolean(META_PIXEL_ID);
   };
 </script>
 
-{GTM_ID && (
+{gtm && (
   <Fragment>
-    <script is:inline define:vars={{ GTM_ID }}>
+    <script is:inline define:vars={{ GTM_ID: gtm }}>
       (function (w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
@@ -96,11 +131,6 @@ const hasDirectMeta = useDirect && Boolean(META_PIXEL_ID);
         f.parentNode.insertBefore(j, f);
       })(window, document, 'script', 'dataLayer', GTM_ID);
     </script>
-    <noscript>
-      <Fragment
-        set:html={`<iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_ID}" height="0" width="0" style="display:none;visibility:hidden" title="Google Tag Manager"></iframe>`}
-      />
-    </noscript>
   </Fragment>
 )}
 
@@ -132,4 +162,6 @@ const hasDirectMeta = useDirect && Boolean(META_PIXEL_ID);
       if (s && JSON.parse(s).marketing) { fbq('consent', 'grant'); fbq('track', 'PageView'); }
     } catch (e) {}
   </script>
+)}
+</Fragment>
 )}

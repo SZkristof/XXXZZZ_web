@@ -144,6 +144,8 @@ const graph = [
   </head>
 
   <body class="bg-white text-black antialiased">
+    <!-- GTM's noscript iframe belongs here, not in <head>. -->
+    <Analytics part="body" />
     <a
       href="#main"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100]
