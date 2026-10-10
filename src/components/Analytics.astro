@@ -104,15 +104,35 @@ const hasDirectMeta = useDirect && Boolean(META_PIXEL_ID);
     if (el) window.bmTrack('cta_click', { cta_id: el.getAttribute('data-track') });
   });
 
+  /* Conversions carry an event_id so the browser event and the server one
+     can be recognised as the same thing.
+
+     Meta deduplicates a Pixel event against a Conversions API event when the
+     two share an event name AND an eventID. The server half does not exist
+     yet — it will send from contact.php, which already handles the form —
+     but the id has to be minted HERE, in the browser, at the moment the
+     conversion happens. Adding it later would mean rebuilding the GTM tags,
+     so it goes in now and is simply unused until the server catches up. */
+  function eventId() {
+    try {
+      if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+    } catch (e) {}
+    return 'e' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+  }
+
+  var DEDUPED = { booking_complete: 'Schedule', form_submit: 'Lead' };
+
   window.bmTrack = function (name, params) {
     params = params || {};
+    if (DEDUPED[name] && !params.event_id) params.event_id = eventId();
     window.dataLayer.push(Object.assign({ event: name }, params));
     if (typeof window.gtag === 'function' && window.gtagDirect) {
       window.gtag('event', name, params);
     }
     if (typeof window.fbq === 'function' && window.fbqDirect) {
-      var map = { booking_complete: 'Schedule', form_submit: 'Lead' };
-      if (map[name]) window.fbq('track', map[name]);
+      if (DEDUPED[name]) {
+        window.fbq('track', DEDUPED[name], {}, { eventID: params.event_id });
+      }
     }
   };
 </script>
