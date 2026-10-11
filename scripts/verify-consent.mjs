@@ -46,7 +46,20 @@ check('security_storage granted', c.security_storage === 'granted');
 const banner = page.locator('#consent');
 check('banner visible on first visit', await banner.isVisible());
 
-// Reject path
+/* Reject path. Refusing lives one layer down — Kristóf's call, see the note
+   at the top of CookieConsent.astro — so the test walks the journey a
+   visitor actually walks rather than clicking a button that is not on the
+   first screen. If "Testreszabás" ever stops leading to a way of refusing,
+   this fails, which is the point. */
+check('reject is NOT on the first screen', !(await page.locator('#c-reject').isVisible()));
+await page.click('#c-customize');
+check('customise reveals the categories',
+      await page.locator('[data-panel="details"]').isVisible());
+check('reject reachable in one click from there',
+      await page.locator('#c-reject').isVisible());
+check('nothing is pre-ticked',
+      !(await page.locator('#c-analytics').isChecked())
+      && !(await page.locator('#c-marketing').isChecked()));
 await page.click('#c-reject');
 c = await readConsent();
 check('reject keeps ad_storage denied', c.ad_storage === 'denied');
