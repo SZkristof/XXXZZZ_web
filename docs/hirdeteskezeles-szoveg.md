@@ -6,7 +6,7 @@
 > változtatni, jelöld meg itt és szólj, vagy írd át a „forrás" alatt
 > megnevezett fájlban.
 
-Generálva: 2026-10-05
+Generálva: 2026-10-11
 
 **Telefon és nagy képernyő.** Az oldal néhány helyen két szöveget tart
 ugyanarra a pontra: telefonra egy rövidebbet, nagyobb képernyőre a
