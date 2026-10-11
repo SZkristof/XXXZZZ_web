@@ -351,9 +351,26 @@ const expectations = [
     if (msg && !msg.value) msg.value = prefill;
   }
 
+  /* Re-entry guard, NOT just the disabled button.
+   *
+   * Disabling the submit button does not stop the form's own submit event
+   * from firing again — a second Enter keypress, or Enter followed by a
+   * click, re-enters this handler and starts a second fetch. That sends a
+   * second email, writes a second row to the lead CSV, and fires
+   * form_submit twice, which reaches GA4 as two generate_lead conversions
+   * for one enquiry. A conversion counted twice is worse than one missed:
+   * it is the number Google Ads would bid on.
+   *
+   * The flag lives outside the handler so every invocation sees the same
+   * one, and it is cleared in the same finally block that re-enables the
+   * button, so a failed send can be retried. */
+  let submitting = false;
+
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
+    if (submitting) return;
     if (!form.reportValidity()) return;
+    submitting = true;
 
     const btn = form.querySelector('button[type=submit]') as HTMLButtonElement;
     btn.disabled = true;
@@ -385,6 +402,7 @@ const expectations = [
         status.className = 'text-sm font-medium text-terracotta-800';
       }
     } finally {
+      submitting = false;
       btn.disabled = false;
       btn.textContent = 'Üzenet elküldése';
     }
